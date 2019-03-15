@@ -13,6 +13,7 @@ namespace Database
         public string BarNavn { get; set; }
 
         public string BrugerNavn { get; set; }
+
         public Bar Bar { get; set; }
 
         public Kunde Kunde { get; set; }
