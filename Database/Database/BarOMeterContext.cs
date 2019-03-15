@@ -19,49 +19,57 @@ namespace Database {
             optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-APD51SV;Initial Catalog=BarOMeter_Database_Test;Integrated Security=True");
         }
 
-        #region Anmeldelse
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            #region Anmeldelse
+
+            modelBuilder.Entity<Anmeldelse>()
+                .HasOne()
 
 
 
-        #endregion
 
 
-        #region Bar
+            #endregion
 
 
-
-        #endregion
-
-        #region BarEvent
+            #region Bar
 
 
 
-        #endregion
+            #endregion
 
-        #region Barrepræsentant
-
-
-
-        #endregion
-
-        #region Drikkevare
+            #region BarEvent
 
 
 
-        #endregion
+            #endregion
 
-        #region Kunde
-
-
-
-        #endregion
-
-        #region RabatKupon
-
-        
-
-        #endregion
+            #region Barrepræsentant
 
 
+
+            #endregion
+
+            #region Drikkevare
+
+
+
+            #endregion
+
+            #region Kunde
+
+
+
+            #endregion
+
+            #region RabatKupon
+
+
+
+            #endregion
+
+        }
     }
 }
