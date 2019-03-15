@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Database
 {
-    public class Bar
+    public class Bar : IBar
     {
         
         [MaxLength(150)]

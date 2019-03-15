@@ -1,9 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Database.Entities.BarEvent;
 
 namespace Database
 {
-    public class BarEvent
+    public class BarEvent : IBarEvent
     {
         [MaxLength(150)]
         public string BarNavn { get; set; }

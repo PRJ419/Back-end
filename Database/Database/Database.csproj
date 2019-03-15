@@ -125,10 +125,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Anmeldelse\Anmeldelse.cs" />
+    <Compile Include="Entities\BarEvent\IBarEvent.cs" />
     <Compile Include="Entities\Bar\Bar.cs" />
     <Compile Include="Entities\BarEvent\BarEvent.cs" />
     <Compile Include="BarOMeterContext.cs" />
     <Compile Include="Entities\Barrepræsentant\Barrepræsentant.cs" />
+    <Compile Include="Entities\Bar\IBar.cs" />
     <Compile Include="Entities\Drikkevare\Drikkevare.cs" />
     <Compile Include="Entities\Anmeldelse\IAnmeldelse.cs" />
     <Compile Include="Entities\Kunde\Kunde.cs" />
