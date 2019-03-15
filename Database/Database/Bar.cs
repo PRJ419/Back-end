@@ -18,7 +18,6 @@ namespace Database
         [Required]
         public int Aldersgrænse { get; set; }
 
-        [Required]
         [MaxLength(255)]
         public string Uddannelser { get; set; }
 
