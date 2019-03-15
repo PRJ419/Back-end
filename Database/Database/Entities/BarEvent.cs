@@ -14,6 +14,6 @@ namespace Database
 
         public DateTime Dato { get; set; }
 
-        public Bar Bar { get; set; }
+        public IBar Bar { get; set; }
     }
 }

@@ -26,15 +26,15 @@ namespace Database {
         {
             #region Anmeldelse
 
-            modelBuilder.Entity<IAnmeldelse>()
+            modelBuilder.Entity<Anmeldelse>()
                 .HasKey(key => new {key.BarNavn, key.BrugerNavn});
 
-            modelBuilder.Entity<IAnmeldelse>()
+            modelBuilder.Entity<Anmeldelse>()
                 .HasOne(a => a.Kunde)
                 .WithMany(k => k.Anmeldelser)
                 .HasForeignKey(a => a.BrugerNavn);
 
-            modelBuilder.Entity<IAnmeldelse>()
+            modelBuilder.Entity<Anmeldelse>()
                 .HasOne(a => a.Bar)
                 .WithMany(b => b.Anmeldelser)
                 .HasForeignKey(a => a.BarNavn);

@@ -13,7 +13,7 @@ namespace Database
 
         public double Pris { get; set; }
 
-        public Bar Bar { get; set; }
+        public IBar Bar { get; set; }
 
     }
 }

@@ -15,6 +15,6 @@ namespace Database
 
         public DateTime Udløbsdato { get; set; }
 
-        public Bar Bar { get; set; }
+        public IBar Bar { get; set; }
     }
 }

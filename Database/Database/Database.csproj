@@ -124,23 +124,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Anmeldelse\Anmeldelse.cs" />
-    <Compile Include="Entities\Barrepræsentant\IBarrepræsentant.cs" />
-    <Compile Include="Entities\BarEvent\IBarEvent.cs" />
-    <Compile Include="Entities\Bar\Bar.cs" />
-    <Compile Include="Entities\BarEvent\BarEvent.cs" />
+    <Compile Include="Entities\Anmeldelse.cs" />
+    <Compile Include="Entities\Bar.cs" />
+    <Compile Include="Entities\BarEvent.cs" />
     <Compile Include="BarOMeterContext.cs" />
-    <Compile Include="Entities\Barrepræsentant\Barrepræsentant.cs" />
-    <Compile Include="Entities\Bar\IBar.cs" />
-    <Compile Include="Entities\Drikkevare\Drikkevare.cs" />
-    <Compile Include="Entities\Anmeldelse\IAnmeldelse.cs" />
-    <Compile Include="Entities\Drikkevare\IDrikkevare.cs" />
-    <Compile Include="Entities\Kunde\IKunde.cs" />
-    <Compile Include="Entities\Kunde\Kunde.cs" />
-    <Compile Include="Entities\RabatKupon\IRabatKupon.cs" />
+    <Compile Include="Entities\Barrepræsentant.cs" />
+    <Compile Include="Entities\Drikkevare.cs" />
+    <Compile Include="Entities\Kunde.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Entities\RabatKupon\RabatKupon.cs" />
+    <Compile Include="Entities\RabatKupon.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
