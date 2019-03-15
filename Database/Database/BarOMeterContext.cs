@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using Database.Entities;
 
 namespace Database { 
     public class BarOMeterContext : DbContext
@@ -24,15 +25,15 @@ namespace Database {
         {
             #region Anmeldelse
 
-            modelBuilder.Entity<Anmeldelse>()
+            modelBuilder.Entity<IAnmeldelse>()
                 .HasKey(key => new {key.BarNavn, key.BrugerNavn});
 
-            modelBuilder.Entity<Anmeldelse>()
+            modelBuilder.Entity<IAnmeldelse>()
                 .HasOne(a => a.Kunde)
                 .WithMany(k => k.Anmeldelser)
                 .HasForeignKey(a => a.BrugerNavn);
 
-            modelBuilder.Entity<Anmeldelse>()
+            modelBuilder.Entity<IAnmeldelse>()
                 .HasOne(a => a.Bar)
                 .WithMany(b => b.Anmeldelser)
                 .HasForeignKey(a => a.BarNavn);
