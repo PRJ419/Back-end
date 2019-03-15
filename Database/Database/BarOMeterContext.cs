@@ -19,6 +19,48 @@ namespace Database {
             optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-APD51SV;Initial Catalog=BarOMeter_Database_Test;Integrated Security=True");
         }
 
+        #region Anmeldelse
+
+
+
+        #endregion
+
+
+        #region Bar
+
+
+
+        #endregion
+
+        #region BarEvent
+
+
+
+        #endregion
+
+        #region Barrepræsentant
+
+
+
+        #endregion
+
+        #region Drikkevare
+
+
+
+        #endregion
+
+        #region Kunde
+
+
+
+        #endregion
+
+        #region RabatKupon
+
+        
+
+        #endregion
 
 
     }
