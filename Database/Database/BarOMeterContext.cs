@@ -48,24 +48,49 @@ namespace Database {
 
             #region Barrepræsentant
 
+            modelBuilder.Entity<Barrepræsentant>()
+                .HasOne(a => a.Bar)
+                .WithMany(b => b.Barrepræsentanter)
+                .HasForeignKey(c => c.BarNavn);
+
+            modelBuilder.Entity<Barrepræsentant>()
+                .HasKey(a => a.BrugerNavn);
 
 
             #endregion
 
             #region Drikkevare
 
+            modelBuilder.Entity<Drikkevare>()
+                .HasOne(d => d.Bar)
+                .WithMany(b => b.Drikkevarer)
+                .HasForeignKey(d => d.BarNavn);
+
+            modelBuilder.Entity<Drikkevare>()
+                .HasKey(a => new {a.BarNavn, a.DrinksNavn});
 
 
             #endregion
 
             #region Kunde
 
+            modelBuilder.Entity<Kunde>()
+                .HasKey(a => a.BrugerNavn);
 
+            modelBuilder.Entity<Kunde>()
+                .HasIndex(a => a.Email).IsUnique();
 
             #endregion
 
             #region RabatKupon
 
+            modelBuilder.Entity<RabatKupon>()
+                .HasOne(b => b.Bar)
+                .WithMany(a => a.RabatKuponer)
+                .HasForeignKey(b => b.BarNavn);
+
+            modelBuilder.Entity<RabatKupon>()
+                .HasKey(a => new {a.RabatKuponID, a.BarNavn});
 
 
             #endregion
