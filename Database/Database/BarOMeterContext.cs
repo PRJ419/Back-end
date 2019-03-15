@@ -54,7 +54,7 @@ namespace Database {
             #endregion
 
             #region Barrepræsentant
-
+            
             modelBuilder.Entity<Barrepræsentant>()
                 .HasOne(a => a.Bar)
                 .WithMany(b => b.Barrepræsentanter)
