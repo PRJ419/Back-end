@@ -1,10 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Dynamic;
+using Database.Entities.RabatKupon;
 
 namespace Database
 {
-    public class RabatKupon
+    public class RabatKupon : IRabatKupon
     {
         [MaxLength(50)]
         public string BarNavn { get; set; }
