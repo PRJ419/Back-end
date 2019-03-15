@@ -28,28 +28,34 @@ namespace Database {
                 .HasKey(key => new {key.BarNavn, key.BrugerNavn});
 
             modelBuilder.Entity<Anmeldelse>()
-                .HasOne(a => a.BrugerNavn)
+                .HasOne(a => a.Kunde)
                 .WithMany(k => k.Anmeldelser)
                 .HasForeignKey(a => a.BrugerNavn);
 
             modelBuilder.Entity<Anmeldelse>()
-                .HasOne(a => a.BarNavn)
+                .HasOne(a => a.Bar)
                 .WithMany(b => b.Anmeldelser)
                 .HasForeignKey(a => a.BarNavn);
-
 
             #endregion
 
 
             #region Bar
 
-
+            modelBuilder.Entity<Bar>()
+                .HasKey(b => b.BarNavn);
 
             #endregion
 
             #region BarEvent
 
+            modelBuilder.Entity<BarEvent>()
+                .HasKey(key => new {key.BarNavn, key.EventNavn});
 
+            modelBuilder.Entity<BarEvent>()
+                .HasOne(b => b.Bar)
+                .WithMany(e => e.BarEvents)
+                .HasForeignKey(b => b.BarNavn);
 
             #endregion
 
