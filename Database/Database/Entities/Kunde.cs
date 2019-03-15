@@ -3,12 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
-using Database.Entities;
-using Database.Entities.Kunde;
 
 namespace Database
 {
-    public class Kunde : IKunde
+    public class Kunde
     {
         
         [MaxLength(50)]
@@ -35,6 +33,6 @@ namespace Database
         [MaxLength(50)]
         public string FavoritDrikkevare { get; set; }
 
-        public List<IAnmeldelse> Anmeldelser { get; set; }
+        public List<Anmeldelse> Anmeldelser { get; set; }
     }
 }

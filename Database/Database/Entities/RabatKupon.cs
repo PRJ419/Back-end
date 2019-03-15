@@ -1,11 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Dynamic;
-using Database.Entities.RabatKupon;
 
 namespace Database
 {
-    public class RabatKupon : IRabatKupon
+    public class RabatKupon
     {
         [MaxLength(50)]
         public string BarNavn { get; set; }
@@ -15,6 +14,6 @@ namespace Database
 
         public DateTime Udløbsdato { get; set; }
 
-        public IBar Bar { get; set; }
+        public Bar Bar { get; set; }
     }
 }

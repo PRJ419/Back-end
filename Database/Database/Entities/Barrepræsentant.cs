@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Database.Entities.Barrepræsentant;
 
 namespace Database
 {
-    public class Barrepræsentant : IBarrepræsentant
+    public class Barrepræsentant 
     {
         [MaxLength(50)]
         public string BrugerNavn { get; set; }
@@ -19,6 +18,6 @@ namespace Database
         [MaxLength(50)]
         public string Password { get; set; } //Skal krypteres!
 
-        public IBar Bar { get; set; }
+        public Bar Bar { get; set; }
     }
 }
