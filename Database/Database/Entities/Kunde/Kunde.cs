@@ -3,10 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
+using Database.Entities.Kunde;
 
 namespace Database
 {
-    public class Kunde
+    public class Kunde : IKunde
     {
         
         [MaxLength(50)]
