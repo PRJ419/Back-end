@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
-namespace Database
+namespace Database { 
     public class BarOMeterContext : DbContext
     {
         public DbSet<Kunde> Kunder { get; set; }
