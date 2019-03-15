@@ -10,7 +10,7 @@ namespace Database
         public string BarNavn { get; set; }
 
         [MaxLength(50)]
-        public string RabatKupon { get; set; }
+        public string RabatKuponID { get; set; }
 
         public DateTime Udløbsdato { get; set; }
     }
