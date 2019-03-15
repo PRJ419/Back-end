@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using Database.Entities;
-using Database.Entities.BarEvent;
+
 
 namespace Database { 
     public class BarOMeterContext : DbContext
@@ -44,17 +43,17 @@ namespace Database {
 
             #region Bar
 
-            modelBuilder.Entity<IBar>()
+            modelBuilder.Entity<Bar>()
                 .HasKey(b => b.BarNavn);
 
             #endregion
 
             #region BarEvent
 
-            modelBuilder.Entity<IBarEvent>()
+            modelBuilder.Entity<BarEvent>()
                 .HasKey(key => new {key.BarNavn, key.EventNavn});
 
-            modelBuilder.Entity<IBarEvent>()
+            modelBuilder.Entity<BarEvent>()
                 .HasOne(b => b.Bar)
                 .WithMany(e => e.BarEvents)
                 .HasForeignKey(b => b.BarNavn);
@@ -63,12 +62,12 @@ namespace Database {
 
             #region Barrepræsentant
             
-            modelBuilder.Entity<IBarrepræsentant>()
+            modelBuilder.Entity<Barrepræsentant>()
                 .HasOne(a => a.Bar)
                 .WithMany(b => b.Barrepræsentanter)
                 .HasForeignKey(c => c.BarNavn);
 
-            modelBuilder.Entity<IBarrepræsentant>()
+            modelBuilder.Entity<Barrepræsentant>()
                 .HasKey(a => a.BrugerNavn);
 
 
@@ -76,12 +75,12 @@ namespace Database {
 
             #region Drikkevare
 
-            modelBuilder.Entity<IDrikkevare>()
+            modelBuilder.Entity<Drikkevare>()
                 .HasOne(d => d.Bar)
                 .WithMany(b => b.Drikkevarer)
                 .HasForeignKey(d => d.BarNavn);
 
-            modelBuilder.Entity<IDrikkevare>()
+            modelBuilder.Entity<Drikkevare>()
                 .HasKey(a => new {a.BarNavn, a.DrinksNavn});
 
 
@@ -89,22 +88,22 @@ namespace Database {
 
             #region Kunde
 
-            modelBuilder.Entity<IKunde>()
+            modelBuilder.Entity<Kunde>()
                 .HasKey(a => a.BrugerNavn);
 
-            modelBuilder.Entity<IKunde>()
+            modelBuilder.Entity<Kunde>()
                 .HasIndex(a => a.Email).IsUnique();
 
             #endregion
 
             #region RabatKupon
 
-            modelBuilder.Entity<IRabatKupon>()
+            modelBuilder.Entity<RabatKupon>()
                 .HasOne(b => b.Bar)
                 .WithMany(a => a.RabatKuponer)
                 .HasForeignKey(b => b.BarNavn);
 
-            modelBuilder.Entity<IRabatKupon>()
+            modelBuilder.Entity<RabatKupon>()
                 .HasKey(a => new {a.RabatKuponID, a.BarNavn});
 
 
