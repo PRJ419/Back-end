@@ -12,5 +12,7 @@ namespace Database
 
         public double Pris { get; set; }
 
+        public Bar Bar { get; set; }
+
     }
 }

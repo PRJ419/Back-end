@@ -32,5 +32,7 @@ namespace Database
 
         [MaxLength(50)]
         public string FavoritDrikkevare { get; set; }
+
+        public List<Anmeldelse> Anmeldelser { get; set; }
     }
 }

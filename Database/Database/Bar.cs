@@ -21,5 +21,11 @@ namespace Database
         [MaxLength(255)]
         public string Uddannelser { get; set; }
 
+        public List<Drikkevare> Drikkevarer { get; set; }
+        public List<BarEvent> BarEvents { get; set; }
+        public List<RabatKupon> RabatKuponer { get; set; }
+        public List<Barrepræsentant> Barrepræsentanter { get; set; }
+        public List<Anmeldelse> Anmeldelser { get; set; }
+
     }
 }

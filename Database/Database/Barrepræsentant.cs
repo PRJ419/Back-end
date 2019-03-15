@@ -13,5 +13,6 @@ namespace Database
         [MaxLength(50)]
         public string Password { get; set; } //Skal krypteres!
 
+        public Bar Bar { get; set; }
     }
 }

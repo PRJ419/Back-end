@@ -12,5 +12,7 @@ namespace Database
         public string EventNavn { get; set; }
 
         public DateTime Dato { get; set; }
+
+        public Bar Bar { get; set; }
     }
 }

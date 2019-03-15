@@ -13,5 +13,7 @@ namespace Database
         public string RabatKuponID { get; set; }
 
         public DateTime Udløbsdato { get; set; }
+
+        public Bar Bar { get; set; }
     }
 }
