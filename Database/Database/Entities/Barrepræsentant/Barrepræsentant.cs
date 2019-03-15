@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Database.Entities.Barrepræsentant;
 
 namespace Database
 {
-    public class Barrepræsentant
+    public class Barrepræsentant : IBarrepræsentant
     {
         [MaxLength(50)]
         public string BrugerNavn { get; set; }

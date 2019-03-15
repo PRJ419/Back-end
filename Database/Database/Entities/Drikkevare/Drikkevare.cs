@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Database.Entities.Drikkevare;
 
 namespace Database
 {
-    public class Drikkevare
+    public class Drikkevare : IDrikkevare
     {
         [MaxLength(150)]
         public string BarNavn { get; set; }
