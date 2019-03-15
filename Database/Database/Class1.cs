@@ -8,5 +8,6 @@ namespace Database
 {
     public class Class1
     {
+        // Testing
     }
 }
