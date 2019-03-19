@@ -2,15 +2,15 @@
 
 namespace Database
 {
-    public class Drikkevare 
+    public class Drink 
     {
         [MaxLength(150)]
-        public string BarNavn { get; set; }
+        public string BarName { get; set; }
 
         [MaxLength(50)]
-        public string DrinksNavn { get; set; }
+        public string DrinksName { get; set; }
 
-        public double Pris { get; set; }
+        public double Price { get; set; }
 
         public Bar Bar { get; set; }
 

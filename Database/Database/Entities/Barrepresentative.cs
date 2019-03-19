@@ -2,17 +2,17 @@
 
 namespace Database
 {
-    public class Barrepræsentant 
+    public class Barrepresentative 
     {
         [MaxLength(50)]
-        public string BrugerNavn { get; set; }
+        public string Username { get; set; }
 
         [Required]
         [MaxLength(150)]
-        public string Navn { get; set; }
+        public string Name { get; set; }
 
         [MaxLength(150)]
-        public string BarNavn { get; set; }
+        public string BarName { get; set; }
 
         [Required]
         [MaxLength(50)]

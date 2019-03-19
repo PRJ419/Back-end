@@ -6,12 +6,12 @@ namespace Database
     public class BarEvent
     {
         [MaxLength(150)]
-        public string BarNavn { get; set; }
+        public string BarName { get; set; }
         
         [MaxLength(75)]
-        public string EventNavn { get; set; }
+        public string EventName { get; set; }
 
-        public DateTime Dato { get; set; }
+        public DateTime Date { get; set; }
 
         public Bar Bar { get; set; }
     }

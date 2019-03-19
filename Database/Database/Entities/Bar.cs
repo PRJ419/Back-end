@@ -9,23 +9,23 @@ namespace Database
     {
         
         [MaxLength(150)]
-        public string BarNavn { get; set; }
+        public string BarName { get; set; }
 
         [Required]
         [MaxLength(255)]
-        public string Adresse { get; set; }
+        public string Address { get; set; }
 
         [Required]
-        public int Aldersgrænse { get; set; }
+        public int AgeLimit { get; set; }
 
         [MaxLength(255)]
-        public string Uddannelser { get; set; }
+        public string Educations { get; set; }
 
-        public List<Drikkevare> Drikkevarer { get; set; }
+        public List<Drink> Drinks { get; set; }
         public List<BarEvent> BarEvents { get; set; }
-        public List<RabatKupon> RabatKuponer { get; set; }
-        public List<Barrepræsentant> Barrepræsentanter { get; set; }
-        public List<Anmeldelse> Anmeldelser { get; set; }
+        public List<Coupon> Coupons { get; set; }
+        public List<Barrepresentative> Barrepresentatives { get; set; }
+        public List<Review> Reviews { get; set; }
 
     }
 }

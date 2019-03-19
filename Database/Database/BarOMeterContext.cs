@@ -5,13 +5,13 @@ using System.Collections.Generic;
 namespace Database { 
     public class BarOMeterContext : DbContext
     {
-        public DbSet<Kunde> Kunder { get; set; }
-        public DbSet<Bar> Barer { get; set; }
-        public DbSet<Barrepræsentant> Barrepræsentanter { get; set; }
-        public DbSet<Anmeldelse> Anmeldelser { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Bar> Bars { get; set; }
+        public DbSet<Barrepresentative> Barrepresentatives { get; set; }
+        public DbSet<Review> Reviews { get; set; }
         public DbSet<BarEvent> BarEvents { get; set; }
-        public DbSet<RabatKupon> RabatKuponer { get; set; }
-        public DbSet<Drikkevare> Drikkevarer { get; set; }
+        public DbSet<Coupon> Coupons { get; set; }
+        public DbSet<Drink> Drinks { get; set; }
 
 
         
@@ -23,20 +23,20 @@ namespace Database {
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            #region Anmeldelse
+            #region Review
 
-            modelBuilder.Entity<Anmeldelse>()
-                .HasKey(key => new {key.BarNavn, key.BrugerNavn});
+            modelBuilder.Entity<Review>()
+                .HasKey(key => new {key.BarName, key.Username});
 
-            modelBuilder.Entity<Anmeldelse>()
-                .HasOne(a => a.Kunde)
-                .WithMany(k => k.Anmeldelser)
-                .HasForeignKey(a => a.BrugerNavn);
+            modelBuilder.Entity<Review>()
+                .HasOne(a => a.Customer)
+                .WithMany(k => k.Reviews)
+                .HasForeignKey(a => a.Username);
 
-            modelBuilder.Entity<Anmeldelse>()
+            modelBuilder.Entity<Review>()
                 .HasOne(a => a.Bar)
-                .WithMany(b => b.Anmeldelser)
-                .HasForeignKey(a => a.BarNavn);
+                .WithMany(b => b.Reviews)
+                .HasForeignKey(a => a.BarName);
 
             #endregion
 
@@ -44,67 +44,67 @@ namespace Database {
             #region Bar
 
             modelBuilder.Entity<Bar>()
-                .HasKey(b => b.BarNavn);
+                .HasKey(b => b.BarName);
 
             #endregion
 
             #region BarEvent
 
             modelBuilder.Entity<BarEvent>()
-                .HasKey(key => new {key.BarNavn, key.EventNavn});
+                .HasKey(key => new {key.BarName, key.EventName});
 
             modelBuilder.Entity<BarEvent>()
                 .HasOne(b => b.Bar)
                 .WithMany(e => e.BarEvents)
-                .HasForeignKey(b => b.BarNavn);
+                .HasForeignKey(b => b.BarName);
 
             #endregion
 
-            #region Barrepræsentant
+            #region Barrepresentative
             
-            modelBuilder.Entity<Barrepræsentant>()
+            modelBuilder.Entity<Barrepresentative>()
                 .HasOne(a => a.Bar)
-                .WithMany(b => b.Barrepræsentanter)
-                .HasForeignKey(c => c.BarNavn);
+                .WithMany(b => b.Barrepresentatives)
+                .HasForeignKey(c => c.BarName);
 
-            modelBuilder.Entity<Barrepræsentant>()
-                .HasKey(a => a.BrugerNavn);
+            modelBuilder.Entity<Barrepresentative>()
+                .HasKey(a => a.Username);
 
 
             #endregion
 
-            #region Drikkevare
+            #region Drink
 
-            modelBuilder.Entity<Drikkevare>()
+            modelBuilder.Entity<Drink>()
                 .HasOne(d => d.Bar)
-                .WithMany(b => b.Drikkevarer)
-                .HasForeignKey(d => d.BarNavn);
+                .WithMany(b => b.Drinks)
+                .HasForeignKey(d => d.BarName);
 
-            modelBuilder.Entity<Drikkevare>()
-                .HasKey(a => new {a.BarNavn, a.DrinksNavn});
+            modelBuilder.Entity<Drink>()
+                .HasKey(a => new {a.BarName, a.DrinksName});
 
 
             #endregion
 
-            #region Kunde
+            #region Customer
 
-            modelBuilder.Entity<Kunde>()
-                .HasKey(a => a.BrugerNavn);
+            modelBuilder.Entity<Customer>()
+                .HasKey(a => a.Username);
 
-            modelBuilder.Entity<Kunde>()
+            modelBuilder.Entity<Customer>()
                 .HasIndex(a => a.Email).IsUnique();
-
+      
             #endregion
 
-            #region RabatKupon
+            #region Coupon
 
-            modelBuilder.Entity<RabatKupon>()
+            modelBuilder.Entity<Coupon>()
                 .HasOne(b => b.Bar)
-                .WithMany(a => a.RabatKuponer)
-                .HasForeignKey(b => b.BarNavn);
+                .WithMany(a => a.Coupons)
+                .HasForeignKey(b => b.BarName);
 
-            modelBuilder.Entity<RabatKupon>()
-                .HasKey(a => new {a.RabatKuponID, a.BarNavn});
+            modelBuilder.Entity<Coupon>()
+                .HasKey(a => new {a.CouponID, a.BarName});
 
 
             #endregion

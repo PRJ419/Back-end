@@ -6,18 +6,18 @@ using System.Data;
 
 namespace Database
 {
-    public class Kunde
+    public class Customer
     {
         
         [MaxLength(50)]
-        public string BrugerNavn { get; set; }
+        public string Username { get; set; }
 
         [Required]
         [MaxLength(150)]
-        public string Navn { get; set; }
+        public string Name { get; set; }
 
         [Required]
-        public DateTime Fødselsdag { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         [Required]
         [MaxLength(150)]
@@ -28,11 +28,11 @@ namespace Database
         public string Password { get; set; }
 
         [MaxLength(150)]
-        public string FavoritBar { get; set; }
+        public string FavoriteBar { get; set; }
 
         [MaxLength(50)]
-        public string FavoritDrikkevare { get; set; }
+        public string FavoriteDrink { get; set; }
 
-        public List<Anmeldelse> Anmeldelser { get; set; }
+        public List<Review> Reviews { get; set; }
     }
 }

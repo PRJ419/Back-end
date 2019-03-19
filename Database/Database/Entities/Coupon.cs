@@ -4,15 +4,15 @@ using System.Dynamic;
 
 namespace Database
 {
-    public class RabatKupon
+    public class Coupon
     {
         [MaxLength(50)]
-        public string BarNavn { get; set; }
+        public string BarName { get; set; }
 
         [MaxLength(50)]
-        public string RabatKuponID { get; set; }
+        public string CouponID { get; set; }
 
-        public DateTime Udløbsdato { get; set; }
+        public DateTime ExpirationDate { get; set; }
 
         public Bar Bar { get; set; }
     }
