@@ -38,5 +38,10 @@ namespace Database.Repository_Implementations
         {
             return _dbContext.Set<Review>().Find(review);
         }
+
+        public IEnumerable<Review> List()
+        {
+            return _dbContext.Set<Review>().AsEnumerable();
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Database.Interfaces;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Database.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
@@ -15,6 +17,11 @@ namespace Database.Repository_Implementations
         public Customer Get(string customer)
         {
             return _dbContext.Set<Customer>().Find(customer);
+        }
+
+        public IEnumerable<Customer> List()
+        {
+            return _dbContext.Set<Customer>().AsEnumerable();
         }
 
         public void Add(Customer customer)
