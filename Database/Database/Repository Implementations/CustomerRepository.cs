@@ -21,9 +21,9 @@ namespace Database.Repository_Implementations
             return _dbContext.Set<Customer>().Find(customer);
         }
 
-        public IEnumerable<Customer> List()
+        public IEnumerable<Customer> GetAll()
         {
-            return _dbContext.Set<Customer>().AsEnumerable();
+            return _dbContext.Set<Customer>().ToList();
         }
 
         public void Add(Customer customer)
@@ -44,11 +44,11 @@ namespace Database.Repository_Implementations
             _dbContext.SaveChanges();
         }
 
-        public IEnumerable<Customer> List(Expression<Func<Customer, bool>> predicate)
+        public IEnumerable<Customer> Find(Expression<Func<Customer, bool>> predicate)
         {
             return _dbContext.Set<Customer>()
                 .Where(predicate)
-                .AsEnumerable();
+                .ToList();
         }
     }
 }

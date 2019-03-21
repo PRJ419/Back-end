@@ -21,9 +21,9 @@ namespace Database.Repository_Implementations
             return _dbContext.Set<Bar>().Find(bar);
         }
 
-        public IEnumerable<Bar> List()
+        public IEnumerable<Bar> GetAll()
         {
-            return _dbContext.Set<Bar>().AsEnumerable();
+            return _dbContext.Set<Bar>().ToList();
         }
 
         public void Add(Bar bar)
@@ -44,11 +44,11 @@ namespace Database.Repository_Implementations
             _dbContext.SaveChanges();
         }
 
-        public IEnumerable<Bar> List(Expression<Func<Bar, bool>> predicate)
+        public IEnumerable<Bar> Find(Expression<Func<Bar, bool>> predicate)
         {
             return _dbContext.Set<Bar>()
                 .Where(predicate)
-                .AsEnumerable();
+                .ToList();
         }
     }
 }

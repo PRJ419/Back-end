@@ -21,9 +21,9 @@ namespace Database.Repository_Implementations
             return _dbContext.Set<Drink>().Find(drink);
         }
 
-        public IEnumerable<Drink> List()
+        public IEnumerable<Drink> GetAll()
         {
-            return _dbContext.Set<Drink>().AsEnumerable();
+            return _dbContext.Set<Drink>().ToList();
         }
 
         public void Add(Drink drink)
@@ -44,11 +44,11 @@ namespace Database.Repository_Implementations
             _dbContext.SaveChanges();
         }
 
-        public IEnumerable<Drink> List(Expression<Func<Drink, bool>> predicate)
+        public IEnumerable<Drink> Find(Expression<Func<Drink, bool>> predicate)
         {
             return _dbContext.Set<Drink>()
                 .Where(predicate)
-                .AsEnumerable();
+                .ToList();
         }
     }
 }

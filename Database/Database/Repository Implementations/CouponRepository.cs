@@ -21,9 +21,9 @@ namespace Database.Repository_Implementations
             return _dbContext.Set<Coupon>().Find(coupon);
         }
 
-        public IEnumerable<Coupon> List()
+        public IEnumerable<Coupon> GetAll()
         {
-            return _dbContext.Set<Coupon>().AsEnumerable();
+            return _dbContext.Set<Coupon>().ToList();
         }
 
         public void Add(Coupon coupon)
@@ -44,11 +44,11 @@ namespace Database.Repository_Implementations
             _dbContext.SaveChanges();
         }
 
-        public IEnumerable<Coupon> List(Expression<Func<Coupon, bool>> predicate)
+        public IEnumerable<Coupon> Find(Expression<Func<Coupon, bool>> predicate)
         {
             return _dbContext.Set<Coupon>()
                 .Where(predicate)
-                .AsEnumerable();
+                .ToList();
         }
     }
 }

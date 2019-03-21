@@ -21,9 +21,9 @@ namespace Database.Repository_Implementations
             return _dbContext.Set<Barrepresentative>().Find(name);
         }
 
-        public IEnumerable<Barrepresentative> List()
+        public IEnumerable<Barrepresentative> GetAll()
         {
-            return _dbContext.Set<Barrepresentative>().AsEnumerable();
+            return _dbContext.Set<Barrepresentative>().ToList();
         }
 
         public void Add(Barrepresentative name)
@@ -44,11 +44,11 @@ namespace Database.Repository_Implementations
             _dbContext.SaveChanges();
         }
 
-        public IEnumerable<Barrepresentative> List(Expression<Func<Barrepresentative, bool>> predicate)
+        public IEnumerable<Barrepresentative> Find(Expression<Func<Barrepresentative, bool>> predicate)
         {
             return _dbContext.Set<Barrepresentative>()
                 .Where(predicate)
-                .AsEnumerable();
+                .ToList();
         }
     }
 }

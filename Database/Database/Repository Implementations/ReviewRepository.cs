@@ -17,11 +17,11 @@ namespace Database.Repository_Implementations
             _dbContext = dbContext;
         }
 
-        public IEnumerable<Review> List(Expression<Func<Review, bool>> predicate)
+        public IEnumerable<Review> Find(Expression<Func<Review, bool>> predicate)
         {
             return _dbContext.Set<Review>()
                 .Where(predicate)
-                .AsEnumerable();
+                .ToList();
         }
 
         public void Add(Review review)
@@ -47,9 +47,9 @@ namespace Database.Repository_Implementations
             return _dbContext.Set<Review>().Find(review);
         }
 
-        public IEnumerable<Review> List()
+        public IEnumerable<Review> GetAll()
         {
-            return _dbContext.Set<Review>().AsEnumerable();
+            return _dbContext.Set<Review>().ToList();
         }
     }
 }
