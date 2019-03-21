@@ -102,7 +102,8 @@ namespace Database {
                 .HasKey(a => a.Username);
 
             modelBuilder.Entity<Customer>()
-                .HasIndex(a => a.Email).IsUnique();
+                .HasIndex(a => a.Email)
+                .IsUnique();
       
             #endregion
 
