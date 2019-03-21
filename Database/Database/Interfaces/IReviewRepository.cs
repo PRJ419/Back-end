@@ -2,9 +2,9 @@
 {
     public interface IReviewRepository : IRepository<Review>
     {
-        Review Get(Review review);
+        Review Get(string review);
         void Add(Review review);
-        void Delete(Review review);
+        void Delete(string review);
         void Edit(Review review);
     }
 }

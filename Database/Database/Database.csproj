@@ -147,6 +147,7 @@
     <Compile Include="Repository Implementations\BarrepresentativeRepository.cs" />
     <Compile Include="Repository Implementations\CouponRepository.cs" />
     <Compile Include="Repository Implementations\CustomerRepository.cs" />
+    <Compile Include="Repository Implementations\ReviewRepository.cs" />
     <Compile Include="Repository Implementations\DrinkRepository.cs" />
   </ItemGroup>
   <ItemGroup>
