@@ -2,9 +2,9 @@
 {
     public interface IBarEventRepository : IRepository<BarEvent>
     {
-        BarEvent Get(BarEvent barEvent);
+        BarEvent Get(string barEvent);
         void Add(BarEvent barEvent);
-        void Delete(BarEvent barEvent);
+        void Delete(string barEvent);
         void Edit(BarEvent barEvent);
     }
 }
