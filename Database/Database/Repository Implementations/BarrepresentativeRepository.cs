@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
 {
-    public class BarrepresentativeRepository : IBarrepresentativeRepository
+    public class BarrepresentativeRepository : IRepository<Barrepresentative>
     {
         private DbContext _dbContext;
 
