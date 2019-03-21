@@ -1,4 +1,8 @@
-﻿using Database.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using Database.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
@@ -34,5 +38,13 @@ namespace Database.Repository_Implementations
             _dbContext.Entry(barEvent).State = EntityState.Modified;
             _dbContext.SaveChanges();
         }
+
+        public IEnumerable<BarEvent> List(Expression<Func<BarEvent, bool>> predicate)
+        {
+            return _dbContext.Set<BarEvent>()
+                .Where(predicate)
+                .AsEnumerable();
+        }
+
     }
 }

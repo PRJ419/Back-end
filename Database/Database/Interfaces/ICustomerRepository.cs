@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Database.Interfaces
 {
@@ -7,6 +9,7 @@ namespace Database.Interfaces
     {
         Customer Get(string customer);
         IEnumerable<Customer> List();
+        IEnumerable<Customer> List(Expression<Func<Customer, bool>> predicate);
         void Add(Customer customer);
         void Delete(string customer);
         void Edit(Customer customer);
