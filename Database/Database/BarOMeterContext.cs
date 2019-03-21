@@ -44,7 +44,6 @@ namespace Database {
 
             #endregion
 
-
             #region Bar
 
             modelBuilder.Entity<Bar>()
