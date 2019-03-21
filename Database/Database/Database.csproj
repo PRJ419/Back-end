@@ -144,7 +144,10 @@
     <Compile Include="Entities\Coupon.cs" />
     <Compile Include="Repository Implementations\BarEventRepository.cs" />
     <Compile Include="Repository Implementations\BarRepository.cs" />
+    <Compile Include="Repository Implementations\BarrepresentativeRepository.cs" />
+    <Compile Include="Repository Implementations\CouponRepository.cs" />
     <Compile Include="Repository Implementations\CustomerRepository.cs" />
+    <Compile Include="Repository Implementations\DrinkRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
