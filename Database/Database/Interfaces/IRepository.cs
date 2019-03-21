@@ -4,7 +4,7 @@
     {
         T Get(string name);
         void Add(T entity);
-        void Delete(T entity);
+        void Delete(string entity);
         void Edit(T entity);
     }
 }
