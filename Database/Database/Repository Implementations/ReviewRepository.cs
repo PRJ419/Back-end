@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
 {
-    class ReviewRepository : IReviewRepository
+    class ReviewRepository : IRepository<Review>
     {
         private DbContext _dbContext;
         public ReviewRepository(DbContext dbContext)

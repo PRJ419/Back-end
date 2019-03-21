@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
 {
-    public class BarEventRepository : IBarEventRepository
+    public class BarEventRepository : IRepository<BarEvent>
     {
         private DbContext _dbContext;
 

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
 {
-    public class DrinkRepository : IDrinkRepository
+    public class DrinkRepository : IRepository<Drink>
     {
         private DbContext _dbContext;
 
