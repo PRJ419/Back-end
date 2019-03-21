@@ -4,7 +4,7 @@
     {
         Bar Get(string bar);
         void Add(Bar bar);
-        void Delete(Bar bar);
+        void Delete(string bar);
         void Edit(Bar bar);
     }
 }

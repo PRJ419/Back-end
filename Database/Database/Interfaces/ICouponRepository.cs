@@ -2,9 +2,9 @@
 {
     public interface ICouponRepository : IRepository<Coupon>
     {
-        Coupon Get(Coupon coupon);
+        Coupon Get(string coupon);
         void Add(Coupon coupon);
-        void Delete(Coupon coupon);
+        void Delete(string coupon);
         void Edit(Coupon coupon);
     }
 }

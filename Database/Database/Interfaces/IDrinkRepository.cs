@@ -2,9 +2,9 @@
 {
     public interface IDrinkRepository : IRepository<Drink>
     {
-        Drink Get(Drink drink);
+        Drink Get(string drink);
         void Add(Drink drink);
-        void Delete(Drink drink);
+        void Delete(string drink);
         void Edit(Drink drink);
     }
 }
