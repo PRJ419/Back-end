@@ -145,6 +145,7 @@
     <Compile Include="Repository Implementations\BarEventRepository.cs" />
     <Compile Include="Repository Implementations\BarRepository.cs" />
     <Compile Include="Repository Implementations\CustomerRepository.cs" />
+    <Compile Include="Repository Implementations\ReviewRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
