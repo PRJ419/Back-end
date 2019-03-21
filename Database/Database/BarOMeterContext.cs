@@ -31,11 +31,13 @@ namespace Database {
             modelBuilder.Entity<Review>()
                 .HasOne(a => a.Customer)
                 .WithMany(k => k.Reviews)
+                .IsRequired()
                 .HasForeignKey(a => a.Username);
 
             modelBuilder.Entity<Review>()
                 .HasOne(a => a.Bar)
                 .WithMany(b => b.Reviews)
+                .IsRequired()
                 .HasForeignKey(a => a.BarName);
 
             #endregion
@@ -56,6 +58,7 @@ namespace Database {
             modelBuilder.Entity<BarEvent>()
                 .HasOne(b => b.Bar)
                 .WithMany(e => e.BarEvents)
+                .IsRequired()
                 .HasForeignKey(b => b.BarName);
 
             #endregion
@@ -65,6 +68,7 @@ namespace Database {
             modelBuilder.Entity<Barrepresentative>()
                 .HasOne(a => a.Bar)
                 .WithMany(b => b.Barrepresentatives)
+                .IsRequired()
                 .HasForeignKey(c => c.BarName);
 
             modelBuilder.Entity<Barrepresentative>()
@@ -78,6 +82,7 @@ namespace Database {
             modelBuilder.Entity<Drink>()
                 .HasOne(d => d.Bar)
                 .WithMany(b => b.Drinks)
+                .IsRequired()
                 .HasForeignKey(d => d.BarName);
 
             modelBuilder.Entity<Drink>()
@@ -101,6 +106,7 @@ namespace Database {
             modelBuilder.Entity<Coupon>()
                 .HasOne(b => b.Bar)
                 .WithMany(a => a.Coupons)
+                .IsRequired()
                 .HasForeignKey(b => b.BarName);
 
             modelBuilder.Entity<Coupon>()
