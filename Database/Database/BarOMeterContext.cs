@@ -32,12 +32,14 @@ namespace Database {
                 .HasOne(a => a.Customer)
                 .WithMany(k => k.Reviews)
                 .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasForeignKey(a => a.Username);
 
             modelBuilder.Entity<Review>()
                 .HasOne(a => a.Bar)
                 .WithMany(b => b.Reviews)
                 .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasForeignKey(a => a.BarName);
 
             #endregion
@@ -59,6 +61,7 @@ namespace Database {
                 .HasOne(b => b.Bar)
                 .WithMany(e => e.BarEvents)
                 .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasForeignKey(b => b.BarName);
 
             #endregion
@@ -69,6 +72,7 @@ namespace Database {
                 .HasOne(a => a.Bar)
                 .WithMany(b => b.Barrepresentatives)
                 .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasForeignKey(c => c.BarName);
 
             modelBuilder.Entity<Barrepresentative>()
@@ -83,6 +87,7 @@ namespace Database {
                 .HasOne(d => d.Bar)
                 .WithMany(b => b.Drinks)
                 .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasForeignKey(d => d.BarName);
 
             modelBuilder.Entity<Drink>()
@@ -107,6 +112,7 @@ namespace Database {
                 .HasOne(b => b.Bar)
                 .WithMany(a => a.Coupons)
                 .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasForeignKey(b => b.BarName);
 
             modelBuilder.Entity<Coupon>()
