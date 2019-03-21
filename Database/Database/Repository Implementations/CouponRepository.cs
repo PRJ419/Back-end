@@ -1,4 +1,6 @@
-﻿using Database.Interfaces;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Database.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
@@ -15,6 +17,11 @@ namespace Database.Repository_Implementations
         public Coupon Get(string coupon)
         {
             return _dbContext.Set<Coupon>().Find(coupon);
+        }
+
+        public IEnumerable<Coupon> List()
+        {
+            return _dbContext.Set<Coupon>().AsEnumerable();
         }
 
         public void Add(Coupon coupon)

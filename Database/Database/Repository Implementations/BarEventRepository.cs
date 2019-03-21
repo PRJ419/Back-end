@@ -21,6 +21,11 @@ namespace Database.Repository_Implementations
             return _dbContext.Set<BarEvent>().Find(barEvent);
         }
 
+        public IEnumerable<BarEvent> List()
+        {
+            return _dbContext.Set<BarEvent>().AsEnumerable();
+        }
+
         public void Add(BarEvent barEvent)
         {
             _dbContext.Set<BarEvent>().Add(barEvent);

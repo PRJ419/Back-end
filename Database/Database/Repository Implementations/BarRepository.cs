@@ -1,4 +1,6 @@
-﻿using Database.Interfaces;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Database.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
@@ -15,6 +17,11 @@ namespace Database.Repository_Implementations
         public Bar Get(string bar)
         {
             return _dbContext.Set<Bar>().Find(bar);
+        }
+
+        public IEnumerable<Bar> List()
+        {
+            return _dbContext.Set<Bar>().AsEnumerable();
         }
 
         public void Add(Bar bar)
