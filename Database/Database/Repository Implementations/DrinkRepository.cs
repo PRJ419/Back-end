@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Database.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,6 +42,13 @@ namespace Database.Repository_Implementations
         {
             _dbContext.Entry(drink).State = EntityState.Modified;
             _dbContext.SaveChanges();
+        }
+
+        public IEnumerable<Drink> List(Expression<Func<Drink, bool>> predicate)
+        {
+            return _dbContext.Set<Drink>()
+                .Where(predicate)
+                .AsEnumerable();
         }
     }
 }

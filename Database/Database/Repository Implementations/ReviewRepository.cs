@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Database.Interfaces;
@@ -14,6 +15,13 @@ namespace Database.Repository_Implementations
         public ReviewRepository(DbContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public IEnumerable<Review> List(Expression<Func<Review, bool>> predicate)
+        {
+            return _dbContext.Set<Review>()
+                .Where(predicate)
+                .AsEnumerable();
         }
 
         public void Add(Review review)

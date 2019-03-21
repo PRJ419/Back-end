@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Database.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,6 +42,13 @@ namespace Database.Repository_Implementations
         {
             _dbContext.Entry(coupon).State = EntityState.Modified;
             _dbContext.SaveChanges();
+        }
+
+        public IEnumerable<Coupon> List(Expression<Func<Coupon, bool>> predicate)
+        {
+            return _dbContext.Set<Coupon>()
+                .Where(predicate)
+                .AsEnumerable();
         }
     }
 }
