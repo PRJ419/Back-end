@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using Database.EntityConfigurations;
 
 
 namespace Database { 
@@ -23,7 +24,13 @@ namespace Database {
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            modelBuilder.ApplyConfiguration(new BarConfiguration());
+            modelBuilder.ApplyConfiguration(new BarEventConfiguration());
+            modelBuilder.ApplyConfiguration(new BarrepresentativeConfiguration());
+            modelBuilder.ApplyConfiguration(new CouponConfiguration());
+            modelBuilder.ApplyConfiguration(new CustomerConfiguration());
+            modelBuilder.ApplyConfiguration(new DrinkConfiguration());
+            modelBuilder.ApplyConfiguration(new ReviewConfiguration());
 
         }
     }
