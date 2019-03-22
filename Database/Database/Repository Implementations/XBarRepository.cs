@@ -25,5 +25,17 @@ namespace Database.Repository_Implementations
         {
             return _dbContext.Set<Bar>().OrderBy(c => c.BarName).Skip(from).Take(to).ToList();
         }
+
+        public IEnumerable<Bar> GetBestBars()
+        {
+            return _dbContext.Set<Bar>().OrderByDescending(b => b.AvgRating).ToList();
+        }
+
+        public IEnumerable<Bar> GetWorstBars()
+        {
+            var worstBarList = _dbContext.Set<Bar>().OrderByDescending(b => b.AvgRating).ToList();
+            worstBarList.Reverse();
+            return worstBarList;
+        }
     }
 }

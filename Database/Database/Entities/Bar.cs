@@ -21,6 +21,27 @@ namespace Database
         [MaxLength(255)]
         public string Educations { get; set; }
 
+        [MaxLength(500)]
+        public string ShortDescription { get; set; }
+
+        [MaxLength(2500)]
+        public string LongDescription { get; set; }
+
+        // Føler lidt at vi ikke skal kende til denne....
+        [MaxLength(8)]
+        [Required]
+        public int CVR { get; set; }
+
+        [MaxLength(10)]
+        public int PhoneNumber { get; set; }
+
+        [MaxLength(150)]
+        public string Email { get; set; }
+
+        [Range(0.0, 5.0)]
+        public double AvgRating { get; set; }
+
+        
         public List<Drink> Drinks { get; set; }
         public List<BarEvent> BarEvents { get; set; }
         public List<Coupon> Coupons { get; set; }

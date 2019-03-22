@@ -11,5 +11,10 @@ namespace Database.Redundancy
     {
         // Tilføjet til noget som Andreas tester
         IEnumerable<Bar> GetXBars(int from, int to);
+
+        IEnumerable<Bar> GetBestBars();
+
+        IEnumerable<Bar> GetWorstBars();
+
     }
 }

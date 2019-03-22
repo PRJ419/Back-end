@@ -131,6 +131,13 @@
     <Compile Include="Entities\Barrepresentative.cs" />
     <Compile Include="Entities\Drink.cs" />
     <Compile Include="Entities\Customer.cs" />
+    <Compile Include="EntityConfigurations\BarConfiguration.cs" />
+    <Compile Include="EntityConfigurations\BarEventConfiguration.cs" />
+    <Compile Include="EntityConfigurations\BarrepresentativeConfiguration.cs" />
+    <Compile Include="EntityConfigurations\CouponConfiguration.cs" />
+    <Compile Include="EntityConfigurations\CustomerConfiguration.cs" />
+    <Compile Include="EntityConfigurations\DrinkConfiguration.cs" />
+    <Compile Include="EntityConfigurations\ReviewConfiguration.cs" />
     <Compile Include="Interfaces\IGenericRepository.cs" />
     <Compile Include="Redundancy\IBarEventRepository.cs" />
     <Compile Include="Redundancy\IBarRepository.cs" />
