@@ -7,7 +7,7 @@ using Database.Interfaces;
 
 namespace Database.Redundancy
 {
-    public interface IXBarRepository : IGenericRepository<Bar>
+    public interface IBarRepository : IGenericRepository<Bar>
     {
         // Tilføjet til noget som Andreas tester
         IEnumerable<Bar> GetXBars(int from, int to);

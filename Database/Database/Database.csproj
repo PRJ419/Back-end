@@ -142,9 +142,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\Coupon.cs" />
-    <Compile Include="Interfaces\IXBarRepository.cs" />
+    <Compile Include="Interfaces\IBarRepository.cs" />
     <Compile Include="Repository Implementations\GenericRepository.cs" />
-    <Compile Include="Repository Implementations\XBarRepository.cs" />
+    <Compile Include="Repository Implementations\BarRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
