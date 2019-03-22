@@ -14,8 +14,10 @@ namespace Database {
         public DbSet<Coupon> Coupons { get; set; }
         public DbSet<Drink> Drinks { get; set; }
 
+        public BarOMeterContext()
+        {
+        }
 
-        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-APD51SV;Initial Catalog=BarOMeter_Database_Test;Integrated Security=True");
