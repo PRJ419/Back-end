@@ -23,17 +23,17 @@ namespace Database.Repository_Implementations
             */
         public IEnumerable<Bar> GetXBars(int from, int to)
         {
-            return _dbContext.Set<Bar>().OrderBy(c => c.BarName).Skip(from).Take(to).ToList();
+            return _dbContext.Set<Bar>().OrderBy(c => c.BarName).Skip(from).Take(to).AsEnumerable().ToList();
         }
 
         public IEnumerable<Bar> GetBestBars()
         {
-            return _dbContext.Set<Bar>().OrderByDescending(b => b.AvgRating).ToList();
+            return _dbContext.Set<Bar>().OrderByDescending(b => b.AvgRating).AsEnumerable().ToList();
         }
 
         public IEnumerable<Bar> GetWorstBars()
         {
-            var worstBarList = _dbContext.Set<Bar>().OrderByDescending(b => b.AvgRating).ToList();
+            var worstBarList = _dbContext.Set<Bar>().OrderByDescending(b => b.AvgRating).AsEnumerable().ToList();
             worstBarList.Reverse();
             return worstBarList;
         }

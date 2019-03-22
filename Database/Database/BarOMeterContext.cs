@@ -7,7 +7,7 @@ namespace Database {
     public class BarOMeterContext : DbContext
     {
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<Bar> Bars { get; set; }
+        public DbSet<Bar> Bar { get; set; }
         public DbSet<Barrepresentative> Barrepresentatives { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<BarEvent> BarEvents { get; set; }
@@ -20,7 +20,7 @@ namespace Database {
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-APD51SV;Initial Catalog=BarOMeter_Database_Test;Integrated Security=True");
+            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-QND3SFP\MSSQLSERVER03;Initial Catalog=PRJTestDatabase;Integrated Security=True");
         }
 
 

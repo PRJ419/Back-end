@@ -31,7 +31,7 @@ namespace Database.Repository_Implementations
 
         public IEnumerable<T> Find(Expression<Func<T, bool>> predicate)
         {
-            return _dbContext.Set<T>().Where(predicate);
+            return _dbContext.Set<T>().Where(predicate).AsEnumerable().ToList();
         }
 
         public T Get(string name)
@@ -41,7 +41,7 @@ namespace Database.Repository_Implementations
 
         public IEnumerable<T> GetAll()
         {
-            return _dbContext.Set<T>().ToList();
+            return _dbContext.Set<T>().AsEnumerable();
         }
     }
 }
