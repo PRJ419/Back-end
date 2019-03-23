@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using Database.EntityConfigurations;
-
+using System.Configuration;
+using System.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace Database { 
     public class BarOMeterContext : DbContext
@@ -20,7 +22,11 @@ namespace Database {
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-QND3SFP\MSSQLSERVER03;Initial Catalog=PRJTestDatabase2;Integrated Security=True");
+            // Change the "AndreasPC" to the name of another connectionstring in app.config.
+            // To see an example of how you set up another connectionstring, go into app.config -->
+            // connectionstrings --> see the example with "AndreasPC"
+            var connection = ConfigurationManager.ConnectionStrings["AndreasPC"].ConnectionString;
+            optionsBuilder.UseSqlServer(connection);
         }
 
 
