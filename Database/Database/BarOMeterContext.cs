@@ -20,7 +20,7 @@ namespace Database {
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-QND3SFP\MSSQLSERVER03;Initial Catalog=PRJTestDatabase;Integrated Security=True");
+            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-QND3SFP\MSSQLSERVER03;Initial Catalog=PRJTestDatabase2;Integrated Security=True");
         }
 
 

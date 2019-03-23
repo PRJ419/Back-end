@@ -10,11 +10,11 @@ using Microsoft.EntityFrameworkCore;
 namespace Database.Repository_Implementations
 {
     // Generic repository that works with all kinds of classes. This is the one that should be used for common methods
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class
     {
         protected readonly DbContext _dbContext;
 
-        public GenericRepository(DbContext dbcontext)
+        public Repository(DbContext dbcontext)
         {
             _dbContext = dbcontext;
         }
@@ -41,7 +41,7 @@ namespace Database.Repository_Implementations
 
         public IEnumerable<T> GetAll()
         {
-            return _dbContext.Set<T>().AsEnumerable();
+            return _dbContext.Set<T>().AsEnumerable().ToList();
         }
     }
 }

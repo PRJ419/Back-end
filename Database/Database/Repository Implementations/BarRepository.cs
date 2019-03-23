@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
 {
-    public class BarRepository : GenericRepository<Bar>, IBarRepository
+    public class BarRepository : Repository<Bar>, IBarRepository
     {
         public BarRepository(DbContext _dbcontext) : base(_dbcontext)
         {

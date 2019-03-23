@@ -14,6 +14,15 @@ namespace Database.EntityConfigurations
         {
             builder
                 .HasKey(b => b.BarName);
+
+            builder
+                .HasIndex(b => b.CVR)
+                .IsUnique();
+
+            builder
+                .HasIndex(b => b.Email)
+                .IsUnique();
+
         }
     }
 }

@@ -9,19 +9,19 @@ namespace Database
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Welcome to the Back-end. Muhahahaha!");
             var context = new BarOMeterContext();
             using (var uow = new UnitOfWork(context))
             {
-                var gr = new GenericRepository<Bar>(context);
-                //var bar = new Bar();
-                //bar.BarName = "nybar";
+                var gr = new Repository<Bar>(context);
+                var bar = new Bar();
+                //bar.BarName = "Testbar";
                 //bar.Address = "address";
                 //bar.AgeLimit = 18;
                 //bar.AvgRating = 3;
-                //bar.CVR = 12345678;
+                //bar.CVR = 12345679;
                 //bar.Educations = "ingen";
-                //bar.Email = "email";
+                //bar.Email = "email1";
                 //bar.LongDescription = "Lang";
                 //bar.ShortDescription = "kort";
                 //bar.PhoneNumber = 12345678;
@@ -33,12 +33,14 @@ namespace Database
                 var enumer2 = gr.Get("Testbar");
 
                 Console.WriteLine("{0}", enumer2.BarName);
-                //var test = gr.GetAll();
-                //var bars = test.ToList();
-                //foreach (var bar1 in bars)
-                //{
-                //    Console.WriteLine($"indgang: {bar1.BarName}");
-                //}
+                var test = gr.GetAll();
+                Console.WriteLine("Barer i databasen:");
+                int i = 0;
+                foreach (var bar1 in test)
+                {
+                    i++;
+                    Console.WriteLine($"{i}: {bar1.BarName}");
+                }
                 //var enumerator = test.GetEnumerator().Current;
                 //foreach (var variable in test)
                 //{
@@ -52,7 +54,7 @@ namespace Database
                 //Console.WriteLine("{0}", value.Current.BarName);
             }
 
-            Console.WriteLine("Hejsa");
+            Console.WriteLine("Over and out fra databasen");
             var wait = Console.ReadLine();
         }
     }
