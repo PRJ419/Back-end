@@ -6,7 +6,7 @@ namespace Database
 {
     public class Coupon
     {
-        [MaxLength(50)]
+        [MaxLength(150)]
         public string BarName { get; set; }
 
         [MaxLength(50)]
