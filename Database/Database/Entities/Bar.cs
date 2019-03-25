@@ -27,7 +27,6 @@ namespace Database
         [MaxLength(2500)]
         public string LongDescription { get; set; }
 
-        // Føler lidt at vi ikke skal kende til denne....
         [MaxLength(8)]
         [Required]
         public int CVR { get; set; }
