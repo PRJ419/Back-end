@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Database.Repository_Implementations;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Database
 {
@@ -9,6 +10,8 @@ namespace Database
     {
         static void Main(string[] args)
         {
+
+            
             Console.WriteLine("Welcome to the Back-end. Muhahahaha!");
             var context = new BarOMeterContext();
             using (var uow = new UnitOfWork(context))
