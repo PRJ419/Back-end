@@ -144,6 +144,11 @@
     <Compile Include="EntityConfigurations\ReviewConfiguration.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
+    <Compile Include="Migrations\20190325101521_PRJ4-v1.cs" />
+    <Compile Include="Migrations\20190325101521_PRJ4-v1.designer.cs">
+      <DependentUpon>20190325101521_PRJ4-v1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\BarOMeterContextModelSnapshot.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\Coupon.cs" />
@@ -158,9 +163,7 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

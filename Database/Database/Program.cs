@@ -27,8 +27,8 @@ namespace Database
                 //bar.PhoneNumber = 12345678;
                 //gr.Add(bar);
 
-                var enumer = gr.Get("nybar");
-                Console.WriteLine("{0}", enumer.BarName);
+                //var enumer = gr.Get("nybar");
+                //Console.WriteLine("{0}", enumer.BarName);
 
                 var enumer2 = gr.Get("Testbar");
 
