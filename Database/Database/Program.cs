@@ -13,50 +13,36 @@ namespace Database
              
             Console.WriteLine("Welcome to the Back-end. Muhahahaha!");
             var context = new BarOMeterContext();
-            using (var uow = new UnitOfWork(context))
+            using (var uow = new UnitOfWork())
             {
-                var gr = new Repository<Bar>(context);
                 var bar = new Bar();
-                //bar.BarName = "Testbar";
-                //bar.Address = "address";
-                //bar.AgeLimit = 18;
-                //bar.AvgRating = 3;
-                //bar.CVR = 12345679;
-                //bar.Educations = "ingen";
-                //bar.Email = "email1";
-                //bar.LongDescription = "Lang";
-                //bar.ShortDescription = "kort";
-                //bar.PhoneNumber = 12345678;
-                //gr.Add(bar);
-
-                Console.WriteLine("indsat");
-
-                //var enumer = gr.Get("nybar");
-                //Console.WriteLine("{0}", enumer.BarName);
-
-                var enumer2 = gr.Get("Testbar");
-
-                Console.WriteLine("{0} +  {1}", enumer2.BarName, enumer2.PhoneNumber);
-                
-                var test = gr.GetAll();
-                Console.WriteLine("Barer i databasen:");
-                int i = 0;
-                foreach (var bar1 in test)
-                {
-                    i++;
-                    Console.WriteLine($"{i}: {bar1.BarName}");
-                }
-                //var enumerator = test.GetEnumerator().Current;
-                //foreach (var variable in test)
-                //{
-                //    Console.WriteLine("{0}",variable.BarName);
-                //}
-
+                bar.BarName = "ABar";
+                bar.Address = "hejsaAddress";
+                bar.AgeLimit = 21;
+                bar.AvgRating = 3;
+                bar.CVR = 11111115;
+                bar.Email = "ksdalfjads";
+                bar.PhoneNumber = 1234;
+                uow.BarRepository.Add(bar);
                 uow.Complete();
+                //var yyy = uow.DrinkRepository.Get("Testbar", "drinksnavn" );
 
+                //Console.WriteLine("{0}",yyy.DrinksName);
 
+                //var xxx = uow.Bars.GetBestBars();
+                //var drink = uow.DrinkRepository.Find(x=>x.DrinksName == "drinksnavn" && x.BarName == "Testbar");
+                //foreach (var VARIABLE in xxx)
+                //{
+                //    Console.WriteLine("{0}", VARIABLE.BarName);
+                //}
+                //uow.BarRepository.Delete("aaaaaa");
+                //uow.Complete();
 
-                //Console.WriteLine("{0}", value.Current.BarName);
+                var ppp = uow.Bars.GetBestBars();
+                foreach (var VARIABLE in ppp)
+                {
+                    Console.WriteLine("{0}", VARIABLE.BarName);   
+                }
             }
 
             Console.WriteLine("Over and out fra databasen");

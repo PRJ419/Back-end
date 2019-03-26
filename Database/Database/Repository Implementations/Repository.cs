@@ -24,9 +24,9 @@ namespace Database.Repository_Implementations
             _dbContext.Set<T>().Add(entity);
         }
 
-        public void Delete(string name)
+        public void Delete(params object [] keys)
         {
-            _dbContext.Set<T>().Remove(Get(name));
+            _dbContext.Set<T>().Remove(Get(keys));
         }
 
         public IEnumerable<T> Find(Expression<Func<T, bool>> predicate)
@@ -34,9 +34,12 @@ namespace Database.Repository_Implementations
             return _dbContext.Set<T>().Where(predicate).AsEnumerable().ToList();
         }
 
-        public T Get(string name)
+        // Can take composite keys by typing Get(key1, key2, key3...) there's only the problem that they have to be typed
+        // in the exact order they're defined in the fluent api. So for drinks you can't write Get(drinkname, barname)
+        // but have to use Get(barname, drinkname) instead.
+        public T Get(params object[] keys)
         {
-            return _dbContext.Set<T>().Find(name);
+            return _dbContext.Set<T>().Find(keys);
         }
 
         public IEnumerable<T> GetAll()

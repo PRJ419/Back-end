@@ -21,21 +21,19 @@ namespace Database.Repository_Implementations
             Det er vores job at query databasen, samt sørge for at der ikke bliver queriet på ting som der ikke er ment til at kunne
             queries på.
             */
-        public IEnumerable<Bar> GetXBars(int from, int to)
+        public IEnumerable<Bar> GetXBars(int howManyToSkip, int howManyToReturn)
         {
-            return _dbContext.Set<Bar>().OrderBy(c => c.BarName).Skip(from).Take(to).AsEnumerable().ToList();
+            return _dbContext.Set<Bar>().Skip(howManyToSkip).Take(howManyToReturn).AsEnumerable().ToList();
         }
 
         public IEnumerable<Bar> GetBestBars()
         {
-            return _dbContext.Set<Bar>().OrderByDescending(b => b.AvgRating).AsEnumerable().ToList();
+            return _dbContext.Set<Bar>().OrderByDescending(b => b.AvgRating).ThenBy(b=>b.BarName).AsEnumerable().ToList();
         }
 
         public IEnumerable<Bar> GetWorstBars()
         {
-            var worstBarList = _dbContext.Set<Bar>().OrderByDescending(b => b.AvgRating).AsEnumerable().ToList();
-            worstBarList.Reverse();
-            return worstBarList;
+            return _dbContext.Set<Bar>().OrderBy(b => b.AvgRating).ThenBy(b=>b.BarName).AsEnumerable().ToList();
         }
     }
 }

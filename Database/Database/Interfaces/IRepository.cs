@@ -9,10 +9,10 @@ namespace Database.Interfaces
 {
     public interface IRepository<T> where T : class
     {
-        T Get(string name);
+        T Get(params object [] keys);
         IEnumerable<T> GetAll();
         IEnumerable<T> Find(Expression<Func<T, bool>> predicate);
         void Add(T entity);
-        void Delete(string name);
+        void Delete(params object [] keys);
     }
 }
