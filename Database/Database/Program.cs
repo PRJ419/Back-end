@@ -10,8 +10,7 @@ namespace Database
     {
         static void Main(string[] args)
         {
-
-            
+             
             Console.WriteLine("Welcome to the Back-end. Muhahahaha!");
             var context = new BarOMeterContext();
             using (var uow = new UnitOfWork(context))
@@ -30,12 +29,15 @@ namespace Database
                 //bar.PhoneNumber = 12345678;
                 //gr.Add(bar);
 
+                Console.WriteLine("indsat");
+
                 //var enumer = gr.Get("nybar");
                 //Console.WriteLine("{0}", enumer.BarName);
 
                 var enumer2 = gr.Get("Testbar");
 
-                Console.WriteLine("{0}", enumer2.BarName);
+                Console.WriteLine("{0} +  {1}", enumer2.BarName, enumer2.PhoneNumber);
+                
                 var test = gr.GetAll();
                 Console.WriteLine("Barer i databasen:");
                 int i = 0;

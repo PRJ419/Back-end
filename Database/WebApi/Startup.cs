@@ -11,11 +11,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Protocols;
 
 namespace WebApi
 {
@@ -34,7 +37,13 @@ namespace WebApi
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // Dependency injection
-            services.AddScoped<IRepository<Bar>, BarRepository>();
+            //services.AddScoped<IRepository<Bar>, BarRepository>(); old?
+            // services.AddScoped<Repository<Bar>>(_ => new Repository<Bar>(new BarOMeterContext()));
+            services.AddDbContext<BarOMeterContext>();
+            // TODO: Slet det her tobias
+
+            //var connection = @"Data Source=DESKTOP-UGIDUH3;Initial Catalog=PRJ4Database;Integrated Security=True";
+            //services.AddDbContext<BarOMeterContext>(options => options.UseSqlServer(connection));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1",

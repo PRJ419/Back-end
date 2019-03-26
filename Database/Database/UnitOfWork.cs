@@ -9,7 +9,7 @@ using Database.Repository_Implementations;
 
 namespace Database
 {
-    class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private BarOMeterContext barContext;
 

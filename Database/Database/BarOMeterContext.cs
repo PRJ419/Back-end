@@ -25,7 +25,10 @@ namespace Database {
             // Change the "AndreasPC" to the name of another connectionstring in app.config.
             // To see an example of how you set up another connectionstring, go into app.config -->
             // connectionstrings --> see the example with "AndreasPC"
-            var connection = ConfigurationManager.ConnectionStrings["AndreasPC"].ConnectionString;
+
+            //TODO: sorry andy.   Jeg har hardcodet min connection string  - jeg kan fra mit projekt ikke få fat i TwinksPC
+            //var connection = ConfigurationManager.ConnectionStrings["TwinksPC"].ConnectionString;
+            var connection = @"Data Source=DESKTOP-UGIDUH3;Initial Catalog=PRJ4Database;Integrated Security=True";
             optionsBuilder.UseSqlServer(connection);
         }
 

@@ -4,10 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Database;
 using Database.Interfaces;
+using Database.Repository_Implementations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
+using WebApi.DTOs;
 
 namespace BarOMeterWebApiCore.Controllers
 {
@@ -25,8 +28,8 @@ namespace BarOMeterWebApiCore.Controllers
     public class BarController : ControllerBase
     {
 
-        private IRepository<Bar> db;
-
+        private BarOMeterContext context;
+        //private Repository<Bar> repo;
         /// <summary>
         /// Constructor for the controller.
         /// <para>
@@ -36,30 +39,39 @@ namespace BarOMeterWebApiCore.Controllers
         /// <param name="barRepo">
         /// Dependency injected through Startup.ConfigureServices()
         /// </param>
-        public BarController(IRepository<Bar> barRepo)
+
+        public BarController(BarOMeterContext context)//IRepository<Bar> barRepo)
         {
-            if (db == null)
-                db = barRepo;
+            this.context = context;
+          
         }
 
         /// <summary>
-        /// Returns all Bars
+        /// Returns all Bars ranked from highest to lowest
         /// </summary>
         /// <returns>
-        /// A List of Bars and ActionResult Ok (Http 200) if found.
-        /// If empty, returns NoContent.
+        /// A List of Bars ordered by avg ranking (descending).
+        /// Response codes Ok and NoContent
         /// </returns>
         [HttpGet] // /api/bars
         [ProducesResponseType(typeof(List<Bar>), 200)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetBars()
+        //public async Task<IActionResult> GetBars()
+        public async Task<IActionResult> GetBestBars()
         {
-            //var bars = await db.GetAll();
-            var bars = db.GetAll();
-            if (bars.Any())
-                return Ok(bars);
+            List<BarSimpleDto> listOfBars;
+            using (var unitOfWork = new UnitOfWork(context))
+            {
+                var bars = unitOfWork.Bars.GetBestBars().ToList();
+                listOfBars = BarSimpleDto.FromBarListToDtoList(bars);
+                unitOfWork.Complete();
+            }
+
+            if (listOfBars.Any())
+                return Ok(listOfBars);
             else
-                return NotFound();
+                return NoContent();
+
         }
 
         ///// <summary>
@@ -81,13 +93,18 @@ namespace BarOMeterWebApiCore.Controllers
         //[ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         //public async Task<IActionResult> GetBar(string id)
         //{
-        //    var bar = await db.GetBar(id);
+        //    using (var unitOfWork = new UnitOfWork(context))
+        //    {
+        //        unitOfWork.Bars.Find()
+        //    }
+        //        var bar = await db.GetBar(id);
         //    if (bar != null)
         //        return Ok(bar);
         //    else
         //        return NotFound($"Bar with BarName: {id} not found");
         //}
 
+        // TODO : Mangler REPO implementering
         ///// <summary>
         ///// Adds a Bar object to the database, if bar with same name does not exist
         ///// </summary>
@@ -104,16 +121,37 @@ namespace BarOMeterWebApiCore.Controllers
         //[ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         //public async Task<IActionResult> AddBar([FromBody]Bar bar)
         //{
-        //    var b = new Bar();
-        //    b.BarName = bar.BarName;
-        //    b.Rating = bar.Rating;
-        //    bool success = await db.AddBar(b);
-        //    if (success)
-        //        return CreatedAtAction(nameof(GetBar), new { id = bar.BarName }, bar);
-        //    else
+        //    if (ModelState.IsValid)
         //    {
-        //        return BadRequest();
+        //        using (var unitOfWork = new UnitOfWork(context))
+        //        {
+        //            var barToAdd = new Bar()
+        //            {
+        //                Address = bar.Address, AgeLimit = bar.AgeLimit, AvgRating = bar.AvgRating,
+        //                BarEvents = bar.BarEvents, BarName = bar.BarName, Barrepresentatives = bar.Barrepresentatives,
+        //                Coupons = bar.Coupons, CVR = bar.CVR, Drinks = bar.Drinks, Educations = bar.Educations,
+        //                LongDescription = bar.LongDescription, Email = bar.Email, PhoneNumber = bar.PhoneNumber,
+        //                Reviews = bar.Reviews, ShortDescription = bar.ShortDescription,
+        //            };
+        //            unitOfWork.Bars.Add(barToAdd);
+        //            unitOfWork.Complete();
+        //            //return CreatedAtAction(nameof(Find), new { id = bar.BarName }, bar);
+        //            return Ok(bar);
+        //        }
         //    }
+        //    else return BadRequest();
+
+
+        //    //var b = new Bar();
+        //    //b.BarName = bar.BarName;
+        //    //b.Rating = bar.Rating;
+        //    //bool success = await db.AddBar(b);
+        //    //if (success)
+        //    //    return CreatedAtAction(nameof(GetBar), new { id = bar.BarName }, bar);
+        //    //else
+        //    //{
+        //    //    return BadRequest();
+        //    //}
         //}
 
         ///// <summary>
@@ -153,5 +191,64 @@ namespace BarOMeterWebApiCore.Controllers
         //    // Skal lige laves ordenligt udfra EFCore
         //    return Unauthorized("Ez lol");
         //}
+
+        /// <summary>
+        /// Returns a list of bars ranked from worst to best
+        /// </summary>
+        /// <returns>
+        /// Ok: 200 Response and list of BarDto if any found
+        /// NoContent: 204 Response if not found
+        /// </returns>
+        [HttpGet("Worst")]
+        [ProducesResponseType(typeof(Bar), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> GetWorstBars()
+        {
+            List<BarSimpleDto> DtoList;
+
+            using (var unitOfWork = new UnitOfWork(context))
+            {
+                var bars = unitOfWork.Bars.GetWorstBars().ToList();
+                DtoList = BarSimpleDto.FromBarListToDtoList(bars);
+                unitOfWork.Complete();
+            }
+
+            if (DtoList.Any())
+                return Ok(DtoList);
+            else
+                return NoContent();
+        }
+
+        /// <summary>
+        /// Returns a range of barDto's
+        /// </summary>
+        /// <param name="from">
+        /// Start index
+        /// </param>
+        /// <param name="to">
+        /// End index
+        /// </param>
+        /// <returns>
+        /// If found: Ok(200) and all BarDto's in the range [from : to] in the database
+        /// If none found: NoContent(204) and no list
+        /// </returns>
+        [HttpGet("{from}/{to}")]
+        [ProducesResponseType(typeof(Bar), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> GetRangeOfBars(int from, int to)
+        {
+            List<BarSimpleDto> listOfBars;
+            using (var unitOfWork = new UnitOfWork(context))
+            {
+                var bars = unitOfWork.Bars.GetXBars(from, to).ToList();
+                listOfBars = BarSimpleDto.FromBarListToDtoList(bars);
+                unitOfWork.Complete();
+            }
+
+            if (listOfBars.Any())
+                return Ok(listOfBars);
+            else
+                return NoContent();
+        }
     }
 }
