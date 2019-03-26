@@ -15,16 +15,16 @@ namespace Database
             var context = new BarOMeterContext();
             using (var uow = new UnitOfWork())
             {
-                var bar = new Bar();
-                bar.BarName = "ABar";
-                bar.Address = "hejsaAddress";
-                bar.AgeLimit = 21;
-                bar.AvgRating = 3;
-                bar.CVR = 11111115;
-                bar.Email = "ksdalfjads";
-                bar.PhoneNumber = 1234;
-                uow.BarRepository.Add(bar);
-                uow.Complete();
+                //var bar = new Bar();
+                //bar.BarName = "ABar";
+                //bar.Address = "hejsaAddress";
+                //bar.AgeLimit = 21;
+                //bar.AvgRating = 3;
+                //bar.CVR = 11111115;
+                //bar.Email = "ksdalfjads";
+                //bar.PhoneNumber = 1234;
+                //uow.BarRepository.Add(bar);
+                //uow.Complete();
                 //var yyy = uow.DrinkRepository.Get("Testbar", "drinksnavn" );
 
                 //Console.WriteLine("{0}",yyy.DrinksName);
@@ -38,7 +38,7 @@ namespace Database
                 //uow.BarRepository.Delete("aaaaaa");
                 //uow.Complete();
 
-                var ppp = uow.Bars.GetBestBars();
+                var ppp = uow.Bars.GetXBars(1, 0);
                 foreach (var VARIABLE in ppp)
                 {
                     Console.WriteLine("{0}", VARIABLE.BarName);   

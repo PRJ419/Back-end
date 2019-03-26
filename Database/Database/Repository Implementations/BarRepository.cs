@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using Database.Interfaces;
 using Database.Redundancy;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +7,7 @@ namespace Database.Repository_Implementations
 {
     public class BarRepository : Repository<Bar>, IBarRepository
     {
-        public BarRepository(DbContext _dbcontext) : base(_dbcontext)
+        public BarRepository(DbContext dbcontext) : base(dbcontext)
         {
         }
 
@@ -23,6 +18,11 @@ namespace Database.Repository_Implementations
             */
         public IEnumerable<Bar> GetXBars(int howManyToSkip, int howManyToReturn)
         {
+            if (howManyToSkip < 0 || howManyToReturn <= 0)
+            {
+                var emptyList = new List<Bar>();
+                return emptyList;
+            }
             return _dbContext.Set<Bar>().Skip(howManyToSkip).Take(howManyToReturn).AsEnumerable().ToList();
         }
 
