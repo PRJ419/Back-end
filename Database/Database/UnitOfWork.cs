@@ -14,18 +14,14 @@ namespace Database
         private IRepository<Customer> _customerRepository;
         private IRepository<Drink> _drinkRepository;
         private IRepository<Review> _reviewRepository;
-        private IRepository<Bar> _barRepository;
-
-        private IBarRepository _barRepositoryExtra;
+        private IBarRepository _barRepository;
 
 
         // The following properties check if the repository for the entities already exist. If they don't, then it instantiates a new repository
         // with the same context so we always work on the same context between the repositories.
         // 
         // This code is inspired by microsofts "Implementing the Repository and Unit of Work Patterns" page
-        public IRepository<Bar> BarRepository => _barRepository ?? (_barRepository = new Repository<Bar>(_boMContext));
-
-        public IBarRepository Bars => _barRepositoryExtra ?? (_barRepositoryExtra = new BarRepository(_boMContext));
+        public IBarRepository Bars => _barRepository ?? (_barRepository = new BarRepository(_boMContext));
 
         public IRepository<BarEvent> BarEventRepository => _barEventRepository ?? (_barEventRepository = new Repository<BarEvent>(_boMContext));
 
