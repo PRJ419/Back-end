@@ -41,6 +41,7 @@ namespace Database
         public double AvgRating { get; set; }
 
         
+        
         public List<Drink> Drinks { get; set; }
         public List<BarEvent> BarEvents { get; set; }
         public List<Coupon> Coupons { get; set; }

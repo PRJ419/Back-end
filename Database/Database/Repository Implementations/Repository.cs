@@ -34,9 +34,17 @@ namespace Database.Repository_Implementations
             return _dbContext.Set<T>().Where(predicate).AsEnumerable().ToList();
         }
 
-        // Can take composite keys by typing Get(key1, key2, key3...) there's only the problem that they have to be typed
-        // in the exact order they're defined in the fluent api. So for drinks you can't write Get(drinkname, barname)
-        // but have to use Get(barname, drinkname) instead.
+        /// <summary>
+        /// Takes the id of a type and returns the object from database
+        /// </summary>
+        /// <param name="keys">
+        /// Can take composite keys by typing Get(key1, key2, key3...)
+        /// Have to be in exact order defined in fluent api. Drinks e.g. has to be Get(barname, drinkname)
+        /// </param>
+        /// <returns>
+        /// Object if it exists and param was correct.
+        /// Otherwise null
+        /// </returns>
         public T Get(params object[] keys)
         {
             return _dbContext.Set<T>().Find(keys);

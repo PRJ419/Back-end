@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Database;
 using Database.Interfaces;
+using Database.Redundancy;
 using Database.Repository_Implementations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,10 +38,8 @@ namespace WebApi
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // Dependency injection
-            //services.AddScoped<IRepository<Bar>, BarRepository>(); old?
-            // services.AddScoped<Repository<Bar>>(_ => new Repository<Bar>(new BarOMeterContext()));
-            services.AddDbContext<BarOMeterContext>();
-            // TODO: Slet det her tobias
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+           
 
             //var connection = @"Data Source=DESKTOP-UGIDUH3;Initial Catalog=PRJ4Database;Integrated Security=True";
             //services.AddDbContext<BarOMeterContext>(options => options.UseSqlServer(connection));

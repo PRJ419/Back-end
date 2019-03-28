@@ -27,8 +27,8 @@ namespace Database {
             // connectionstrings --> see the example with "AndreasPC"
 
             //TODO: sorry andy.   Jeg har hardcodet min connection string  - jeg kan fra mit projekt ikke få fat i TwinksPC
-            var connection = ConfigurationManager.ConnectionStrings["AndreasPC"].ConnectionString;
-            //var connection = @"Data Source=DESKTOP-UGIDUH3;Initial Catalog=PRJ4Database;Integrated Security=True";
+            //var connection = ConfigurationManager.ConnectionStrings["AndreasPC"].ConnectionString;
+            var connection = @"Data Source=DESKTOP-UGIDUH3;Initial Catalog=PRJ4Database;Integrated Security=True";
             optionsBuilder.UseSqlServer(connection);
         }
 
