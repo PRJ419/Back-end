@@ -23,10 +23,6 @@ namespace Database
         [MaxLength(150)]
         public string Email { get; set; }
 
-        [Required]
-        [MaxLength(50)]
-        public string Password { get; set; }
-
         [MaxLength(150)]
         public string FavoriteBar { get; set; }
 
