@@ -7,7 +7,7 @@ using Database.Interfaces;
 
 namespace Database.Interfaces
 {
-    public interface IBarRepository
+    public interface IBarRepository : IRepository<Bar>
     {
         // Tilføjet til noget som Andreas tester
         IEnumerable<Bar> GetXBars(int from, int to);
