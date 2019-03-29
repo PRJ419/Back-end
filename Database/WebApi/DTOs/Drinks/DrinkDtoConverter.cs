@@ -4,30 +4,33 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using WebApi.DTOs;
 namespace WebApi.DTOs.Drinks
 {
-    public class DrinkDtoConverter :  IDtoConverter<DrinkDto, Drink> //IDtoListConverter<DrinkDto, Drink>,
+    public static class DrinkDtoConverter
     {
-        public static List<DrinkDto> ToDto(List<Drink> drinks)
+
+        public static List<DrinkDto> ToDtoList(List<Drink> fromList)
         {
-            var dtoList = new List<DrinkDto>();
-            foreach (var drink in drinks)
+            List<DrinkDto> dtoList = new List<DrinkDto>();
+
+            foreach (var drink in fromList)
             {
-                var dto = new DrinkDto()
-                {
-                    BarName = drink.BarName,
-                    DrinksName = drink.DrinksName,
-                    Price = drink.Price
-                };
-                
-                dtoList.Add(dto);
+                dtoList.Add(ToDto(drink));
             }
 
             return dtoList;
         }
 
-        public Drink ToDto(DrinkDto fromObject)
+        private static DrinkDto ToDto(Drink fromObject)
         {
-            throw new System.NotImplementedException();
+            var dto = new DrinkDto()
+            {
+                BarName = fromObject.BarName,
+                DrinksName = fromObject.DrinksName,
+                Price = fromObject.Price,
+            };
+            return dto;
         }
+
+        
     }
 
 

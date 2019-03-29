@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Rewrite.Internal.UrlActions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
-using WebApi.DTOs;
+using WebApi.DTOs.Bars;
 
 namespace BarOMeterWebApiCore.Controllers
 {
@@ -59,7 +59,7 @@ namespace BarOMeterWebApiCore.Controllers
         public async Task<IActionResult> GetBestBars()
         {
                 var bars = _unitOfWork.Bars.GetBestBars().ToList();
-                var listOfBars = BarSimpleDto.FromBarListToDtoList(bars);
+                var listOfBars = BarSimpleDtoConverter.ToDtoList(bars);
                 _unitOfWork.Complete();
 
                 if (listOfBars.Any())
@@ -111,15 +111,15 @@ namespace BarOMeterWebApiCore.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(Bar), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> AddBar([FromBody]BarDto bar)
+        public async Task<IActionResult> AddBar([FromBody]BarDto dtoBar)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _unitOfWork.Bars.Add(BarDto.ConvertToBar(bar));
+                    _unitOfWork.Bars.Add(BarDtoConverter.ToBar(dtoBar)); //BarDtoConverter.ToBar(dtoBar));
                     _unitOfWork.Complete();
-                    return Created($"api/bars/{bar.BarName}", bar);
+                    return Created($"api/bars/{dtoBar.BarName}", dtoBar);
                 }
                 else
                     return BadRequest();
@@ -138,7 +138,7 @@ namespace BarOMeterWebApiCore.Controllers
         /// </param>
         /// <returns>
         /// Returns 200 Ok if deletion is successful.
-        /// Returns 404 Not found, if bar could not be found.
+        /// Returns 400 Bad Request, if bar could not be found.
         /// </returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
@@ -153,7 +153,7 @@ namespace BarOMeterWebApiCore.Controllers
             }
             catch ( Exception e )
             {
-                return NotFound();
+                return BadRequest();
             }
         }
 
@@ -196,7 +196,7 @@ namespace BarOMeterWebApiCore.Controllers
         public async Task<IActionResult> GetWorstBars()
         {
                 var bars = _unitOfWork.Bars.GetWorstBars().ToList();
-                var DtoList = BarSimpleDto.FromBarListToDtoList(bars);
+                var DtoList = BarSimpleDtoConverter.ToDtoList(bars);
                 _unitOfWork.Complete();
             
 
@@ -226,7 +226,7 @@ namespace BarOMeterWebApiCore.Controllers
         {
  
                 var bars = _unitOfWork.Bars.GetXBars(from, to).ToList();
-                var listOfBars = BarSimpleDto.FromBarListToDtoList(bars);
+                var listOfBars = BarSimpleDtoConverter.ToDtoList(bars);
                 _unitOfWork.Complete();
             
 
