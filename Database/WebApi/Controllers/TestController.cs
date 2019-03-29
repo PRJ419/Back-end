@@ -13,9 +13,14 @@ namespace WebApi.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
-        public TestController(IUnitOfWork unit)
+        public TestController()
         {
-            unit.Complete();
         }
+
+        public async Task<IActionResult> test()
+        {
+            return Ok("Hejsa  fra test");
+        }
+
     }
 }

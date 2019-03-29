@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Database;
 
-namespace WebApi.DTOs
+namespace WebApi.DTOs.Bars
 {
     public class BarSimpleDto
     {

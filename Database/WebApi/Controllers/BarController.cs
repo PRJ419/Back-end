@@ -168,10 +168,19 @@ namespace BarOMeterWebApiCore.Controllers
         [HttpPut]
         [ProducesResponseType(typeof(Bar), StatusCodes.Status202Accepted)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateRating([FromBody]Bar bar)
+        public async Task<IActionResult> UpdateBar([FromBody]Bar bar)
         {
+            return Unauthorized("Not implemented yet");
             // Skal lige laves ordenligt udfra EFCore
-            return Unauthorized("Ez lol");
+            if (ModelState.IsValid)
+            {
+                var foundBar = _unitOfWork.Bars.Get(bar.BarName);
+                foundBar = bar;
+                _unitOfWork.Complete();
+                return Ok();
+            }
+            else
+                return NotFound();
         }
 
         /// <summary>

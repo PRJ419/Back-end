@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Database;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-
+using WebApi.DTOs;
 namespace WebApi.DTOs.Drinks
 {
-    public static class DrinkDtoConverter
+    public class DrinkDtoConverter :  IDtoConverter<DrinkDto, Drink> //IDtoListConverter<DrinkDto, Drink>,
     {
         public static List<DrinkDto> ToDto(List<Drink> drinks)
         {
@@ -23,5 +23,12 @@ namespace WebApi.DTOs.Drinks
 
             return dtoList;
         }
+
+        public Drink ToDto(DrinkDto fromObject)
+        {
+            throw new System.NotImplementedException();
+        }
     }
+
+
 }

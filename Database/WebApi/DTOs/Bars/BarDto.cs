@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Database;
 
-namespace WebApi.DTOs
+namespace WebApi.DTOs.Bars
 {
     public class BarDto
     {
@@ -29,7 +29,6 @@ namespace WebApi.DTOs
         public int CVR { get; set; }
 
         //[MaxLength(10)]
-        [Phone]
         public int PhoneNumber { get; set; }
 
         [MaxLength(150)]
@@ -37,19 +36,5 @@ namespace WebApi.DTOs
 
         [Range(0.0, 5.0)]
         public double AvgRating { get; set; }
-
-        public static Bar ConvertToBar(BarDto dto)
-        {
-            var bar = new Bar()
-            {
-                Address = dto.Address, AgeLimit = dto.AgeLimit,
-                AvgRating = dto.AvgRating, BarName = dto.BarName,
-                BarEvents = null, Barrepresentatives = null, Coupons = null,
-                CVR = dto.CVR, Drinks = null, Educations = null, Email = dto.Email,
-                ShortDescription = dto.ShortDescription, LongDescription = dto.LongDescription,
-                Reviews = null, PhoneNumber = dto.PhoneNumber,
-            };
-            return bar;
-        }
     }
 }
