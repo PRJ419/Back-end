@@ -38,17 +38,17 @@ namespace Database.Repository_Implementations
 
         public void Edit(Bar entity)
         {
-            var OldBar = Get(entity.BarName);
+            var oldBar = Get(entity.BarName);
 
             // Assign the changes to the entity from the database, so it's edited
-            OldBar.Address = entity.Address;
-            OldBar.AvgRating = entity.AvgRating;
-            OldBar.Educations = entity.Educations;
-            OldBar.LongDescription = entity.LongDescription;
-            OldBar.ShortDescription = entity.ShortDescription;
-            OldBar.AgeLimit = entity.AgeLimit;
-            OldBar.Email = entity.Email;
-            OldBar.PhoneNumber = entity.PhoneNumber;
+            oldBar.Address = entity.Address;
+            oldBar.AvgRating = entity.AvgRating;
+            oldBar.Educations = entity.Educations;
+            oldBar.LongDescription = entity.LongDescription;
+            oldBar.ShortDescription = entity.ShortDescription;
+            oldBar.AgeLimit = entity.AgeLimit;
+            oldBar.Email = entity.Email;
+            oldBar.PhoneNumber = entity.PhoneNumber;
         }
     }
 }
