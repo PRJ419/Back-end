@@ -16,5 +16,7 @@ namespace Database.Redundancy
 
         IEnumerable<Bar> GetWorstBars();
 
+        void Edit(Bar entity);
+
     }
 }

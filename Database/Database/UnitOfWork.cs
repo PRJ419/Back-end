@@ -8,12 +8,12 @@ namespace Database
     public class UnitOfWork : IUnitOfWork
     {
         private readonly BarOMeterContext _boMContext = new BarOMeterContext();
-        private IRepository<BarEvent> _barEventRepository;
-        private IRepository<Barrepresentative> _barrepresentativeRepository;
-        private IRepository<Coupon> _couponRepository;
-        private IRepository<Customer> _customerRepository;
-        private IRepository<Drink> _drinkRepository;
-        private IRepository<Review> _reviewRepository;
+        private BarEventRepository _barEventRepository;
+        private BarrepresentativeRepository _barrepresentativeRepository;
+        private CouponRepository _couponRepository;
+        private CustomerRepository _customerRepository;
+        private DrinkRepository _drinkRepository;
+        private ReviewRepository _reviewRepository;
         private IBarRepository _barRepository;
 
 
@@ -21,20 +21,26 @@ namespace Database
         // with the same context so we always work on the same context between the repositories.
         // 
         // This code is inspired by microsofts "Implementing the Repository and Unit of Work Patterns" page
-        public IBarRepository Bars => _barRepository ?? (_barRepository = new BarRepository(_boMContext));
+        public IBarRepository BarRepository => _barRepository ?? (_barRepository = new BarRepository(_boMContext));
 
-        public IRepository<BarEvent> BarEventRepository => _barEventRepository ?? (_barEventRepository = new Repository<BarEvent>(_boMContext));
+        public BarEventRepository BarEventRepository => 
+            _barEventRepository ?? (_barEventRepository = new BarEventRepository(_boMContext));
 
-        public IRepository<Barrepresentative> BarRepRepository => 
-            _barrepresentativeRepository ?? (_barrepresentativeRepository = new Repository<Barrepresentative>(_boMContext));
+        public BarrepresentativeRepository BarRepRepository => 
+            _barrepresentativeRepository ?? (_barrepresentativeRepository = new BarrepresentativeRepository(_boMContext));
 
-        public IRepository<Coupon> CouponRepository => _couponRepository ?? (_couponRepository = new Repository<Coupon>(_boMContext));
+        public CouponRepository CouponRepository => 
+            _couponRepository ?? (_couponRepository = new CouponRepository(_boMContext));
 
-        public IRepository<Customer> CustomerRepository => _customerRepository ?? (_customerRepository = new Repository<Customer>(_boMContext));
+        public CustomerRepository CustomerRepository => 
+            _customerRepository ?? (_customerRepository = new CustomerRepository(_boMContext));
 
-        public IRepository<Drink> DrinkRepository => _drinkRepository ?? (_drinkRepository = new Repository<Drink>(_boMContext));
+        public DrinkRepository DrinkRepository => 
+            _drinkRepository ?? (_drinkRepository = new DrinkRepository(_boMContext));
 
-        public IRepository<Review> ReviewRepository => _reviewRepository ?? (_reviewRepository = new Repository<Review>(_boMContext));
+        public ReviewRepository ReviewRepository => 
+            _reviewRepository ?? (_reviewRepository = new ReviewRepository(_boMContext));
+
 
 
         // Saves the changes made to the uow

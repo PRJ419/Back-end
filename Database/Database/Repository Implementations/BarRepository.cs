@@ -35,5 +35,20 @@ namespace Database.Repository_Implementations
         {
             return _dbContext.Set<Bar>().OrderBy(b => b.AvgRating).ThenBy(b=>b.BarName).AsEnumerable().ToList();
         }
+
+        public void Edit(Bar entity)
+        {
+            var oldBar = Get(entity.BarName);
+
+            // Assign the changes to the entity from the database, so it's edited
+            oldBar.Address = entity.Address;
+            oldBar.AvgRating = entity.AvgRating;
+            oldBar.Educations = entity.Educations;
+            oldBar.LongDescription = entity.LongDescription;
+            oldBar.ShortDescription = entity.ShortDescription;
+            oldBar.AgeLimit = entity.AgeLimit;
+            oldBar.Email = entity.Email;
+            oldBar.PhoneNumber = entity.PhoneNumber;
+        }
     }
 }

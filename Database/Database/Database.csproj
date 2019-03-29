@@ -273,8 +273,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\Coupon.cs" />
     <Compile Include="Interfaces\IBarRepository.cs" />
+    <Compile Include="Repository Implementations\BarEventRepository.cs" />
+    <Compile Include="Repository Implementations\DrinkRepository.cs" />
+    <Compile Include="Repository Implementations\BarrepresentativeRepository.cs" />
+    <Compile Include="Repository Implementations\CouponRepository.cs" />
+    <Compile Include="Repository Implementations\CustomerRepository.cs" />
     <Compile Include="Repository Implementations\Repository.cs" />
     <Compile Include="Repository Implementations\BarRepository.cs" />
+    <Compile Include="Repository Implementations\ReviewRepository.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
