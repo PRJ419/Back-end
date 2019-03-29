@@ -8,33 +8,11 @@ namespace WebApi.DTOs.Bars
     public class BarSimpleDto
     {
         [Required]
-        public string BarName { get; private set; }
+        public string BarName { get; set; }
         [Range(0.0, 5.0)]
         public double AvgRating { get; set; }
         [MaxLength(500)]
         public string ShortDescription { get; set; }
-
-
-        static public List<BarSimpleDto> FromBarListToDtoList(List<Bar> list)
-        {
-            // List to return
-            var listOfBars = new List<BarSimpleDto>();
-            // Add all dtos to list
-            foreach (var bar in list)
-            {
-                //var barDTO = new BarSimpleDto(bar.BarName,
-                //                                bar.AvgRating,
-                //                                bar.ShortDescription);
-                var barDTO = new BarSimpleDto()
-                {
-                    BarName = bar.BarName,
-                    AvgRating = bar.AvgRating,
-                    ShortDescription = bar.ShortDescription,
-                };
-                listOfBars.Add(barDTO);
-            }
-            return listOfBars;
-        }
     }
     ///// <summary>
     ///// Transfer object for the listview of bars

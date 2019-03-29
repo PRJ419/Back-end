@@ -46,10 +46,10 @@ namespace WebApi.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(List<DrinkDto>), 200)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetDrinks(string BarName)
+        public async Task<IActionResult> GetDrinks(string barName)
         {
-            var drinks = _unitOfWork.DrinkRepository.Find(x => x.BarName == BarName).ToList();
-            var drinkDtos = DrinkDtoConverter.ToDto(drinks);
+            var drinks = _unitOfWork.DrinkRepository.Find(x => x.BarName == barName).ToList();
+            var drinkDtos = DrinkDtoConverter.ToDtoList(drinks);
 
             if (drinkDtos.Any())
                 return Ok(drinkDtos);
