@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Database.Interfaces;
 
-namespace Database.Redundancy
+namespace Database.Interfaces
 {
-    public interface IBarRepository : IRepository<Bar>
+    public interface IBarRepository
     {
         // Tilføjet til noget som Andreas tester
         IEnumerable<Bar> GetXBars(int from, int to);

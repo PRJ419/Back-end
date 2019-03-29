@@ -4,7 +4,7 @@ namespace Database.Repository_Implementations
 {
     public class DrinkRepository : Repository<Drink>
     {
-        public DrinkRepository(DbContext dbContext) : base(dbContext)
+        public DrinkRepository(BarOMeterContext dbContext) : base(dbContext)
         {
      
         }

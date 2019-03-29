@@ -9,7 +9,7 @@ namespace Database.Repository_Implementations
 {
     public class BarRepresentativeRepository : Repository<BarRepresentative>
     {
-        public BarRepresentativeRepository(DbContext dbContext) : base(dbContext)
+        public BarRepresentativeRepository(BarOMeterContext dbContext) : base(dbContext)
         {
         }
 

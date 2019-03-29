@@ -9,7 +9,7 @@ namespace Database.Repository_Implementations
 {
     public class CustomerRepository : Repository<Customer>
     {
-        public CustomerRepository(DbContext dbContext) : base(dbContext)
+        public CustomerRepository(BarOMeterContext dbContext) : base(dbContext)
         {
         }
 

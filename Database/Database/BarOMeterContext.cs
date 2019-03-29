@@ -10,15 +10,12 @@ namespace Database {
     {
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Bar> Bar { get; set; }
-        public DbSet<BarRepresentative> Barrepresentatives { get; set; }
+        public DbSet<BarRepresentative> BarRepresentatives { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<BarEvent> BarEvents { get; set; }
         public DbSet<Coupon> Coupons { get; set; }
         public DbSet<Drink> Drinks { get; set; }
 
-        public BarOMeterContext()
-        {
-        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

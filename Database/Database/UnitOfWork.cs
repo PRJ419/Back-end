@@ -1,6 +1,5 @@
 ﻿using System;
 using Database.Interfaces;
-using Database.Redundancy;
 using Database.Repository_Implementations;
 
 namespace Database
@@ -9,7 +8,7 @@ namespace Database
     {
         private readonly BarOMeterContext _boMContext = new BarOMeterContext();
         private BarEventRepository _barEventRepository;
-        private BarRepresentativeRepository _barrepresentativeRepository;
+        private BarRepresentativeRepository _barRepresentativeRepository;
         private CouponRepository _couponRepository;
         private CustomerRepository _customerRepository;
         private DrinkRepository _drinkRepository;
@@ -27,7 +26,7 @@ namespace Database
             _barEventRepository ?? (_barEventRepository = new BarEventRepository(_boMContext));
 
         public BarRepresentativeRepository BarRepRepository => 
-            _barrepresentativeRepository ?? (_barrepresentativeRepository = new BarRepresentativeRepository(_boMContext));
+            _barRepresentativeRepository ?? (_barRepresentativeRepository = new BarRepresentativeRepository(_boMContext));
 
         public CouponRepository CouponRepository => 
             _couponRepository ?? (_couponRepository = new CouponRepository(_boMContext));
