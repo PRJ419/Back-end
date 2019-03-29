@@ -18,7 +18,6 @@ namespace Database.Repository_Implementations
             var oldBarrep = Get(entity.Username);
 
             oldBarrep.Name = entity.Name;
-            oldBarrep.Password = entity.Password;
             
         }
     }

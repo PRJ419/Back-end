@@ -21,7 +21,11 @@ namespace Database
                 uow.DrinkRepository.Edit(drink);
                 uow.Complete();
 
-
+                var yyy = uow.BarRepository.GetBestBars();
+                foreach (var VARIABLE in yyy)
+                {
+                    Console.WriteLine("{0}",VARIABLE.BarName);
+                }
 
 
             }
