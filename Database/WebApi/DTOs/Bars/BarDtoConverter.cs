@@ -36,6 +36,11 @@ namespace WebApi.DTOs.Bars
                 LongDescription = dto.LongDescription,
                 PhoneNumber = dto.PhoneNumber,
                 ShortDescription = dto.ShortDescription,
+                Drinks = null, 
+                Coupons = null, 
+                BarEvents = null, 
+                Reviews = null, 
+                Barrepresentatives = null,
             };
             return bar;
         }

@@ -58,14 +58,13 @@ namespace BarOMeterWebApiCore.Controllers
         //public async Task<IActionResult> GetBars()
         public async Task<IActionResult> GetBestBars()
         {
-                var bars = _unitOfWork.Bars.GetBestBars().ToList();
-                var listOfBars = BarSimpleDtoConverter.ToDtoList(bars);
-                _unitOfWork.Complete();
+            var bars = _unitOfWork.BarRepository.GetBestBars().ToList();
+            var listOfBars = BarSimpleDtoConverter.ToDtoList(bars);
 
-                if (listOfBars.Any())
-                    return Ok(listOfBars);
-                else
-                    return NotFound();
+            if (listOfBars.Any())
+                return Ok(listOfBars);
+            else
+                return NotFound();
         }
 
         /// <summary>
@@ -87,7 +86,7 @@ namespace BarOMeterWebApiCore.Controllers
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetBar(string id)
         {
-            var bar = _unitOfWork.Bars.Get(id);
+            var bar = _unitOfWork.BarRepository.Get(id);
             
             if (bar != null)
                 return Ok(bar);
@@ -117,7 +116,7 @@ namespace BarOMeterWebApiCore.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _unitOfWork.Bars.Add(BarDtoConverter.ToBar(dtoBar)); //BarDtoConverter.ToBar(dtoBar));
+                    _unitOfWork.BarRepository.Add(BarDtoConverter.ToBar(dtoBar)); //BarDtoConverter.ToBar(dtoBar));
                     _unitOfWork.Complete();
                     return Created($"api/bars/{dtoBar.BarName}", dtoBar);
                 }
@@ -147,7 +146,7 @@ namespace BarOMeterWebApiCore.Controllers
         {
             try
             {
-                _unitOfWork.Bars.Delete(id);
+                _unitOfWork.BarRepository.Delete(id);
                 _unitOfWork.Complete();
                 return Ok();
             }
@@ -174,7 +173,7 @@ namespace BarOMeterWebApiCore.Controllers
             // Skal lige laves ordenligt udfra EFCore
             if (ModelState.IsValid)
             {
-                var foundBar = _unitOfWork.Bars.Get(bar.BarName);
+                var foundBar = _unitOfWork.BarRepository.Get(bar.BarName);
                 foundBar = bar;
                 _unitOfWork.Complete();
                 return Ok();
@@ -195,7 +194,7 @@ namespace BarOMeterWebApiCore.Controllers
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         public async Task<IActionResult> GetWorstBars()
         {
-                var bars = _unitOfWork.Bars.GetWorstBars().ToList();
+                var bars = _unitOfWork.BarRepository.GetWorstBars().ToList();
                 var DtoList = BarSimpleDtoConverter.ToDtoList(bars);
                 _unitOfWork.Complete();
             
@@ -225,7 +224,7 @@ namespace BarOMeterWebApiCore.Controllers
         public async Task<IActionResult> GetRangeOfBars(int from, int to)
         {
  
-                var bars = _unitOfWork.Bars.GetXBars(from, to).ToList();
+                var bars = _unitOfWork.BarRepository.GetXBars(from, to).ToList();
                 var listOfBars = BarSimpleDtoConverter.ToDtoList(bars);
                 _unitOfWork.Complete();
             
