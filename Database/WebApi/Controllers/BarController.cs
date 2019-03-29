@@ -55,7 +55,6 @@ namespace BarOMeterWebApiCore.Controllers
         [HttpGet] // /api/bars
         [ProducesResponseType(typeof(List<BarSimpleDto>), 200)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
-        //public async Task<IActionResult> GetBars()
         public async Task<IActionResult> GetBestBars()
         {
             var bars = _unitOfWork.BarRepository.GetBestBars().ToList();
@@ -169,17 +168,22 @@ namespace BarOMeterWebApiCore.Controllers
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateBar([FromBody]Bar bar)
         {
-            return Unauthorized("Not implemented yet");
-            // Skal lige laves ordenligt udfra EFCore
             if (ModelState.IsValid)
             {
-                var foundBar = _unitOfWork.BarRepository.Get(bar.BarName);
-                foundBar = bar;
-                _unitOfWork.Complete();
-                return Ok();
+                try
+                {
+                    _unitOfWork.BarRepository.Edit(bar);
+                    _unitOfWork.Complete();
+                    return Ok();
+                }
+                catch(Exception e)
+                {
+                    return BadRequest();
+                }
+                
             }
-            else
-                return NotFound();
+
+            return BadRequest();
         }
 
         /// <summary>

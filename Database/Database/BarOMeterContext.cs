@@ -32,7 +32,6 @@ namespace Database {
             optionsBuilder.UseSqlServer(connection);
         }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new BarConfiguration());
