@@ -4,24 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Database.Redundancy;
+using Database.Repository_Implementations;
 
 namespace Database.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        IBarRepository Bars { get; }
+        IBarRepository BarRepository { get; }
 
-        IRepository<BarEvent> BarEventRepository { get; }
+        BarEventRepository BarEventRepository { get; }
 
-        IRepository<Barrepresentative> BarRepRepository { get; }
+        BarrepresentativeRepository BarRepRepository { get; }
 
-        IRepository<Coupon> CouponRepository { get; }
+        CouponRepository CouponRepository { get; }
 
-        IRepository<Customer> CustomerRepository { get; }
+        CustomerRepository CustomerRepository { get; }
 
-        IRepository<Drink> DrinkRepository { get; }
+        DrinkRepository DrinkRepository { get; }
 
-        IRepository<Review> ReviewRepository { get; }
+        ReviewRepository ReviewRepository { get; }
 
         int Complete();
     }

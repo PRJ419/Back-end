@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
 {
-    class CouponRepository : Repository<Coupon>
+    public class CouponRepository : Repository<Coupon>
     {
         public CouponRepository(DbContext dbContext) : base(dbContext)
         {

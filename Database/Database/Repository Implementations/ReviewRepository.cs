@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
 {
-    class ReviewRepository : Repository<Review>
+    public class ReviewRepository : Repository<Review>
     {
         public ReviewRepository(DbContext dbcontext) : base(dbcontext)
         {

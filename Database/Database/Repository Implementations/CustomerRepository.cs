@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
 {
-    class CustomerRepository : Repository<Customer>
+    public class CustomerRepository : Repository<Customer>
     {
         public CustomerRepository(DbContext dbContext) : base(dbContext)
         {
