@@ -19,7 +19,6 @@ namespace Database.Repository_Implementations
             oldCustomer.Email = entity.Email;
             oldCustomer.FavoriteBar = entity.FavoriteBar;
             oldCustomer.FavoriteDrink = entity.FavoriteDrink;
-            oldCustomer.Password = entity.Password;
         }
     }
 }
