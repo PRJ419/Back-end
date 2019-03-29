@@ -10,7 +10,7 @@ namespace Database {
     {
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Bar> Bar { get; set; }
-        public DbSet<Barrepresentative> Barrepresentatives { get; set; }
+        public DbSet<BarRepresentative> Barrepresentatives { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<BarEvent> BarEvents { get; set; }
         public DbSet<Coupon> Coupons { get; set; }
@@ -27,8 +27,8 @@ namespace Database {
             // connectionstrings --> see the example with "AndreasPC"
 
             //TODO: sorry andy.   Jeg har hardcodet min connection string  - jeg kan fra mit projekt ikke få fat i TwinksPC
-            //var connection = ConfigurationManager.ConnectionStrings["AndreasPC"].ConnectionString;
-            var connection = @"Data Source=DESKTOP-UGIDUH3;Initial Catalog=PRJ4Database;Integrated Security=True";
+            var connection = ConfigurationManager.ConnectionStrings["AndreasPC"].ConnectionString;
+            //var connection = @"Data Source=DESKTOP-UGIDUH3;Initial Catalog=PRJ4Database;Integrated Security=True";
             optionsBuilder.UseSqlServer(connection);
         }
 
@@ -36,7 +36,7 @@ namespace Database {
         {
             modelBuilder.ApplyConfiguration(new BarConfiguration());
             modelBuilder.ApplyConfiguration(new BarEventConfiguration());
-            modelBuilder.ApplyConfiguration(new BarrepresentativeConfiguration());
+            modelBuilder.ApplyConfiguration(new BarRepresentativeConfiguration());
             modelBuilder.ApplyConfiguration(new CouponConfiguration());
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
             modelBuilder.ApplyConfiguration(new DrinkConfiguration());

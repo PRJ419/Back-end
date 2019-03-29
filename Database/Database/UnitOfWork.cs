@@ -9,7 +9,7 @@ namespace Database
     {
         private readonly BarOMeterContext _boMContext = new BarOMeterContext();
         private BarEventRepository _barEventRepository;
-        private BarrepresentativeRepository _barrepresentativeRepository;
+        private BarRepresentativeRepository _barrepresentativeRepository;
         private CouponRepository _couponRepository;
         private CustomerRepository _customerRepository;
         private DrinkRepository _drinkRepository;
@@ -26,8 +26,8 @@ namespace Database
         public BarEventRepository BarEventRepository => 
             _barEventRepository ?? (_barEventRepository = new BarEventRepository(_boMContext));
 
-        public BarrepresentativeRepository BarRepRepository => 
-            _barrepresentativeRepository ?? (_barrepresentativeRepository = new BarrepresentativeRepository(_boMContext));
+        public BarRepresentativeRepository BarRepRepository => 
+            _barrepresentativeRepository ?? (_barrepresentativeRepository = new BarRepresentativeRepository(_boMContext));
 
         public CouponRepository CouponRepository => 
             _couponRepository ?? (_couponRepository = new CouponRepository(_boMContext));
