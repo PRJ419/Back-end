@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Database.EntityConfigurations
 {
-    public class BarrepresentativeConfiguration : IEntityTypeConfiguration<Barrepresentative>
+    public class BarRepresentativeConfiguration : IEntityTypeConfiguration<BarRepresentative>
     {
-        public void Configure(EntityTypeBuilder<Barrepresentative> builder)
+        public void Configure(EntityTypeBuilder<BarRepresentative> builder)
         {
             builder
                 .HasOne(a => a.Bar)

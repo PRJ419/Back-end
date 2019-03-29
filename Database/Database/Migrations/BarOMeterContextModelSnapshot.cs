@@ -78,7 +78,7 @@ namespace Database.Migrations
                     b.ToTable("BarEvents");
                 });
 
-            modelBuilder.Entity("Database.Barrepresentative", b =>
+            modelBuilder.Entity("Database.BarRepresentative", b =>
                 {
                     b.Property<string>("Username")
                         .ValueGeneratedOnAdd()
@@ -186,7 +186,7 @@ namespace Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Database.Barrepresentative", b =>
+            modelBuilder.Entity("Database.BarRepresentative", b =>
                 {
                     b.HasOne("Database.Bar", "Bar")
                         .WithMany("Barrepresentatives")

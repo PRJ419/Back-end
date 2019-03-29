@@ -14,7 +14,7 @@ namespace Database.Interfaces
 
         BarEventRepository BarEventRepository { get; }
 
-        BarrepresentativeRepository BarRepRepository { get; }
+        BarRepresentativeRepository BarRepRepository { get; }
 
         CouponRepository CouponRepository { get; }
 

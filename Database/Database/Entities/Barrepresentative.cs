@@ -2,7 +2,7 @@
 
 namespace Database
 {
-    public class Barrepresentative 
+    public class BarRepresentative 
     {
         [MaxLength(50)]
         public string Username { get; set; }

@@ -7,17 +7,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
 {
-    public class BarrepresentativeRepository : Repository<Barrepresentative>
+    public class BarRepresentativeRepository : Repository<BarRepresentative>
     {
-        public BarrepresentativeRepository(DbContext dbContext) : base(dbContext)
+        public BarRepresentativeRepository(DbContext dbContext) : base(dbContext)
         {
         }
 
-        public void Edit(Barrepresentative entity)
+        public void Edit(BarRepresentative entity)
         {
-            var oldBarrep = Get(entity.Username);
+            var oldBarRep = Get(entity.Username);
 
-            oldBarrep.Name = entity.Name;
+            oldBarRep.Name = entity.Name;
             
         }
     }

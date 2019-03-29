@@ -45,7 +45,7 @@ namespace Database
         public List<Drink> Drinks { get; set; }
         public List<BarEvent> BarEvents { get; set; }
         public List<Coupon> Coupons { get; set; }
-        public List<Barrepresentative> Barrepresentatives { get; set; }
+        public List<BarRepresentative> Barrepresentatives { get; set; }
         public List<Review> Reviews { get; set; }
 
     }

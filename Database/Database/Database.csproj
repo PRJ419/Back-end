@@ -252,12 +252,12 @@
     <Compile Include="Entities\Bar.cs" />
     <Compile Include="Entities\BarEvent.cs" />
     <Compile Include="BarOMeterContext.cs" />
-    <Compile Include="Entities\Barrepresentative.cs" />
+    <Compile Include="Entities\BarRepresentative.cs" />
     <Compile Include="Entities\Drink.cs" />
     <Compile Include="Entities\Customer.cs" />
     <Compile Include="EntityConfigurations\BarConfiguration.cs" />
     <Compile Include="EntityConfigurations\BarEventConfiguration.cs" />
-    <Compile Include="EntityConfigurations\BarrepresentativeConfiguration.cs" />
+    <Compile Include="EntityConfigurations\BarRepresentativeConfiguration.cs" />
     <Compile Include="EntityConfigurations\CouponConfiguration.cs" />
     <Compile Include="EntityConfigurations\CustomerConfiguration.cs" />
     <Compile Include="EntityConfigurations\DrinkConfiguration.cs" />
@@ -279,7 +279,7 @@
     <Compile Include="Interfaces\IBarRepository.cs" />
     <Compile Include="Repository Implementations\BarEventRepository.cs" />
     <Compile Include="Repository Implementations\DrinkRepository.cs" />
-    <Compile Include="Repository Implementations\BarrepresentativeRepository.cs" />
+    <Compile Include="Repository Implementations\BarRepresentativeRepository.cs" />
     <Compile Include="Repository Implementations\CouponRepository.cs" />
     <Compile Include="Repository Implementations\CustomerRepository.cs" />
     <Compile Include="Repository Implementations\Repository.cs" />
