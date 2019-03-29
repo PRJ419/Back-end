@@ -25,7 +25,7 @@ namespace Database
                 //bar.PhoneNumber = 1234;
                 //uow.BarRepository.Add(bar);
                 //uow.Complete();
-                //var yyy = uow.DrinkRepository.Get("Testbar", "drinksnavn" );
+                var yyy = uow.DrinkRepository.Get("Testbar", "drinksnavn");
 
                 //Console.WriteLine("{0}",yyy.DrinksName);
 
