@@ -40,11 +40,11 @@ namespace Database
 
         
         
-        public List<Drink> Drinks { get; set; }
-        public List<BarEvent> BarEvents { get; set; }
-        public List<Coupon> Coupons { get; set; }
-        public List<BarRepresentative> BarRepresentatives { get; set; }
-        public List<Review> Reviews { get; set; }
+        public virtual List<Drink> Drinks { get; set; }
+        public virtual List<BarEvent> BarEvents { get; set; }
+        public virtual List<Coupon> Coupons { get; set; }
+        public virtual List<BarRepresentative> BarRepresentatives { get; set; }
+        public virtual List<Review> Reviews { get; set; }
 
     }
 }

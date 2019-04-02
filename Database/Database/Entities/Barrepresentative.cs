@@ -14,6 +14,7 @@ namespace Database
         [MaxLength(150)]
         public string BarName { get; set; }
 
-        public Bar Bar { get; set; }
+        [Required]
+        public virtual Bar Bar { get; set; }
     }
 }

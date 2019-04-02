@@ -12,7 +12,8 @@ namespace Database
 
         public double Price { get; set; }
 
-        public Bar Bar { get; set; }
+        [Required]
+        public virtual Bar Bar { get; set; }
 
     }
 }

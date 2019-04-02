@@ -13,6 +13,7 @@ namespace Database
 
         public DateTime Date { get; set; }
 
-        public Bar Bar { get; set; }
+        [Required]
+        public virtual Bar Bar { get; set; }
     }
 }

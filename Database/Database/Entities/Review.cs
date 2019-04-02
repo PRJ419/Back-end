@@ -16,8 +16,10 @@ namespace Database
         [MaxLength(50)]
         public string Username { get; set; }
 
-        public Bar Bar { get; set; }
+        [Required]
+        public virtual Bar Bar { get; set; }
 
-        public Customer Customer { get; set; }
+        [Required]
+        public virtual Customer Customer { get; set; }
     }
 }

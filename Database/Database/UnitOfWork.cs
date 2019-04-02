@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Database.Interfaces;
 using Database.Repository_Implementations;
 
@@ -40,7 +41,16 @@ namespace Database
         public ReviewRepository ReviewRepository => 
             _reviewRepository ?? (_reviewRepository = new ReviewRepository(_boMContext));
 
+        public void UpdateBarRating(string barID)
+        {
+            var updatedRating = ReviewRepository
+                .GetAll()
+                .Where(review => review.BarName == barID)
+                .Average(review => review.BarPressure);
 
+            var bar = BarRepository.Get(barID);
+            bar.AvgRating = updatedRating;
+        }
 
         // Saves the changes made to the uow
         public int Complete()
@@ -59,7 +69,7 @@ namespace Database
                     _boMContext.Dispose();
                 }
             }
-            disposing = true;
+            disposed = true;
         }
 
         public void Dispose()
