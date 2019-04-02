@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using WebApi.DTOs.Bars;
 
-namespace BarOMeterWebApiCore.Controllers
+namespace WebApi.Controllers
 {
     /// <summary>
     /// BarController class for the Wen Api.
@@ -101,7 +101,7 @@ namespace BarOMeterWebApiCore.Controllers
         /// Bar object supplied in the Http Body in JSON formatting
         /// </param>
         /// <returns>
-        /// If successful, will return the created object with /api/bars/{id}
+        /// If successful, will return the created object and code 201
         /// If unsuccessful, returns 400 (Bad Request)
         /// </returns>
 

@@ -2,8 +2,16 @@
 
 namespace WebApi.DTOs.Bars
 {
+    /// <summary>
+    /// Converter
+    /// </summary>
     public static class BarDtoConverter
     {
+        /// <summary>
+        /// Yeeah boi
+        /// </summary>
+        /// <param name="bar"></param>
+        /// <returns></returns>
         public static BarDto ToDto(Bar bar)
         {
             var dto = new BarDto()
