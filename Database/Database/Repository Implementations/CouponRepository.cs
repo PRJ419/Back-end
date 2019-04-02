@@ -9,7 +9,7 @@ namespace Database.Repository_Implementations
 {
     public class CouponRepository : Repository<Coupon>
     {
-        public CouponRepository(DbContext dbContext) : base(dbContext)
+        public CouponRepository(BarOMeterContext dbContext) : base(dbContext)
         {
         }
 

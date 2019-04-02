@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Database.Redundancy;
+using Database.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
 {
     public class BarRepository : Repository<Bar>, IBarRepository
     {
-        public BarRepository(DbContext dbcontext) : base(dbcontext)
+        public BarRepository(BarOMeterContext dbcontext) : base(dbcontext)
         {
         }
 

@@ -14,14 +14,14 @@ namespace Database.Repository_Implementations
     public class Repository<T> : IRepository<T> where T : class
     {
         // The database context for the entire class
-        protected readonly DbContext _dbContext;
+        protected readonly BarOMeterContext _dbContext;
 
         /// <summary>
         /// Takes the database context and sets it for the repository class, so it's the same throughout the
         /// calls of the class.
         /// </summary>
         /// <param name="dbcontext"></param>
-        public Repository(DbContext dbcontext)
+        public Repository(BarOMeterContext dbcontext)
         {
             _dbContext = dbcontext;
         }

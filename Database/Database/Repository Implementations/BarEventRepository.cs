@@ -4,7 +4,7 @@ namespace Database.Repository_Implementations
 {
     public class BarEventRepository : Repository<BarEvent>
     {
-        public BarEventRepository(DbContext dbContext) : base(dbContext)
+        public BarEventRepository(BarOMeterContext dbContext) : base(dbContext)
         {
 
         }

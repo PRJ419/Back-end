@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Database;
 using Database.Interfaces;
-using Database.Redundancy;
 using Database.Repository_Implementations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

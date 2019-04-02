@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Linq;
 using Database.Interfaces;
-using Database.Redundancy;
 using Database.Repository_Implementations;
 
 namespace Database
@@ -9,7 +9,7 @@ namespace Database
     {
         private readonly BarOMeterContext _boMContext = new BarOMeterContext();
         private BarEventRepository _barEventRepository;
-        private BarRepresentativeRepository _barrepresentativeRepository;
+        private BarRepresentativeRepository _barRepresentativeRepository;
         private CouponRepository _couponRepository;
         private CustomerRepository _customerRepository;
         private DrinkRepository _drinkRepository;
@@ -27,7 +27,7 @@ namespace Database
             _barEventRepository ?? (_barEventRepository = new BarEventRepository(_boMContext));
 
         public BarRepresentativeRepository BarRepRepository => 
-            _barrepresentativeRepository ?? (_barrepresentativeRepository = new BarRepresentativeRepository(_boMContext));
+            _barRepresentativeRepository ?? (_barRepresentativeRepository = new BarRepresentativeRepository(_boMContext));
 
         public CouponRepository CouponRepository => 
             _couponRepository ?? (_couponRepository = new CouponRepository(_boMContext));
@@ -41,7 +41,16 @@ namespace Database
         public ReviewRepository ReviewRepository => 
             _reviewRepository ?? (_reviewRepository = new ReviewRepository(_boMContext));
 
+        public void UpdateBarRating(string barID)
+        {
+            var updatedRating = ReviewRepository
+                .GetAll()
+                .Where(review => review.BarName == barID)
+                .Average(review => review.BarPressure);
 
+            var bar = BarRepository.Get(barID);
+            bar.AvgRating = updatedRating;
+        }
 
         // Saves the changes made to the uow
         public int Complete()
@@ -60,7 +69,7 @@ namespace Database
                     _boMContext.Dispose();
                 }
             }
-            disposing = true;
+            disposed = true;
         }
 
         public void Dispose()

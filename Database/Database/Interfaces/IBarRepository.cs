@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Database.Interfaces;
 
-namespace Database.Redundancy
+namespace Database.Interfaces
 {
     public interface IBarRepository : IRepository<Bar>
     {

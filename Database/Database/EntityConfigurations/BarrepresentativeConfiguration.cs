@@ -14,7 +14,7 @@ namespace Database.EntityConfigurations
         {
             builder
                 .HasOne(a => a.Bar)
-                .WithMany(b => b.Barrepresentatives)
+                .WithMany(b => b.BarRepresentatives)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasForeignKey(c => c.BarName);

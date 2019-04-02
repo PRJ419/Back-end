@@ -48,7 +48,7 @@ namespace WebApi.DTOs.Bars
                 Coupons = null, 
                 BarEvents = null, 
                 Reviews = null, 
-                Barrepresentatives = null,
+                BarRepresentatives = null,
             };
             return bar;
         }

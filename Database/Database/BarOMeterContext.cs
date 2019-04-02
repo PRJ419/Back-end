@@ -10,15 +10,12 @@ namespace Database {
     {
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Bar> Bar { get; set; }
-        public DbSet<BarRepresentative> Barrepresentatives { get; set; }
+        public DbSet<BarRepresentative> BarRepresentatives { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<BarEvent> BarEvents { get; set; }
         public DbSet<Coupon> Coupons { get; set; }
         public DbSet<Drink> Drinks { get; set; }
 
-        public BarOMeterContext()
-        {
-        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -29,7 +26,7 @@ namespace Database {
             //TODO: sorry andy.   Jeg har hardcodet min connection string  - jeg kan fra mit projekt ikke få fat i TwinksPC
             var connection = ConfigurationManager.ConnectionStrings["AndreasPC"].ConnectionString;
             //var connection = @"Data Source=DESKTOP-UGIDUH3;Initial Catalog=PRJ4Database;Integrated Security=True";
-            optionsBuilder.UseSqlServer(connection);
+            optionsBuilder.UseLazyLoadingProxies().UseSqlServer(connection);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

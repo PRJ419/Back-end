@@ -29,6 +29,6 @@ namespace Database
         [MaxLength(50)]
         public string FavoriteDrink { get; set; }
 
-        public List<Review> Reviews { get; set; }
+        public virtual List<Review> Reviews { get; set; }
     }
 }

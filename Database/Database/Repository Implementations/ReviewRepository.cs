@@ -9,7 +9,7 @@ namespace Database.Repository_Implementations
 {
     public class ReviewRepository : Repository<Review>
     {
-        public ReviewRepository(DbContext dbcontext) : base(dbcontext)
+        public ReviewRepository(BarOMeterContext dbcontext) : base(dbcontext)
         {
         }
 

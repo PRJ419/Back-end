@@ -27,11 +27,9 @@ namespace Database
         [MaxLength(2500)]
         public string LongDescription { get; set; }
 
-        [MaxLength(8)]
         [Required]
         public int CVR { get; set; }
 
-        [MaxLength(10)]
         public int PhoneNumber { get; set; }
 
         [MaxLength(150)]
@@ -42,11 +40,11 @@ namespace Database
 
         
         
-        public List<Drink> Drinks { get; set; }
-        public List<BarEvent> BarEvents { get; set; }
-        public List<Coupon> Coupons { get; set; }
-        public List<BarRepresentative> Barrepresentatives { get; set; }
-        public List<Review> Reviews { get; set; }
+        public virtual List<Drink> Drinks { get; set; }
+        public virtual List<BarEvent> BarEvents { get; set; }
+        public virtual List<Coupon> Coupons { get; set; }
+        public virtual List<BarRepresentative> BarRepresentatives { get; set; }
+        public virtual List<Review> Reviews { get; set; }
 
     }
 }
