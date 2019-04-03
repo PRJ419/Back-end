@@ -14,7 +14,6 @@ namespace Database
 
         public DateTime ExpirationDate { get; set; }
 
-        [Required]
         public virtual Bar Bar { get; set; }
     }
 }
