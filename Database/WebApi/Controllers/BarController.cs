@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using WebApi.DTOs.Bars;
 
-namespace BarOMeterWebApiCore.Controllers
+namespace WebApi.Controllers
 {
     /// <summary>
     /// BarController class for the Wen Api.
