@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Database;
 using Database.Interfaces;
 using Database.Repository_Implementations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite.Internal.UrlActions;
@@ -51,6 +52,7 @@ namespace WebApi.Controllers
         [HttpGet] // /api/bars
         [ProducesResponseType(typeof(List<BarSimpleDto>), 200)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [Authorize]
         public async Task<IActionResult> GetBestBars()
         {
             var bars = _unitOfWork.BarRepository.GetBestBars();
