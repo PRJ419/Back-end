@@ -53,7 +53,7 @@ namespace WebApi.Controllers
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetBestBars()
         {
-            var bars = _unitOfWork.BarRepository.GetBestBars().ToList();
+            var bars = _unitOfWork.BarRepository.GetBestBars();
             var listOfBars = BarSimpleDtoConverter.ToDtoList(bars);
 
             if (listOfBars.Any())
