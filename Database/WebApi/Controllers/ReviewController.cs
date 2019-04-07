@@ -20,7 +20,7 @@ namespace WebApi.Controllers
             _unitOfWork = UnitOfWork;
         }
 
-        [HttpGet] // TODO: Kunne godt tåle noget Query eller noget pænere. 
+        [HttpGet] 
         [ProducesResponseType(typeof(double), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetAverageReviewScore([FromRoute] string BarName)
@@ -56,6 +56,7 @@ namespace WebApi.Controllers
             {
                 review.BarPressure = receivedReview.BarPressure;
                 // Save the changes
+                _unitOfWork.UpdateBarRating(receivedReview.BarName);
                 _unitOfWork.Complete();
 
                 var returnReview = ReviewDtoConverter.ToDto(review);
@@ -72,6 +73,7 @@ namespace WebApi.Controllers
             {
                 var review = ReviewDtoConverter.ToReview(reviewDto);
                 _unitOfWork.ReviewRepository.Add(review);
+                _unitOfWork.UpdateBarRating(reviewDto.BarName);
                 _unitOfWork.Complete();
                 return Created(string.Format($"api/bars/{review.BarName}/reviews/{review.Username}"), reviewDto);
             }
@@ -87,6 +89,7 @@ namespace WebApi.Controllers
             try
             {   //Create keys and delete. 
                 _unitOfWork.ReviewRepository.Delete( new string[]{reviewDto.BarName, reviewDto.Username});
+                _unitOfWork.UpdateBarRating(reviewDto.BarName);
                 _unitOfWork.Complete();
                 return Ok();
             }

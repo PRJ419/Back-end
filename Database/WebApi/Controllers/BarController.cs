@@ -66,7 +66,7 @@ namespace WebApi.Controllers
         /// Returns a specific Bar found by provided id
         /// </summary>
         /// <param name="id">
-        /// id is BarName property of Bar class.
+        /// is BarName property of Bar class.
         /// </param>
         /// <example>
         /// "https://IP:PORT/api/bars/Katrines Kælder"
