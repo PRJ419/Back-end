@@ -30,6 +30,17 @@ namespace WebApi.DTOs.Drinks
             return dto;
         }
 
+        public static Drink ToDrink(DrinkDto dto)
+        {
+            var drink = new Drink()
+            {
+                BarName = dto.BarName,
+                DrinksName = dto.DrinksName,
+                Price = dto.Price,
+            };
+            return drink;
+        }
+
         
     }
 

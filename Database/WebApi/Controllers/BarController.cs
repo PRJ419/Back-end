@@ -16,13 +16,9 @@ using WebApi.DTOs.Bars;
 namespace WebApi.Controllers
 {
     /// <summary>
-    /// BarController class for the Wen Api.
-    /// <para>
+    /// BarController class for the Web Api.
     /// Default route: "api/bars.
-    /// </para>
-    /// <para>
     ///  Can respond to various GET/ PUT/ POST/ DELETE Http requests.
-    /// </para>
     /// </summary>
     [Route("api/bars")]
     [ApiController]
@@ -57,7 +53,7 @@ namespace WebApi.Controllers
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetBestBars()
         {
-            var bars = _unitOfWork.BarRepository.GetBestBars().ToList();
+            var bars = _unitOfWork.BarRepository.GetBestBars();
             var listOfBars = BarSimpleDtoConverter.ToDtoList(bars);
 
             if (listOfBars.Any())
@@ -98,10 +94,10 @@ namespace WebApi.Controllers
         /// Adds a Bar object to the database, if bar with same name does not exist
         /// </summary>
         /// <param name="bar">
-        /// Bar object supplied in the Http Body in JSON formatting
+        /// : Bar object supplied in the Http Body in JSON formatting
         /// </param>
         /// <returns>
-        /// If successful, will return the created object with /api/bars/{id}
+        /// If successful, will return the created object and code 201
         /// If unsuccessful, returns 400 (Bad Request)
         /// </returns>
 

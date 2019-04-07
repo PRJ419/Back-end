@@ -5,7 +5,7 @@ namespace WebApi.DTOs.Bars
 {
     public static class BarSimpleDtoConverter
     {
-        public static List<BarSimpleDto> ToDtoList(List<Bar> fromList)
+        public static List<BarSimpleDto> ToDtoList(IEnumerable<Bar> fromList)
         {
             var dtoList = new List<BarSimpleDto>();
             foreach (var bar in fromList)
