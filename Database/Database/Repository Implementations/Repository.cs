@@ -20,7 +20,9 @@ namespace Database.Repository_Implementations
         /// Takes the database context and sets it for the repository class, so it's the same throughout the
         /// calls of the class.
         /// </summary>
-        /// <param name="dbcontext"></param>
+        /// <param name="dbcontext">
+        /// Takes the database context and sets it in the class.
+        /// </param>
         public Repository(BarOMeterContext dbcontext)
         {
             _dbContext = dbcontext;
@@ -28,9 +30,11 @@ namespace Database.Repository_Implementations
 
 
         /// <summary>
-        /// Adds an object of a given type to the database, if this type is valid inside the database
+        /// Adds an object of a given type to the database, if this type is valid inside the database.
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entity">
+        /// Takes a class entity and adds it to the repository if it's an acceptable class.
+        /// </param>
         public void Add(T entity)
         {
             _dbContext.Set<T>().Add(entity);
@@ -38,10 +42,11 @@ namespace Database.Repository_Implementations
 
 
         /// <summary>
-        /// Takes the keys for a given object and deletes it from the database
+        /// Takes the keys for a given object and deletes it from the database.
         /// </summary>
-        /// <param name="keys"></param>
-        /// If using a composite key, then it has to be in matching order of how it's defined in the Fluent API
+        /// <param name="keys">
+        /// If using a composite key, then it has to be in matching order of how it's defined in the Fluent API.
+        /// </param>
         public void Delete(params object [] keys)
         {
             _dbContext.Set<T>().Remove(Get(keys));
@@ -49,13 +54,13 @@ namespace Database.Repository_Implementations
 
 
         /// <summary>
-        /// Takes an expression as parameter and returns list of the matching objects
+        /// Takes an expression as parameter and returns list of the matching objects.
         /// </summary>
         /// <param name="predicate"></param>
         /// Can for example take x=>x.Bar.BarName == "BarName";
         /// <returns>
-        /// Returns list of the matching object if existing
-        /// Otherwise returns null
+        /// If successful, returns list of the matching object if existing.
+        /// If unsuccessful, null.
         /// </returns>
         public IEnumerable<T> Find(Expression<Func<T, bool>> predicate)
         {
@@ -64,15 +69,15 @@ namespace Database.Repository_Implementations
 
 
         /// <summary>
-        /// Takes the id of a type and returns the object from database
+        /// Takes the id of a type and returns the object from database.
         /// </summary>
         /// <param name="keys">
-        /// Can take composite keys by typing Get(key1, key2, key3...)
-        /// Have to be in exact order defined in fluent api. Drinks e.g. has to be Get(barname, drinkname)
+        /// Can take composite keys by typing Get(key1, key2, key3...).
+        /// Have to be in exact order defined in fluent api. Drinks e.g. has to be Get(barname, drinkname).
         /// </param>
         /// <returns>
-        /// Object if it exists and param was correct.
-        /// Otherwise null
+        /// If successful, object if it exists and param was correct.
+        /// If unsuccessful, null.
         /// </returns>
         public T Get(params object[] keys)
         {
@@ -81,11 +86,11 @@ namespace Database.Repository_Implementations
 
 
         /// <summary>
-        /// Takes no parameters and returns a list of all the objects of the given type
+        /// Takes no parameters and returns a list of all the objects of the given type.
         /// </summary>
         /// <returns>
-        /// List of objects of the given type if they exist
-        /// Otherwise null
+        /// If successful, list(as IEnumerable) of objects of the given type if they exist.
+        /// If unsuccessful, null.
         /// </returns>
         public IEnumerable<T> GetAll()
         {
