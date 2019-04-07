@@ -278,6 +278,10 @@
     <Compile Include="Migrations\20190329125905_PRJ-NoPaswords-v1.1.designer.cs">
       <DependentUpon>20190329125905_PRJ-NoPaswords-v1.1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20190403133326_PictureStringAdded.cs" />
+    <Compile Include="Migrations\20190403133326_PictureStringAdded.designer.cs">
+      <DependentUpon>20190403133326_PictureStringAdded.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\BarOMeterContextModelSnapshot.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
