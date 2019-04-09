@@ -13,6 +13,8 @@ namespace WebApi.DTOs.Bars
         public double AvgRating { get; set; }
         [MaxLength(500)]
         public string ShortDescription { get; set; }
+
+        public string Picture { get; set; }
     }
     ///// <summary>
     ///// Transfer object for the listview of bars

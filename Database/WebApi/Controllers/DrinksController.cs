@@ -78,19 +78,14 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{drinkName}")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
-        public IActionResult DeleteDrink([FromBody] DrinkDto drinkDto)
+        public IActionResult DeleteDrink(string BarName, string drinkName)
         {
             try
             {
-                // This is the key of a Drink. 
-                string[] key = new string[2];
-                key[0] = drinkDto.BarName;
-                key[1] = drinkDto.DrinksName;
-
-                _unitOfWork.DrinkRepository.Delete(key);
+                _unitOfWork.DrinkRepository.Delete(new []{BarName, drinkName});
                 _unitOfWork.Complete();
                 return Ok();
             }
