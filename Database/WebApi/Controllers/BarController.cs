@@ -95,7 +95,7 @@ namespace WebApi.Controllers
         /// Adds a Bar object to the database, if bar with same name does not exist
         /// </summary>
         /// <param name="dtoBar">
-        /// : BarDto object supplied in the Http Body in JSON formatting
+        /// is a BarDto object supplied in the Http Body in JSON formatting. Must match property attribute rules. 
         /// </param>
         /// <returns>
         /// Created (201) if successful, and will return the created object. <para/>
@@ -150,7 +150,7 @@ namespace WebApi.Controllers
         /// </summary>
         /// <param name="barDto">
         /// BarDto object supplied in the Http Body in JSON formatting. <para/>
-        /// Must include "BarName": string and "Rating": int
+        /// Must match property attribute rules. 
         /// </param>
         /// <returns>
         /// 201 (Created) if edit was successful. <para/>
@@ -207,8 +207,8 @@ namespace WebApi.Controllers
         /// How many bars to include
         /// </param>
         /// <returns>
-        /// Ok (200) if found, and all BarSimpleDto's specified by the parameters. <para/>
-        /// NotFound (404) if none found, and no list
+        /// Ok (200) if found, a List&lt;BarSimpleDto&gt; picked with range as specified by the parameters. <para/>
+        /// NotFound (404) if none found, and no List. 
         /// </returns>
         [HttpGet("{index}/{length}")]
         [ProducesResponseType(typeof(List<BarSimpleDto>), StatusCodes.Status200OK)]

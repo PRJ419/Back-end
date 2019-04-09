@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebApi.Controllers
 {
     /// <summary>
-    /// Simple Controller acknowledge IP and port
+    /// Simple Controller to acknowledge IP and port
     /// </summary>
     [Route("api/Connection")]
     [ApiController]
