@@ -208,10 +208,10 @@ namespace WebApi.Controllers
         /// <summary>
         /// Returns a range of barDto's
         /// </summary>
-        /// <param name="from">
+        /// <param name="skip">
         /// Start index
         /// </param>
-        /// <param name="to">
+        /// <param name="length">
         /// End index
         /// </param>
         /// <returns>
@@ -221,10 +221,10 @@ namespace WebApi.Controllers
         [HttpGet("{skip}/{length}")]
         [ProducesResponseType(typeof(Bar), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetRangeOfBars(int from, int to)
+        public async Task<IActionResult> GetRangeOfBars(int skip, int length)
         {
  
-                var bars = _unitOfWork.BarRepository.GetXBars(from, to).ToList();
+                var bars = _unitOfWork.BarRepository.GetXBars(skip, length).ToList();
                 var listOfBars = BarSimpleDtoConverter.ToDtoList(bars);
                 _unitOfWork.Complete();
             
