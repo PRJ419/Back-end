@@ -26,6 +26,7 @@ namespace WebApi.DTOs.Bars
                 LongDescription = bar.LongDescription,
                 PhoneNumber = bar.PhoneNumber,
                 ShortDescription = bar.ShortDescription,
+                Picture = bar.Picture,
             };
             return dto;
         }
@@ -44,6 +45,7 @@ namespace WebApi.DTOs.Bars
                 LongDescription = dto.LongDescription,
                 PhoneNumber = dto.PhoneNumber,
                 ShortDescription = dto.ShortDescription,
+                Picture =  dto.Picture,
                 Drinks = null, 
                 Coupons = null, 
                 BarEvents = null, 

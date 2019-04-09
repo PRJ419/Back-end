@@ -23,6 +23,7 @@ namespace WebApi.DTOs.Bars
                 BarName = bar.BarName,
                 AvgRating = bar.AvgRating,
                 ShortDescription = bar.ShortDescription,
+                Picture = bar.Picture,
             };
 
             return barDTO;

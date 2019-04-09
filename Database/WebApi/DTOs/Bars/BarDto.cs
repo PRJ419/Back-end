@@ -36,5 +36,7 @@ namespace WebApi.DTOs.Bars
 
         [Range(0.0, 5.0)]
         public double AvgRating { get; set; }
+
+        public string Picture { get; set; }
     }
 }
