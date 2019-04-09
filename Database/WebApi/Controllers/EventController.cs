@@ -9,18 +9,35 @@ using Microsoft.AspNetCore.Mvc;
 using WebApi.DTOs.BarEvent;
 
 namespace WebApi.Controllers
-{
+{        // TODO : AUTHENTICATE!
+
     [Route("api/bars/{barName}/events")]
     [ApiController]
     public class EventController : ControllerBase
     {
         private IUnitOfWork _unitOfWork;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="UnitOfWork">
+        ///
+        /// </param>
         public EventController(IUnitOfWork UnitOfWork)
         {
             _unitOfWork = UnitOfWork;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="barName">
+        ///
+        /// </param>
+        /// 
+        /// <returns>
+        ///
+        /// </returns>
         [HttpGet] // TODO: Query smukkesering!
         public IActionResult GetEvents(string barName)
         {
@@ -50,17 +67,14 @@ namespace WebApi.Controllers
             }
         }
 
-        // TODO : Der er noget fucky wucky med key'en. 
-        [HttpPut] // TODO: QUERY SMUKKESERING!
+       
+        [HttpPut]
         public IActionResult EditEvent([FromBody] BarEventDto eventDto)
         {
             try
             {
-                var barEvent = _unitOfWork.BarEventRepository.Get(new[] {eventDto.BarName, eventDto.EventName});
-                barEvent.Date = eventDto.Date;
-                barEvent.EventName = eventDto.EventName;
-                //var barEvent = BarEventDtoConverter.ToBarEvent(eventDto);
-                //_unitOfWork.BarEventRepository.Edit(barEvent);
+                var barEvent = BarEventDtoConverter.ToBarEvent(eventDto);
+                _unitOfWork.BarEventRepository.Edit(barEvent);
                 _unitOfWork.Complete();
                 return Created(string.Format($"api/bars/{barEvent.BarName}/events"), eventDto);
             }
@@ -70,7 +84,7 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpDelete("/{eventName}")]
+        [HttpDelete("{eventName}")]
         public IActionResult DeleteEvent(string eventName, string barName)
         {
             try
