@@ -39,9 +39,11 @@ namespace WebApi.Controllers
         public IActionResult GetUserReview(string username, string BarName)
         {
             var review = GetReview(username, BarName);
-            var reviewDto = ReviewDtoConverter.ToDto(review);
             if (review != null)
+            {
+                var reviewDto = ReviewDtoConverter.ToDto(review);
                 return Ok(reviewDto);
+            }
             else
                 return NotFound();
         }
@@ -73,6 +75,7 @@ namespace WebApi.Controllers
             {
                 var review = ReviewDtoConverter.ToReview(reviewDto);
                 _unitOfWork.ReviewRepository.Add(review);
+                _unitOfWork.Complete();
                 _unitOfWork.UpdateBarRating(reviewDto.BarName);
                 _unitOfWork.Complete();
                 return Created(string.Format($"api/bars/{review.BarName}/reviews/{review.Username}"), reviewDto);
@@ -83,13 +86,13 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpDelete]
-        public IActionResult DeleteUserReview([FromBody] ReviewDto reviewDto)
+        [HttpDelete("{username}")]
+        public IActionResult DeleteUserReview(string BarName, string username)
         {
             try
             {   //Create keys and delete. 
-                _unitOfWork.ReviewRepository.Delete( new string[]{reviewDto.BarName, reviewDto.Username});
-                _unitOfWork.UpdateBarRating(reviewDto.BarName);
+                _unitOfWork.ReviewRepository.Delete( new string[]{BarName, username});
+                _unitOfWork.UpdateBarRating(BarName);
                 _unitOfWork.Complete();
                 return Ok();
             }
