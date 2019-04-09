@@ -16,19 +16,46 @@ namespace Database {
         public DbSet<Coupon> Coupons { get; set; }
         public DbSet<Drink> Drinks { get; set; }
 
+        /// <summary>
+        /// Empty constructor so we can create a context
+        /// </summary>
+        public BarOMeterContext()
+        { }
 
+
+        /// <summary>
+        /// Constructor which accepts a DbContextOptions as parameter. Primarily used for testing purposes.
+        /// </summary>
+        /// <param name="options"></param>
+        public BarOMeterContext(DbContextOptions<BarOMeterContext> options) : base(options)
+        { }
+
+
+        /// <summary>
+        /// Overwriting of the OnConfiguring from DbContext, so that we can define our own connectionstring
+        /// to a database. If the database already is configured, we won't set it to this new connectionstring.
+        /// </summary>
+        /// <param name="optionsBuilder">
+        /// Used for specifying which database we want to connect to.
+        /// </param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // Change the "AndreasPC" to the name of another connectionstring in app.config.
-            // To see an example of how you set up another connectionstring, go into app.config -->
-            // connectionstrings --> see the example with "AndreasPC"
-
-            //TODO: sorry andy.   Jeg har hardcodet min connection string  - jeg kan fra mit projekt ikke få fat i TwinksPC
-            //var connection = ConfigurationManager.ConnectionStrings["AndreasPC"].ConnectionString;
-            var connection = @"Data Source=DESKTOP-UGIDUH3;Initial Catalog=PRJ4Database;Integrated Security=True";
-            optionsBuilder.UseLazyLoadingProxies().UseSqlServer(connection);
+            if (!optionsBuilder.IsConfigured)
+            {
+                //var connection = ConfigurationManager.ConnectionStrings["AndreasPC"].ConnectionString;
+                var connection = @"Data Source=DESKTOP-UGIDUH3;Initial Catalog=PRJ4Database;Integrated Security=True";
+                optionsBuilder.UseLazyLoadingProxies().UseSqlServer(connection);
+            }
         }
 
+
+        /// <summary>
+        /// Used by ef core to create the proper database by applying the Fluent API configuration files that's
+        /// been defined in this project.
+        /// </summary>
+        /// <param name="modelBuilder">
+        /// Used for building the database model
+        /// </param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new BarConfiguration());
