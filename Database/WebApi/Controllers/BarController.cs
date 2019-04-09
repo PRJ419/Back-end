@@ -89,7 +89,6 @@ namespace WebApi.Controllers
                 return NotFound();
         }
 
-        // TODO : Mangler REPO implementering
         /// <summary>
         /// Adds a Bar object to the database, if bar with same name does not exist
         /// </summary>
@@ -105,13 +104,13 @@ namespace WebApi.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(Bar), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> AddBar([FromBody]BarDto dtoBar)
+        public IActionResult AddBar([FromBody]BarDto dtoBar)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _unitOfWork.BarRepository.Add(BarDtoConverter.ToBar(dtoBar)); //BarDtoConverter.ToBar(dtoBar));
+                    _unitOfWork.BarRepository.Add(BarDtoConverter.ToBar(dtoBar)); 
                     _unitOfWork.Complete();
                     return Created($"api/bars/{dtoBar.BarName}", dtoBar);
                 }
@@ -120,7 +119,7 @@ namespace WebApi.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.HResult);
+                return BadRequest();
             }
         }
 

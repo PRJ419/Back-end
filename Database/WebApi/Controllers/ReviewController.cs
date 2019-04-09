@@ -38,7 +38,7 @@ namespace WebApi.Controllers
         [HttpGet("{username}")] // TODO: NOGET SMUKKESERING!
         public IActionResult GetUserReview(string username, string BarName)
         {
-            var review = GetReview(username, BarName);
+            var review = _unitOfWork.ReviewRepository.Get(new[] {BarName, username});
             if (review != null)
             {
                 var reviewDto = ReviewDtoConverter.ToDto(review);
@@ -51,21 +51,17 @@ namespace WebApi.Controllers
         [HttpPut]
         public IActionResult EditUserReview([FromBody]ReviewDto receivedReview)
         {
-            // Pull review from database
-            var review = GetReview(receivedReview.Username, receivedReview.BarName);
-            // Change the user rating
-            if (review != null)
+            try
             {
-                review.BarPressure = receivedReview.BarPressure;
-                // Save the changes
-                _unitOfWork.UpdateBarRating(receivedReview.BarName);
+                var review = ReviewDtoConverter.ToReview(receivedReview);
+                _unitOfWork.ReviewRepository.Edit(review);
                 _unitOfWork.Complete();
-
-                var returnReview = ReviewDtoConverter.ToDto(review);
-                return Created(string.Format($"api/bars/{review.BarName}/reviews/{review.Username}"), returnReview);
+                return Created(string.Format($"api/bars/{review.BarName}/reviews/{review.Username}"), receivedReview);
             }
-            else
+            catch(Exception e)
+            {
                 return BadRequest();
+            }
         }
 
         [HttpPost]
@@ -102,15 +98,6 @@ namespace WebApi.Controllers
             }
         }
 
-        private Review GetReview(string username, string barName)
-        {
-            // This is the key of a Review. 
-            string[] key = new string[2];
-            key[0] = barName;
-            key[1] = username;
-            var review = _unitOfWork.ReviewRepository.Get(key);
-            return review;
-        }
 
         
     }
