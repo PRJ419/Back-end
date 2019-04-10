@@ -3,6 +3,10 @@ using Database;
 
 namespace WebApi.DTOs.Bars
 {
+    /// <summary>
+    /// A data transfer object version of the Bar object from the database model layer. <para></para>
+    /// Reasoning for the different attributes on the properties can be seen in the Bar documentation. 
+    /// </summary>
     public class BarDto
     {
         [MaxLength(150)]
@@ -36,5 +40,7 @@ namespace WebApi.DTOs.Bars
 
         [Range(0.0, 5.0)]
         public double AvgRating { get; set; }
+
+        public string Picture { get; set; }
     }
 }

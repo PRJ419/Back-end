@@ -18,19 +18,22 @@ namespace WebApi.Controllers
     /// <summary>
     /// BarController class for the Web Api.
     /// Default route: "api/bars.
-    ///  Can respond to various GET/ PUT/ POST/ DELETE Http requests.
+    /// Can respond to various GET/ PUT/ POST/ DELETE Http requests.
+    /// Returns BarSimpleDto and BarDto to client.  
     /// </summary>
     [Route("api/bars")]
     [ApiController]
     public class BarController : ControllerBase
     {
-
+        /// <summary>
+        /// Reference to UnitOfwork used for database access
+        /// </summary>
         private IUnitOfWork _unitOfWork;
         //private Repository<Bar> repo;
         /// <summary>
         /// Constructor for the controller.
         /// <para>
-        /// Gets the repository for use.
+        /// Gets the UnitOfWork for use.
         /// </para> 
         /// </summary>
         /// <param name="unitOfWork">
@@ -45,13 +48,13 @@ namespace WebApi.Controllers
         /// Returns all Bars ranked from highest to lowest
         /// </summary>
         /// <returns>
-        /// A List of Bars ordered by avg ranking (descending).
-        /// Response codes Ok(200) and NotFound(404)
+        /// Ok (200) returns a List&lt;BarSimpleDto&gt; ordered by avg ranking (descending). <para/>
+        /// NotFound (404) if no bars could be found.
         /// </returns>
-        [HttpGet] // /api/bars
+        [HttpGet] 
         [ProducesResponseType(typeof(List<BarSimpleDto>), 200)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetBestBars()
+        public IActionResult GetBestBars()
         {
             var bars = _unitOfWork.BarRepository.GetBestBars();
             var listOfBars = BarSimpleDtoConverter.ToDtoList(bars);
@@ -69,58 +72,51 @@ namespace WebApi.Controllers
         /// is BarName property of Bar class.
         /// </param>
         /// <example>
-        /// "https://IP:PORT/api/bars/Katrines Kælder"
+        /// Example: "https://IP:PORT/api/bars/Katrines Kælder"
         /// </example>
         /// <returns>
-        /// ActionResult Ok with the found Bar object if successful.
-        /// ActionResult NotFound if the bar could not be found.
+        /// Ok (200) with the found Bar object if successful. <para/>
+        /// NotFound (400) if the bar could not be found.
         /// </returns>
-        //api/bars/{id}
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(Bar), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BarDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetBar(string id)
+        public IActionResult GetBar(string id)
         {
             var bar = _unitOfWork.BarRepository.Get(id);
-            
             if (bar != null)
-                return Ok(bar);
+            {
+                var dto = BarDtoConverter.ToDto(bar);
+                return Ok(dto);
+            }
             else
                 return NotFound();
         }
 
-        // TODO : Mangler REPO implementering
         /// <summary>
         /// Adds a Bar object to the database, if bar with same name does not exist
         /// </summary>
-        /// <param name="bar">
-        /// : Bar object supplied in the Http Body in JSON formatting
+        /// <param name="dtoBar">
+        /// is a BarDto object supplied in the Http Body in JSON formatting. Must match property attribute rules. 
         /// </param>
         /// <returns>
-        /// If successful, will return the created object and code 201
-        /// If unsuccessful, returns 400 (Bad Request)
+        /// Created (201) if successful, and will return the created object. <para/>
+        /// BadRequest (400) if unsuccessful.
         /// </returns>
-
-        //[ValidateModel]   // remember this boi.
         [HttpPost]
-        [ProducesResponseType(typeof(Bar), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(BarDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> AddBar([FromBody]BarDto dtoBar)
+        public IActionResult AddBar([FromBody]BarDto dtoBar)
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    _unitOfWork.BarRepository.Add(BarDtoConverter.ToBar(dtoBar)); //BarDtoConverter.ToBar(dtoBar));
-                    _unitOfWork.Complete();
-                    return Created($"api/bars/{dtoBar.BarName}", dtoBar);
-                }
-                else
-                    return BadRequest();
+                _unitOfWork.BarRepository.Add(BarDtoConverter.ToBar(dtoBar));
+                _unitOfWork.Complete();
+                return Created($"api/bars/{dtoBar.BarName}", dtoBar);
             }
-            catch (Exception e)
+            catch(Exception e)
             {
-                return BadRequest(e.HResult);
+                return BadRequest();
             }
         }
 
@@ -128,16 +124,16 @@ namespace WebApi.Controllers
         /// Deletes a bar identified by id
         /// </summary>
         /// <param name="id">
-        /// string id which must match a BarName
+        /// string which must match a BarName.
         /// </param>
         /// <returns>
-        /// Returns 200 Ok if deletion is successful.
-        /// Returns 400 Bad Request, if bar could not be found.
+        /// Ok (200) if deletion is successful.
+        /// BadRequest (400) if bar could not be found or deletion was unsuccessful.
         /// </returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteBar(string id)
+        public IActionResult DeleteBar(string id)
         {
             try
             {
@@ -145,7 +141,7 @@ namespace WebApi.Controllers
                 _unitOfWork.Complete();
                 return Ok();
             }
-            catch ( Exception e )
+            catch (Exception e)
             {
                 return BadRequest();
             }
@@ -154,50 +150,48 @@ namespace WebApi.Controllers
         /// <summary>
         /// Updates a bar if it already exists.
         /// </summary>
-        /// <param name="bar">
-        /// Bar object supplied in the Http Body in JSON formatting.
-        /// Must include "BarName": string and "Rating": int
+        /// <param name="barDto">
+        /// BarDto object supplied in the Http Body in JSON formatting. <para/>
+        /// Must match property attribute rules. 
         /// </param>
-        /// <returns></returns>
+        /// <returns>
+        /// 201 (Created) if edit was successful. <para/>
+        /// 400 (BadRequest) if edit was unsuccessful. 
+        /// </returns>
         [HttpPut]
-        [ProducesResponseType(typeof(Bar), StatusCodes.Status202Accepted)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateBar([FromBody]Bar bar)
+        [ProducesResponseType(typeof(BarDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
+        public IActionResult UpdateBar([FromBody]BarDto barDto)
         {
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    _unitOfWork.BarRepository.Edit(bar);
-                    _unitOfWork.Complete();
-                    return Ok();
-                }
-                catch(Exception e)
-                {
-                    return BadRequest();
-                }
-                
+                var bar = BarDtoConverter.ToBar(barDto);
+                _unitOfWork.BarRepository.Edit(bar);
+                _unitOfWork.Complete();
+                return Ok();
             }
-
-            return BadRequest();
+            catch (Exception e)
+            {
+                return BadRequest();
+            }
         }
 
         /// <summary>
         /// Returns a list of bars ranked from worst to best
         /// </summary>
         /// <returns>
-        /// Ok: 200 Response and list of BarDto if any found
-        /// NotFound: 404 Response if not found
+        /// Ok (200) Response and List&lt;BarDto&gt; if any found <para/>
+        /// NotFound (404) Response no bars were found. 
         /// </returns>
         [HttpGet("Worst")]
-        [ProducesResponseType(typeof(Bar), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BarSimpleDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> GetWorstBars()
+        public IActionResult GetWorstBars()
         {
-                var bars = _unitOfWork.BarRepository.GetWorstBars().ToList();
-                var DtoList = BarSimpleDtoConverter.ToDtoList(bars);
-                _unitOfWork.Complete();
-            
+            var bars = _unitOfWork.BarRepository.GetWorstBars().ToList();
+            var DtoList = BarSimpleDtoConverter.ToDtoList(bars);
+            _unitOfWork.Complete();
+
 
             if (DtoList.Any())
                 return Ok(DtoList);
@@ -206,28 +200,28 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Returns a range of barDto's
+        /// Returns a range of barDto's in a List
         /// </summary>
-        /// <param name="from">
-        /// Start index
+        /// <param name="index">
+        /// Start index.
         /// </param>
-        /// <param name="to">
-        /// End index
+        /// <param name="length">
+        /// How many bars to include
         /// </param>
         /// <returns>
-        /// If found: Ok(200) and all BarDto's in the range [from : to] in the database
-        /// If none found: NotFound(404) and no list
+        /// Ok (200) if found, a List&lt;BarSimpleDto&gt; picked with range as specified by the parameters. <para/>
+        /// NotFound (404) if none found, and no List. 
         /// </returns>
-        [HttpGet("{from}/{to}")]
-        [ProducesResponseType(typeof(Bar), StatusCodes.Status200OK)]
+        [HttpGet("{index}/{length}")]
+        [ProducesResponseType(typeof(List<BarSimpleDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetRangeOfBars(int from, int to)
+        public IActionResult GetRangeOfBars(int index, int length)
         {
- 
-                var bars = _unitOfWork.BarRepository.GetXBars(from, to).ToList();
-                var listOfBars = BarSimpleDtoConverter.ToDtoList(bars);
-                _unitOfWork.Complete();
-            
+
+            var bars = _unitOfWork.BarRepository.GetXBars(index, length).ToList();
+            var listOfBars = BarSimpleDtoConverter.ToDtoList(bars);
+            _unitOfWork.Complete();
+
 
             if (listOfBars.Any())
                 return Ok(listOfBars);
