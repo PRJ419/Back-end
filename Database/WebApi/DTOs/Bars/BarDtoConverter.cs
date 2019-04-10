@@ -3,15 +3,20 @@
 namespace WebApi.DTOs.Bars
 {
     /// <summary>
-    /// Converter
+    /// Converter for BarDto objects. <para></para>
+    /// Objects are converted before they are sent. 
     /// </summary>
     public static class BarDtoConverter
     {
         /// <summary>
-        /// Yeeah boi
+        /// Converts a Bar object (from database model layer) to a BarDto object. <para></para>
         /// </summary>
-        /// <param name="bar"></param>
-        /// <returns></returns>
+        /// <param name="bar">
+        /// is a Bar object. 
+        /// </param>
+        /// <returns>
+        /// Returns a BarDto equivalent of the supplied Bar object. 
+        /// </returns>
         public static BarDto ToDto(Bar bar)
         {
             var dto = new BarDto()
@@ -31,6 +36,15 @@ namespace WebApi.DTOs.Bars
             return dto;
         }
 
+        /// <summary>
+        /// Converts a BarDto object to a Bar object. 
+        /// </summary>
+        /// <param name="dto">
+        /// is a BarDto object. 
+        /// </param>
+        /// <returns>
+        /// Returns a Bar object equivalent of the supplied BarDto. 
+        /// </returns>
         public static Bar ToBar(BarDto dto)
         {
             var bar = new Bar()
