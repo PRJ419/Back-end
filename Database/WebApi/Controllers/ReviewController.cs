@@ -173,7 +173,7 @@ namespace WebApi.Controllers
         {
             try
             {   //Create keys and delete. 
-                _unitOfWork.ReviewRepository.Delete( new string[]{BarName, username});
+                _unitOfWork.ReviewRepository.Delete( new object[]{BarName, username});
                 _unitOfWork.Complete();
                 _unitOfWork.UpdateBarRating(BarName);
                 _unitOfWork.Complete();
@@ -184,8 +184,5 @@ namespace WebApi.Controllers
                 return BadRequest();
             }
         }
-
-
-        
     }
 }
