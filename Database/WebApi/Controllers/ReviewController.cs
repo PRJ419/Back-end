@@ -36,23 +36,27 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Returns the average rating of a Bar. 
+        /// Returns all the reviews of a bar
         /// </summary>
         /// <param name="BarName">
         /// is a string to identify the Bar by its BarName. 
         /// </param>
         /// <returns>
-        /// Ok (200) and the average rating as a double if successful. <para></para>
-        /// NotFound(404) if the rating was not found. 
+        /// Ok (200) and a List&lt;ReviewDto&gt;  <para></para>
+        /// NotFound(404) if no reviews were found.
         /// </returns>
         [HttpGet] 
-        [ProducesResponseType(typeof(double), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ReviewDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
-        public IActionResult GetAverageReviewScore([FromRoute] string BarName)
+        public IActionResult GetReviews([FromRoute] string BarName)
         {
-            var bar = _unitOfWork.BarRepository.Get(BarName);
-            if (bar != null)
-                return Ok(bar.AvgRating);
+           
+            var bars = _unitOfWork.ReviewRepository.Find(x => x.BarName == BarName);
+            if(bars.Any())
+            {
+                var dtoList = ReviewDtoConverter.ToDtoList(bars);
+                return Ok(dtoList);
+            }
             else
                 return NotFound();
         }
@@ -105,6 +109,8 @@ namespace WebApi.Controllers
             {
                 var review = ReviewDtoConverter.ToReview(receivedReview);
                 _unitOfWork.ReviewRepository.Edit(review);
+                _unitOfWork.Complete();
+                _unitOfWork.UpdateBarRating(review.BarName);
                 _unitOfWork.Complete();
                 return Created(string.Format($"api/bars/{review.BarName}/reviews/{review.Username}"), receivedReview);
             }
@@ -168,6 +174,7 @@ namespace WebApi.Controllers
             try
             {   //Create keys and delete. 
                 _unitOfWork.ReviewRepository.Delete( new string[]{BarName, username});
+                _unitOfWork.Complete();
                 _unitOfWork.UpdateBarRating(BarName);
                 _unitOfWork.Complete();
                 return Ok();

@@ -84,9 +84,11 @@ namespace WebApi.Controllers
         public IActionResult GetBar(string id)
         {
             var bar = _unitOfWork.BarRepository.Get(id);
-
             if (bar != null)
-                return Ok(bar);
+            {
+                var dto = BarDtoConverter.ToDto(bar);
+                return Ok(dto);
+            }
             else
                 return NotFound();
         }

@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebApi.DTOs.BarEvent
 {
+    /// <summary>
+    /// Data transfer object for BarEvent. 
+    /// </summary>
     public class BarEventDto
     {
         [MaxLength(150)]
