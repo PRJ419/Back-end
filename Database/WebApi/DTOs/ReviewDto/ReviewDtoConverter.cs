@@ -27,6 +27,17 @@ namespace WebApi.DTOs.ReviewDto
             return review;
         }
 
+        public static List<ReviewDto> ToDtoList(IEnumerable<Review> reviews)
+        {
+            var dtoList =  new List<ReviewDto>();
+            foreach (var review in reviews)
+            {
+                dtoList.Add(ToDto(review));
+            }
+
+            return dtoList;
+        }
+
 
     }
 }

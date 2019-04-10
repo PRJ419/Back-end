@@ -6,6 +6,7 @@ using Database;
 using Database.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApi.DTOs;
 using WebApi.DTOs.Drinks;
 
@@ -20,16 +21,16 @@ namespace WebApi.Controllers
     public class DrinksController : ControllerBase
     {
         /// <summary>
-        /// Reference to implementation of UnitOfWork
+        /// Reference to implementation of UnitOfWork. Used for database access. 
         /// </summary>
         private IUnitOfWork _unitOfWork;
 
         /// <summary>
-        /// Constructor for DrinksController.
+        /// Constructor for DrinksController. <para></para>
         /// Gets a IUnitOfWork by dependency injection.
         /// </summary>
         /// <param name="UnitOfWork">
-        /// UnitOfWork injected through dependency injection
+        /// UnitOfWork injected through dependency injection in Startup.cs
         /// </param>
         public DrinksController(IUnitOfWork UnitOfWork)
         {
@@ -40,7 +41,7 @@ namespace WebApi.Controllers
         /// Returns all drinks sold by the bar.
         /// </summary>
         /// <param name="barName">
-        /// : barName is the id of the bar,
+        /// is a string which is the id of the bar,
         /// whose drinks will be returned. 
         /// </param>
         /// <returns>
@@ -60,6 +61,17 @@ namespace WebApi.Controllers
                 return NotFound();
         }
 
+        /// <summary>
+        /// Adds a drink to the database. 
+        /// </summary>
+        /// <param name="drinkDto">
+        /// is a DrinkDto object version of Drink object. <para></para>
+        /// Must match property attribute rules. 
+        /// </param>
+        /// <returns>
+        /// Returns 201 (Created) on success.
+        /// Returns 400 (BadRequest) on failure to insert or bad model supplied.  
+        /// </returns>
         [HttpPost]
         [ProducesResponseType(typeof(Drink), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
@@ -78,6 +90,19 @@ namespace WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes a drink identified by BarName and drinkName
+        /// </summary>
+        /// <param name="BarName">
+        /// is a string which is the bars name.
+        /// </param>
+        /// <param name="drinkName">
+        /// is a string which is the name of the drink.
+        /// </param>
+        /// <returns>
+        /// Ok (200) on deletion <para></para>
+        /// BadRequest(400) if deletion is unsuccessful.
+        /// </returns>
         [HttpDelete("{drinkName}")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
@@ -85,7 +110,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                _unitOfWork.DrinkRepository.Delete(new []{BarName, drinkName});
+                _unitOfWork.DrinkRepository.Delete(new object[] {BarName, drinkName});
                 _unitOfWork.Complete();
                 return Ok();
             }
@@ -95,6 +120,17 @@ namespace WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Edit a drink.
+        /// </summary>
+        /// <param name="drinkDto">
+        /// is an updated version of a Drink object in the database. <para></para>
+        /// Must match property attribute rules. 
+        /// </param>
+        /// <returns>
+        /// Created (201) if edit was successful.
+        /// BadRequest (400) if edit was not successful.
+        /// </returns>
         [HttpPut]
         [ProducesResponseType(typeof(DrinkDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
