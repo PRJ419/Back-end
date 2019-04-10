@@ -8,12 +8,39 @@ using Microsoft.Extensions.Configuration;
 namespace Database { 
     public class BarOMeterContext : DbContext
     {
+        /// <summary>
+        /// Property for the database set of customers.
+        /// </summary>
         public DbSet<Customer> Customers { get; set; }
+
+        /// <summary>
+        /// Property for the database set of bars.
+        /// </summary>
         public DbSet<Bar> Bar { get; set; }
+
+        /// <summary>
+        /// Property for the database set of bar representatives.
+        /// </summary>
         public DbSet<BarRepresentative> BarRepresentatives { get; set; }
+
+        /// <summary>
+        /// Property for the database set of reviews.
+        /// </summary>
         public DbSet<Review> Reviews { get; set; }
+
+        /// <summary>
+        /// Property for the database set of bar events.
+        /// </summary>
         public DbSet<BarEvent> BarEvents { get; set; }
+
+        /// <summary>
+        /// Property for the database set of coupons.
+        /// </summary>
         public DbSet<Coupon> Coupons { get; set; }
+
+        /// <summary>
+        /// Property for the database set of drinks.
+        /// </summary>
         public DbSet<Drink> Drinks { get; set; }
 
         /// <summary>
