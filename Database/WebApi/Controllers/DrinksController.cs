@@ -52,7 +52,7 @@ namespace WebApi.Controllers
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetDrinks(string barName)
         {
-            var drinks = _unitOfWork.DrinkRepository.Find(x => x.BarName == barName).ToList();
+            var drinks = _unitOfWork.DrinkRepository.Find(x => x.BarName == barName);
             var drinkDtos = DrinkDtoConverter.ToDtoList(drinks);
 
             if (drinkDtos.Any())

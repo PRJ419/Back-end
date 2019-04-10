@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace WebApi.DTOs.ReviewDto
 {
+    /// <summary>
+    /// Data transfer object of the Review object. <para></para>
+    /// Reasoning behind attributes on the properties can be seen in Review documentation. 
+    /// </summary>
     public class ReviewDto
     {
         [Required]

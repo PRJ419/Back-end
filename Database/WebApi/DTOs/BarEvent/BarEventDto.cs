@@ -4,7 +4,8 @@ using System.ComponentModel.DataAnnotations;
 namespace WebApi.DTOs.BarEvent
 {
     /// <summary>
-    /// Data transfer object for BarEvent. 
+    /// Data transfer object for BarEvent. <para></para>
+    /// See BarEvent documentation for reasoning behind the Attributes. 
     /// </summary>
     public class BarEventDto
     {

@@ -3,6 +3,10 @@ using Database;
 
 namespace WebApi.DTOs.Drinks
 {
+    /// <summary>
+    /// A data transfer object version of the Drink. <para></para>
+    /// Reasoning behind the attributes can be seen in the Drink documentation. 
+    /// </summary>
     public class DrinkDto
     {
         [MaxLength(150)]
