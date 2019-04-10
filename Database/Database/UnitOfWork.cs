@@ -41,7 +41,7 @@ namespace Database
         public ReviewRepository ReviewRepository => 
             _reviewRepository ?? (_reviewRepository = new ReviewRepository(_boMContext));
 
-        public void UpdateBarRating(string barID)
+        public void UpdateBarPressure(string barID)
         {
             var updatedRating = ReviewRepository
                 .GetAll()

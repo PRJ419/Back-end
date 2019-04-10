@@ -25,6 +25,6 @@ namespace Database.Interfaces
 
         int Complete();
 
-        void UpdateBarRating(string barID);
+        void UpdateBarPressure(string barID);
     }
 }
