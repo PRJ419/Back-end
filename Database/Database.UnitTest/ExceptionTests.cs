@@ -41,7 +41,8 @@ namespace Database.UnitTest
 
             using (var uow = new UnitOfWork(options))
             {
-                Assert.AreEqual(uow.BarRepository.Get().BarName, "Testbar");
+                //Assert.AreEqual(uow.BarRepository.Get().BarName, "Testbar");
+                Assert.AreEqual("Testbar",uow.BarRepository.Get("Testbar").BarName);
             }
 
         }
