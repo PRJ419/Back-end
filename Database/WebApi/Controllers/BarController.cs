@@ -52,7 +52,6 @@ namespace WebApi.Controllers
         [HttpGet] // /api/bars
         [ProducesResponseType(typeof(List<BarSimpleDto>), 200)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
-        [Authorize]
         public async Task<IActionResult> GetBestBars()
         {
             var bars = _unitOfWork.BarRepository.GetBestBars();

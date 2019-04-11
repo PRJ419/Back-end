@@ -45,7 +45,7 @@ namespace WebApi.Areas.Identity.Pages.Account
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Remember me?")]    
             public bool RememberMe { get; set; }
         }
 
