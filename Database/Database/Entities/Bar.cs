@@ -77,7 +77,7 @@ namespace Database
         /// <summary>
         /// String for saving the picture of the bar.
         /// </summary>
-        public string Picture { get; set; }
+        public string Image { get; set; }
 
         
         /// <summary>
