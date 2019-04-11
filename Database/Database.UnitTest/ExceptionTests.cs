@@ -11,18 +11,20 @@ namespace Database.UnitTest
 {
     public class ExceptionTests
     {
+        private DbContextOptions<BarOMeterContext> options;
+
         [SetUp]
         public void setup()
         {
-            // HERE'S THE SETUP
+            options =
+                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "Testfunction")
+                    .Options;
         }
 
         [Test]
         public void TestFunction()
         {
-            var options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "Testfunction")
-                    .Options;
+      
 
             using (var uow = new UnitOfWork(options))
             {
