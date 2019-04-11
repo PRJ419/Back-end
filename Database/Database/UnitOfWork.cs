@@ -2,12 +2,13 @@
 using System.Linq;
 using Database.Interfaces;
 using Database.Repository_Implementations;
+using Microsoft.EntityFrameworkCore;
 
 namespace Database
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly BarOMeterContext _boMContext = new BarOMeterContext();
+        private readonly BarOMeterContext _boMContext;
         private BarEventRepository _barEventRepository;
         private BarRepresentativeRepository _barRepresentativeRepository;
         private CouponRepository _couponRepository;
@@ -16,6 +17,15 @@ namespace Database
         private ReviewRepository _reviewRepository;
         private IBarRepository _barRepository;
 
+        public UnitOfWork()
+        {
+            _boMContext = new BarOMeterContext();
+        }
+
+        public UnitOfWork(DbContextOptions<BarOMeterContext> options)
+        {
+            _boMContext = new BarOMeterContext(options);
+        }
 
         // The following properties check if the repository for the entities already exist. If they don't, then it instantiates a new repository
         // with the same context so we always work on the same context between the repositories.
