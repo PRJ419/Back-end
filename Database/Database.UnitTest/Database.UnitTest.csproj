@@ -142,6 +142,7 @@
     <Compile Include="BarRepositoryTest.cs" />
     <Compile Include="DrinksRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReviewRepositoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
