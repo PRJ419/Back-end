@@ -152,6 +152,47 @@ namespace Database.UnitTest
                 Assert.AreEqual(2, uow.CustomerRepository.GetAll().Count());
             }
         }
+
+
+        [Test]
+        public void Find_Customer()
+        {
+            var options =
+                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "TestOfFindCustomerRepo")
+                    .Options;
+
+            using (var uow = new UnitOfWork(options))
+            {
+                uow.CustomerRepository.Add(new Customer()
+                {
+                    Username = "TestUsername",
+                    Name = "TestName",
+                    DateOfBirth = DateTime.MaxValue,
+                    Email = "Test@Dab.com",
+                    FavoriteBar = "TestBar",
+                    FavoriteDrink = "TestDrink"
+                });
+                uow.Complete();
+
+                uow.CustomerRepository.Add(new Customer()
+                {
+                    Username = "TestUsername2",
+                    Name = "TestName2",
+                    DateOfBirth = DateTime.MaxValue,
+                    Email = "Test@Dab.com2",
+                    FavoriteBar = "TestBar2",
+                    FavoriteDrink = "TestDrink2"
+                });
+                uow.Complete();
+            }
+
+            using (var uow = new UnitOfWork(options))
+            {
+                var foundCustomer = uow.CustomerRepository.Find(c => c.Username == "TestUsername2").ToList();
+                Assert.Contains(uow.CustomerRepository.Get("TestUsername2"),foundCustomer);
+            }
+
+        }
     }
 
 }
