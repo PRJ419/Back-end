@@ -58,8 +58,8 @@ namespace Database.UnitTest
             {
                 var bars = uow.BarRepository.GetBestBars().ToList();
                 
-                Assert.AreSame(uow.BarRepository.Get("New bar"), bars[0]);
-                Assert.AreSame(uow.BarRepository.Get("Bar"), bars[1]);
+                Assert.AreEqual("New bar", bars[0].BarName);
+                Assert.AreSame("Bar", bars[1].BarName);
             }
 
         }
@@ -109,8 +109,8 @@ namespace Database.UnitTest
             {
                 var bars = uow.BarRepository.GetWorstBars().ToList();
 
-                Assert.AreSame(uow.BarRepository.Get("Bar"), bars[0]);
-                Assert.AreSame(uow.BarRepository.Get("New bar"), bars[1]);
+                Assert.AreSame("Bar", bars[0].BarName);
+                Assert.AreSame("New bar", bars[1].BarName);
             }
 
         }
@@ -172,8 +172,10 @@ namespace Database.UnitTest
 
             using (var uow = new UnitOfWork(options))
             {
-                var bars = uow.BarRepository.GetXBars(1, 2);
-                Assert.AreEqual(2, bars.Count());
+                var bars = uow.BarRepository.GetXBars(1, 2).ToList();
+                Assert.AreEqual(2, bars.Count);
+                Assert.AreEqual("New bar", bars[0].BarName);
+                Assert.AreEqual("New new bar", bars[1].BarName);
             }
         }
 

@@ -135,6 +135,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BarEventRepositoryTest.cs" />
+    <Compile Include="CouponRepositoryTest.cs" />
     <Compile Include="CustomerRepositoryTest.cs" />
     <Compile Include="BarRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
