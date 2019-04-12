@@ -140,6 +140,7 @@
     <Compile Include="BarRepresentativeRepositoryTest.cs" />
     <Compile Include="CustomerRepositoryTest.cs" />
     <Compile Include="BarRepositoryTest.cs" />
+    <Compile Include="DrinksRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
