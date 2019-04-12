@@ -24,5 +24,7 @@ namespace Database.Interfaces
         ReviewRepository ReviewRepository { get; }
 
         int Complete();
+
+        void UpdateBarRating(string barID);
     }
 }
