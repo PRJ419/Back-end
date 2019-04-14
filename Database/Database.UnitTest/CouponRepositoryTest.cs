@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Database.Repository_Implementations;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 
@@ -10,42 +11,40 @@ namespace Database.UnitTest
 {
     class CouponRepositoryTest
     {
+        private CouponRepository _repository;
+        private DbContextOptions<BarOMeterContext> _options;
+        private BarOMeterContext _context;
+
         [Test]
         public void CouponRepository_EditExistingCoupon_CouponIsEdited()
         {
-            var options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "EditBarEvent")
+            _options =
+                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "EditCoupon")
                     .Options;
+            _context = new BarOMeterContext(_options);
+            _repository = new CouponRepository(_context);
 
-            using (var uow = new UnitOfWork(options))
+            var coupon = new Coupon()
             {
-                var coupon = new Coupon()
-                {
-                    BarName = "Testbar",
-                    CouponID = "Coupon123Test",
-                    ExpirationDate = new DateTime(1997,01,01),
-                };
-                uow.CouponRepository.Add(coupon);
-                uow.Complete();
-            }
+                BarName = "Testbar",
+                CouponID = "Coupon123Test",
+                ExpirationDate = new DateTime(1997,01,01),
+            };
+            _repository.Add(coupon);
+            _context.SaveChanges();
 
-            using (var uow = new UnitOfWork(options))
+            var editedCoupon = new Coupon()
             {
-                var editedCoupon = new Coupon()
-                {
-                    BarName = "Testbar",
-                    CouponID = "Coupon123Test",
-                    ExpirationDate = new DateTime(2019,12,12),
-                };
-                uow.CouponRepository.Edit(editedCoupon);
-                uow.Complete();
-            }
+                BarName = "Testbar",
+                CouponID = "Coupon123Test",
+                ExpirationDate = new DateTime(2019,12,12),
+            };
+            _repository.Edit(editedCoupon);
+            _context.SaveChanges();
 
-            using (var uow = new UnitOfWork(options))
-            {
-                Assert.AreEqual(new DateTime(2019,12,12), 
-                    uow.CouponRepository.Get("Coupon123Test", "Testbar").ExpirationDate);
-            }
+            Assert.AreEqual(new DateTime(2019,12,12), 
+                    _repository.Get("Coupon123Test", "Testbar").ExpirationDate);
+
         }
     }
 }

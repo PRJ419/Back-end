@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Database.Repository_Implementations;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 
@@ -10,42 +11,39 @@ namespace Database.UnitTest
 {
     class BarEventRepositoryTest
     {
+        private BarEventRepository _repository;
+        private DbContextOptions<BarOMeterContext> _options;
+        private BarOMeterContext _context;
         [Test]
         public void BarEventRepository_EditExistingBarEvent_BarEventEdited()
         {
-            var options =
+            _options =
                 new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "EditBarEvent")
                     .Options;
+            _context = new BarOMeterContext(_options);
+            _repository = new BarEventRepository(_context);
 
-            using (var uow = new UnitOfWork(options))
+            var barevent = new BarEvent()
             {
-                var barevent = new BarEvent()
-                {
-                    BarName = "Testbar",
-                    Date = new DateTime(1997,01,01),
-                    EventName = "TestEvent",
-                };
-                uow.BarEventRepository.Add(barevent);
-                uow.Complete();
-            }
+                BarName = "Testbar",
+                Date = new DateTime(1997,01,01),
+                EventName = "TestEvent",
+            };
+            _repository.Add(barevent);
+            _context.SaveChanges();
 
-            using (var uow = new UnitOfWork(options))
+            var editedBarEvent = new BarEvent()
             {
-                var editedBarEvent = new BarEvent()
-                {
-                    BarName = "Testbar",
-                    Date = new DateTime(2019, 12, 12),
-                    EventName = "TestEvent",
-                };
-                uow.BarEventRepository.Edit(editedBarEvent);
-                uow.Complete();
-            }
+                BarName = "Testbar",
+                Date = new DateTime(2019, 12, 12),
+                EventName = "TestEvent",
+            };
+            _repository.Edit(editedBarEvent);
+            _context.SaveChanges();
 
-            using (var uow = new UnitOfWork(options))
-            {
-                Assert.AreEqual(new DateTime(2019,12,12), 
-                    uow.BarEventRepository.Get("Testbar", "TestEvent").Date );
-            }
+            Assert.AreEqual(new DateTime(2019,12,12),
+                _repository.Get("Testbar", "TestEvent").Date );
+            
         }
     }
 }

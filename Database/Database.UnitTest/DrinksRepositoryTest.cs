@@ -11,39 +11,40 @@ namespace Database.UnitTest
 {
     class DrinksRepositoryTest
     {
+        private DrinkRepository _repository;
+        private DbContextOptions<BarOMeterContext> _options;
+        private BarOMeterContext _context;
+
         [Test]
         public void Edit_Entity()
         {
-            var options =
-                new DbContextOptionsBuilder<BarOMeterContext>()
-                    .UseInMemoryDatabase(databaseName: "TestOfEditDrinksRepo")
+            _options =
+                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "EditDrink")
                     .Options;
+            _context = new BarOMeterContext(_options);
+            _repository = new DrinkRepository(_context);
 
-            using (var uow = new UnitOfWork(options))
+
+            _repository.Add(new Drink()
             {
-                uow.DrinkRepository.Add(new Drink()
-                {
-                    BarName = "TestBar",
-                    DrinksName = "TestDrink",
-                    Price = 100
-                });
-                uow.Complete();
+                BarName = "TestBar",
+                DrinksName = "TestDrink",
+                Price = 100
+            });
+            _context.SaveChanges();
 
-                Drink newDrink = new Drink()
-                {
-                    BarName = "TestBar",
-                    DrinksName = "TestDrink",
-                    Price = 600
-                };
-
-                uow.DrinkRepository.Edit(newDrink);
-                uow.Complete();
-            }
-
-            using (var uow = new UnitOfWork(options))
+            Drink newDrink = new Drink()
             {
-                Assert.AreEqual(600, uow.DrinkRepository.Get("TestBar","TestDrink").Price);
-            }
+                BarName = "TestBar",
+                DrinksName = "TestDrink",
+                Price = 600
+            };
+
+            _repository.Edit(newDrink);
+            _context.SaveChanges();
+            
+            Assert.AreEqual(600, _repository.Get("TestBar","TestDrink").Price);
+
         }
     }
 }

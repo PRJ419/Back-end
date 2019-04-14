@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Database.Repository_Implementations;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 
@@ -10,39 +11,40 @@ namespace Database.UnitTest
 {
     class BarRepresentativeRepositoryTest
     {
+
+        private BarRepresentativeRepository _repository;
+        private DbContextOptions<BarOMeterContext> _options;
+        private BarOMeterContext _context;
+
         [Test]
         public void Edit_Entity()
         {
-            var options =
+            _options =
                 new DbContextOptionsBuilder<BarOMeterContext>()
-                    .UseInMemoryDatabase(databaseName: "TestOfEditBarRepRepo")
+                    .UseInMemoryDatabase(databaseName: "TestOfBarRepRepo")
                     .Options;
+            _context = new BarOMeterContext(_options);
+            _repository = new BarRepresentativeRepository(_context);
 
-            using (var uow = new UnitOfWork(options))
+            _repository.Add(new BarRepresentative()
             {
-                uow.BarRepRepository.Add(new BarRepresentative()
-                {
-                    Username = "TestUsername",
-                    Name = "TestName",
-                    BarName = "TestBar"
-                });
-                uow.Complete();
+                Username = "TestUsername",
+                Name = "TestName",
+                BarName = "TestBar"
+            });
+            _context.SaveChanges();
 
-                BarRepresentative newRep = new BarRepresentative()
-                {
-                    Username = "TestUsername",
-                    Name = "NewName",
-                };
-
-                uow.BarRepRepository.Edit(newRep);
-                uow.Complete();
-            }
-
-            using (var uow = new UnitOfWork(options))
+            BarRepresentative newRep = new BarRepresentative()
             {
-                Assert.AreEqual("NewName", uow.BarRepRepository.Get("TestUsername").Name);
-            }
+                Username = "TestUsername",
+                Name = "NewName",
+            };
 
+            _repository.Edit(newRep);
+            _context.SaveChanges();
+        
+
+            Assert.AreEqual("NewName", _repository.Get("TestUsername").Name);
         }
     }
 }
