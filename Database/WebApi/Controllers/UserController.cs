@@ -35,6 +35,7 @@ namespace WebApi.Controllers
             {
                 return BadRequest(ModelState);
             }
+
             var user = new BarOMeterIdentityUser() {UserName = model.Username, Email = model.Email};
 
             IdentityResult result = await _userManager.CreateAsync(user, model.Password);
@@ -70,11 +71,12 @@ namespace WebApi.Controllers
             if (result.Succeeded)
             {
                 return new ObjectResult(th.GenerateToken(model.Username));
+               
             }
 
             return BadRequest(result);
         }
-
+        [AllowAnonymous]
         [Route("api/logout")]
         [HttpPost]
         public async Task<IActionResult> Logout()

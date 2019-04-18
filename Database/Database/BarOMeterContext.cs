@@ -69,8 +69,9 @@ namespace Database {
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var connection = ConfigurationManager.ConnectionStrings["AndreasPC"].ConnectionString;
+                //var connection = ConfigurationManager.ConnectionStrings["AndreasPC"].ConnectionString;
                 //var connection = @"Data Source=DESKTOP-UGIDUH3;Initial Catalog=PRJ4Database;Integrated Security=True";
+                var connection = @"Data Source=DESKTOP-3BPGP0V;Initial Catalog=PRJ4Database;Integrated Security=True";
                 optionsBuilder.UseLazyLoadingProxies().UseSqlServer(connection);
             }
         }

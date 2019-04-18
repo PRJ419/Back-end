@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Database;
 using Database.Interfaces;
 using Database.Repository_Implementations;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using WebApi.DTOs.Bars;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebApi.Controllers
 {
@@ -22,8 +24,11 @@ namespace WebApi.Controllers
     /// Can respond to various GET/ PUT/ POST/ DELETE Http requests.
     /// Returns BarSimpleDto and BarDto to client.  
     /// </summary>
+    
     [Route("api/bars")]
+    //[Authorize]
     [ApiController]
+
     public class BarController : ControllerBase
     {
         /// <summary>
@@ -52,11 +57,14 @@ namespace WebApi.Controllers
         /// Ok (200) returns a List&lt;BarSimpleDto&gt; ordered by avg ranking (descending). <para/>
         /// NotFound (404) if no bars could be found.
         /// </returns>
-        [HttpGet] 
+        [HttpGet]
+        // [Authorize]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(List<BarSimpleDto>), 200)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetBestBars()
         {
+            
             var bars = _unitOfWork.BarRepository.GetBestBars();
             var listOfBars = BarSimpleDtoConverter.ToDtoList(bars);
 
@@ -79,6 +87,7 @@ namespace WebApi.Controllers
         /// Ok (200) with the found Bar object if successful. <para/>
         /// NotFound (400) if the bar could not be found.
         /// </returns>
+        [Authorize]
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(BarDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
@@ -105,6 +114,7 @@ namespace WebApi.Controllers
         /// BadRequest (400) if unsuccessful.
         /// </returns>
         [HttpPost]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(BarDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult AddBar([FromBody]BarDto dtoBar)
@@ -160,6 +170,7 @@ namespace WebApi.Controllers
         /// 400 (BadRequest) if edit was unsuccessful. 
         /// </returns>
         [HttpPut]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(BarDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult UpdateBar([FromBody]BarDto barDto)
@@ -184,6 +195,7 @@ namespace WebApi.Controllers
         /// Ok (200) Response and List&lt;BarDto&gt; if any found <para/>
         /// NotFound (404) Response no bars were found. 
         /// </returns>
+        [Authorize]
         [HttpGet("Worst")]
         [ProducesResponseType(typeof(BarSimpleDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
@@ -213,6 +225,8 @@ namespace WebApi.Controllers
         /// Ok (200) if found, a List&lt;BarSimpleDto&gt; picked with range as specified by the parameters. <para/>
         /// NotFound (404) if none found, and no List. 
         /// </returns>
+        ///
+        [AllowAnonymous]
         [HttpGet("{index}/{length}")]
         [ProducesResponseType(typeof(List<BarSimpleDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]

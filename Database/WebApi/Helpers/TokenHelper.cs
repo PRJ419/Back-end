@@ -25,7 +25,7 @@ namespace WebApi.Helpers
             var token = new JwtSecurityToken(
                 new JwtHeader(new SigningCredentials(
                     new SymmetricSecurityKey(Encoding.UTF8.GetBytes("the secret that needs to be at least 16 characters long for HmacSha256")),
-            SecurityAlgorithms.HmacSha256)),
+                                     SecurityAlgorithms.HmacSha256)),
             new JwtPayload(claims));
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
