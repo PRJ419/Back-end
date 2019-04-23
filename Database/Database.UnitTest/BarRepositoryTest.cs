@@ -5,6 +5,7 @@ using NUnit.Framework;
 
 namespace Database.UnitTest
 {
+    [TestFixture]
     public class BarRepositoryTest
     {
         private BarRepository _repository;

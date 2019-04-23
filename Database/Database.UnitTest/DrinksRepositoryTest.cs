@@ -9,6 +9,7 @@ using NUnit.Framework;
 
 namespace Database.UnitTest
 {
+    [TestFixture]
     class DrinksRepositoryTest
     {
         private DrinkRepository _repository;

@@ -7,6 +7,7 @@ using NUnit.Framework;
 
 namespace Database.UnitTest
 {
+    [TestFixture]
     class UnitOfWorkTest
     {
         [Test]
