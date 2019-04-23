@@ -168,7 +168,7 @@ namespace WebApi.Controllers
                 var bar = BarDtoConverter.ToBar(barDto);
                 _unitOfWork.BarRepository.Edit(bar);
                 _unitOfWork.Complete();
-                return Ok();
+                return Created($"api/bars/{barDto.BarName}", barDto);
             }
             catch (Exception e)
             {
