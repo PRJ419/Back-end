@@ -32,7 +32,7 @@ namespace WebApi.Test.UnitTest.ControllerTests
             {
                 AvgRating = 4,
                 BarName = "TestBar",
-                Picture = "www.google.com/image1",
+                Image = "www.google.com/image1",
                 ShortDescription = "Kort beskrivelse",
                 AgeLimit = 18,
                 Address = "Fakestreet 8000, Aarhus",
@@ -46,7 +46,7 @@ namespace WebApi.Test.UnitTest.ControllerTests
             {
                 AvgRating = 2.5,
                 BarName = "TestBar2",
-                Picture = "www.google.com/image1",
+                Image = "www.google.com/image1",
                 ShortDescription = "Kort beskrivelse",
                 AgeLimit = 18,
                 Address = "Fakestreet 8000, Aarhus",

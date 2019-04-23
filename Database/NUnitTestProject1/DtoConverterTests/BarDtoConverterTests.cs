@@ -18,7 +18,7 @@ namespace WebApi.Test.UnitTest.DtoConverterTests
             {
                 AvgRating = 4,
                 BarName = "TestBar",
-                Picture = "www.google.com/image1",
+                Image = "www.google.com/image1",
                 ShortDescription = "Kort beskrivelse",
                 AgeLimit = 18,
                 Address = "Fakestreet 8000, Aarhus",
@@ -38,7 +38,7 @@ namespace WebApi.Test.UnitTest.DtoConverterTests
             {
                 AvgRating = 4,
                 BarName = "TestBar",
-                Picture = "www.google.com/image1",
+                Image = "www.google.com/image1",
                 ShortDescription = "Kort beskrivelse",
                 AgeLimit = 18,
                 Address = "Fakestreet 8000, Aarhus",
@@ -57,7 +57,7 @@ namespace WebApi.Test.UnitTest.DtoConverterTests
             var result = BarDtoConverter.ToDto(defaultBar);
             Assert.That(result.BarName,     Is.EqualTo(defaultBar.BarName));
             Assert.That(result.AvgRating,   Is.EqualTo(defaultBar.AvgRating));
-            Assert.That(result.Picture,     Is.EqualTo(defaultBar.Picture));
+            Assert.That(result.Image,     Is.EqualTo(defaultBar.Image));
             Assert.That(result.ShortDescription, Is.EqualTo(defaultBar.ShortDescription));
             Assert.That(result.AgeLimit,    Is.EqualTo(defaultBar.AgeLimit));
             Assert.That(result.Address,     Is.EqualTo(defaultBar.Address));
@@ -77,7 +77,7 @@ namespace WebApi.Test.UnitTest.DtoConverterTests
             });
             Assert.That(result.BarName, Is.EqualTo("TestBar"));
             Assert.That(result.AvgRating, Is.EqualTo(0));
-            Assert.That(result.Picture, Is.Null);
+            Assert.That(result.Image, Is.Null);
             Assert.That(result.ShortDescription, Is.Null);
             Assert.That(result.AgeLimit, Is.EqualTo(0));
             Assert.That(result.Address, Is.Null);
@@ -94,7 +94,7 @@ namespace WebApi.Test.UnitTest.DtoConverterTests
             var result = BarDtoConverter.ToBar(defaultBarDto);
             Assert.That(result.BarName, Is.EqualTo(defaultBarDto.BarName));
             Assert.That(result.AvgRating, Is.EqualTo(defaultBarDto.AvgRating));
-            Assert.That(result.Picture, Is.EqualTo(defaultBarDto.Picture));
+            Assert.That(result.Image, Is.EqualTo(defaultBarDto.Image));
             Assert.That(result.ShortDescription, Is.EqualTo(defaultBarDto.ShortDescription));
             Assert.That(result.AgeLimit, Is.EqualTo(defaultBarDto.AgeLimit));
             Assert.That(result.Address, Is.EqualTo(defaultBarDto.Address));
@@ -119,7 +119,7 @@ namespace WebApi.Test.UnitTest.DtoConverterTests
             });
             Assert.That(result.BarName, Is.EqualTo("TestBar"));
             Assert.That(result.AvgRating, Is.EqualTo(0));
-            Assert.That(result.Picture, Is.Null);
+            Assert.That(result.Image, Is.Null);
             Assert.That(result.ShortDescription, Is.Null);
             Assert.That(result.AgeLimit, Is.EqualTo(0));
             Assert.That(result.Address, Is.Null);
