@@ -31,7 +31,7 @@ namespace WebApi.DTOs.Bars
                 LongDescription = bar.LongDescription,
                 PhoneNumber = bar.PhoneNumber,
                 ShortDescription = bar.ShortDescription,
-                Picture = bar.Picture,
+                Image = bar.Image,
             };
             return dto;
         }
@@ -59,7 +59,7 @@ namespace WebApi.DTOs.Bars
                 LongDescription = dto.LongDescription,
                 PhoneNumber = dto.PhoneNumber,
                 ShortDescription = dto.ShortDescription,
-                Picture =  dto.Picture,
+                Image =  dto.Image,
                 Drinks = null, 
                 Coupons = null, 
                 BarEvents = null, 

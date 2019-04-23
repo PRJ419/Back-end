@@ -32,25 +32,33 @@ namespace Database
                 //uow.Complete();
 
                 //var bruger = new Customer();
-                //bruger.Username = "FalskBruger3";
+                //bruger.Username = "FalskBruger2";
                 //bruger.DateOfBirth = new DateTime(1997, 05, 02);
-                //bruger.Email = "FakeMail3";
-                //bruger.Name = "Andy";
+                //bruger.Email = "FakeMail2";
+                //bruger.Name = "Zacher";
 
                 //uow.CustomerRepository.Add(bruger);
                 //uow.Complete();
 
-                var drink = new Drink();
-                drink.BarName = "Testbar";
-                drink.DrinksName = "Fadoel";
-                drink.Price = 50;
-                uow.DrinkRepository.Add(drink);
+                //var drink = new Drink();
+                //drink.BarName = "Testbar";
+                //drink.DrinksName = "Fadoel";
+                //drink.Price = 50;
+                //uow.DrinkRepository.Add(drink);
 
                 //var Event = new BarEvent();
                 //Event.BarName = "Testbar";
                 //Event.Date = new DateTime(2019, 05, 05);
                 //Event.EventName = "Eventnavn";
                 //uow.BarEventRepository.Add(Event);
+
+                var review = new Review();
+                review.BarName = "Testbar";
+                review.Username = "FalskBruger2";
+                review.BarPressure = 7;
+
+                uow.ReviewRepository.Add(review);
+
                 uow.Complete();
                 
 

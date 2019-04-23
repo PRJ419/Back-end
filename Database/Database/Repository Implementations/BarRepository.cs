@@ -88,6 +88,7 @@ namespace Database.Repository_Implementations
             oldBar.AgeLimit = entity.AgeLimit;
             oldBar.Email = entity.Email;
             oldBar.PhoneNumber = entity.PhoneNumber;
+            oldBar.Image = entity.Image;
         }
     }
 }
