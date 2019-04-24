@@ -2,26 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Database;
 using Database.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.DTOs.BarEvent;
-using AutoMapper;
-using Database;
+using WebApi.DTOs.BarRepresentative;
 using WebApi.DTOs.Customers;
 
 namespace WebApi.Controllers
 {
     /// <summary>
-    /// Web Api Controller for Customers.<para/>
-    /// Returns BarEventDto objects
+    /// Web Api Controller for BarRepresentatives.<para/>
+    /// Returns BarRepresentativeDto objects
     /// </summary>
-    [Route("api/Customers")]
+    [Route("api/BarRepresentatives")]
     [ApiController]
-    public class CustomerController : ControllerBase
+    public class BarRepresentativeController : ControllerBase
     {
         /// <summary>
-        /// Reference to unit of work, used for database access. 
+        /// Reference to a UnitOfWork implementation, used for database access. 
         /// </summary>
         private IUnitOfWork _unitOfWork;
 
@@ -40,83 +40,84 @@ namespace WebApi.Controllers
         /// <param name="mapper">
         /// IMapper implementation used to map Dto object to model objects and vice versa. 
         /// </param>
-        public CustomerController(IUnitOfWork unitOfWork, IMapper mapper)
+        public BarRepresentativeController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         /// <summary>
-        /// Returns all Customers 
+        /// Returns all BarRepresentatives 
         /// </summary>
         /// <returns>
-        /// Ok (200) and a List&lt;CustomerDto&gt; of all Customers<para></para>
-        /// NotFound (404) if no Customers were found. 
+        /// Ok (200) and a List&lt;BarRepresentativeDto&gt; of all BarRepresentatives<para></para>
+        /// NotFound (404) if no BarRepresentatives were found. 
         /// </returns>
         [HttpGet]
-        [ProducesResponseType(typeof(List<CustomerDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<BarRepresentativeDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
-        public IActionResult GetCustomers()
+        public IActionResult GetBarRepresentatives()
         {
-            var customers = _unitOfWork.CustomerRepository.GetAll();
-            var customerDtoList = new List<CustomerDto>();
-            foreach (var customer in customers)
+            var barRepList= _unitOfWork.BarRepRepository.GetAll();
+            var barRepDtoList = new List<BarRepresentativeDto>();
+            foreach (var barRep in barRepList)
             {
-                customerDtoList.Add(_mapper.Map<CustomerDto>(customer));
+                barRepDtoList.Add(_mapper.Map<BarRepresentativeDto>(barRep));
             }
-            
-            if (customerDtoList.Any())
+
+            if (barRepDtoList.Any())
             {
-                return Ok(customerDtoList);
+                return Ok(barRepDtoList);
             }
             else
                 return NotFound();
         }
 
         /// <summary>
-        /// Returns a CustomerDto found by username
+        /// Returns a BarRepresentativeDto found by username
         /// </summary>
         /// <param name="username">
-        /// is a string identifying the key of the Customer. 
+        /// is a string identifying the key of the BarRepresentative. 
         /// </param>
         /// <returns>
-        /// Ok (200) and a CustomerDto object equivalent of the Customer saved in the database if found.<para></para>
-        /// NotFOund (404) if the Customer was not found. 
+        /// Ok (200) and a BarRepresentativeDto object equivalent to the
+        /// BarRepresentative saved in the database if found.<para></para>
+        /// NotFOund (404) if the BarRepresentative was not found.
         /// </returns>
         [HttpGet("{username}")]
-        [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BarRepresentativeDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
-        public IActionResult GetCustomer(string username)
+        public IActionResult GetBarRepresentative(string username)
         {
-            var customer = _unitOfWork.CustomerRepository.Get(username);
+            var barRep = _unitOfWork.BarRepRepository.Get(username);
 
-            if (customer == null)
+            if (barRep == null)
                 return NotFound();
 
-            return Ok(_mapper.Map<CustomerDto>(customer));
+            return Ok(_mapper.Map<BarRepresentativeDto>(barRep));
         }
 
         /// <summary>
-        /// Adds a Customer to the database. 
+        /// Adds a BarRepresentative to the database. 
         /// </summary>
-        /// <param name="customerDto">
-        /// is a CustomerDto object. Must match property attribute rules. 
+        /// <param name="barRepDto">
+        /// is a BarRepresentativeDto object. Must match property attribute rules. 
         /// </param>
         /// <returns>
-        /// Created (201) if Customer was added. <para></para>
+        /// Created (201) if BarRepresentative was added. <para></para>
         /// BadRequest (400) if model requirements weren't. 
         /// </returns>
         [HttpPost]
-        [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(BarRepresentativeDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
-        public IActionResult AddCustomer([FromBody] CustomerDto customerDto)
+        public IActionResult AddBarRepresentative([FromBody] BarRepresentativeDto barRepDto)
         {
             try
             {
-                var customer = _mapper.Map<Customer>(customerDto);
-                _unitOfWork.CustomerRepository.Add(customer);
+                var barRep = _mapper.Map<BarRepresentative>(barRepDto);
+                _unitOfWork.BarRepRepository.Add(barRep);
                 _unitOfWork.Complete();
-                return Created(string.Format($"api/Customer/{customer.Username}"), customerDto);
+                return Created(string.Format($"api/BarRepresentative/{barRep.Username}"), barRepDto);
             }
             catch (Exception e)
             {
@@ -125,10 +126,10 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Edits an Customer
+        /// Edits an BarRepresentative
         /// </summary>
-        /// <param name="customerDto">
-        /// is a CustomerDto which holds edited data. <para></para>
+        /// <param name="barRepDto">
+        /// is a BarRepresentativeDto which holds edited data. <para></para>
         /// Must hold a Username which can be found in the database.  <para></para>
         /// Must match property attribute rules. 
         /// </param>
@@ -137,16 +138,16 @@ namespace WebApi.Controllers
         /// BadRequest (404) if edit was unsuccessful. See parameter requirements. 
         /// </returns>
         [HttpPut]
-        [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(BarRepresentativeDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
-        public IActionResult EditCustomer([FromBody] CustomerDto customerDto)
+        public IActionResult EditBarRepresentative([FromBody] BarRepresentativeDto barRepDto)
         {
             try
             {
-                var customer = _mapper.Map<Customer>(customerDto);
-                _unitOfWork.CustomerRepository.Edit(customer);
+                var barRep = _mapper.Map<BarRepresentative>(barRepDto);
+                _unitOfWork.BarRepRepository.Edit(barRep);
                 _unitOfWork.Complete();
-                return Created(string.Format($"api/customers/{customer.Username}"), customerDto);
+                return Created(string.Format($"api/BarRepresentative/{barRep.Username}"), barRepDto);
             }
             catch (Exception e)
             {
@@ -155,7 +156,7 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Deletes an Customer. 
+        /// Deletes an BarRepresentative from database. 
         /// </summary>
         /// <param name="username">
         /// is a string holding the username
@@ -167,11 +168,11 @@ namespace WebApi.Controllers
         [HttpDelete("{username}")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
-        public IActionResult DeleteCustomer(string username)
+        public IActionResult DeleteBarRepresentative(string username)
         {
             try
             {
-                _unitOfWork.CustomerRepository.Delete(username);
+                _unitOfWork.BarRepRepository.Delete(username);
                 _unitOfWork.Complete();
                 return Ok();
             }
