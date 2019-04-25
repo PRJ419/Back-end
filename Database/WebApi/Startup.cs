@@ -66,7 +66,7 @@ namespace WebApi
             services.AddMvc();
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("BarRep", policy => policy.RequireClaim("Role","Bar"));
+                options.AddPolicy("BarRep", policy => policy.RequireClaim("Role","BarRep"));
                 options.AddPolicy("Kunde", policy => policy.RequireClaim("Role","Kunde"));
                 options.AddPolicy("Admin", policy => policy.RequireClaim("Role","Admin"));
             });

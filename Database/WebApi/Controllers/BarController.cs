@@ -195,7 +195,7 @@ namespace WebApi.Controllers
         /// Ok (200) Response and List&lt;BarDto&gt; if any found <para/>
         /// NotFound (404) Response no bars were found. 
         /// </returns>
-        [Authorize]
+        [Authorize(Roles = "BarRep")]
         [HttpGet("Worst")]
         [ProducesResponseType(typeof(BarSimpleDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]

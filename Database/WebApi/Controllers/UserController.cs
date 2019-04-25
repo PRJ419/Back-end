@@ -26,11 +26,11 @@ namespace WebApi.Controllers
              _userManager = userManager;
              _signInManager = signInManager;
         }
-        // POST api/Register
+        // POST api/Register/barrep
         [AllowAnonymous]
-        [Route("api/register/bar")]
+        [Route("api/register/barrep")]
         [HttpPost]
-        public async Task<IActionResult> RegisterBar([FromBody] RegisterBindingModel model)
+        public async Task<IActionResult> RegisterBarRep([FromBody] BarRepRegisterBindingModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -46,7 +46,7 @@ namespace WebApi.Controllers
                 BadRequest();
             }
 
-            var roleClaim = new Claim("Role", "Bar");
+            var roleClaim = new Claim("Role", "BarRep");
             await _userManager.AddClaimAsync(user, roleClaim);
             return Ok();
         }

@@ -31,7 +31,7 @@ namespace WebApi.Models
 
 
         }
-        public class BarRegisterBindingModel
+        public class BarRepRegisterBindingModel
         {
             [Required]
             [Display(Name = "Email")]
@@ -43,11 +43,9 @@ namespace WebApi.Models
             [Display(Name = "Password")]
             public string Password { get; set; }
 
-            //[Required]
-            //public DateTime Birthday { get; set; }
 
             [Required]
-            public string BarName { get; set; }
+            public string Username { get; set; }
 
             public string Role { get; set; }
 
