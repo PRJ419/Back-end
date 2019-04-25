@@ -9,6 +9,7 @@ using WebApi.DTOs.BarEvent;
 using AutoMapper;
 using Database;
 using WebApi.DTOs.Customers;
+using WebApi.Utility;
 
 namespace WebApi.Controllers
 {
@@ -59,12 +60,9 @@ namespace WebApi.Controllers
         public IActionResult GetCustomers()
         {
             var customers = _unitOfWork.CustomerRepository.GetAll();
-            var customerDtoList = new List<CustomerDto>();
-            foreach (var customer in customers)
-            {
-                customerDtoList.Add(_mapper.Map<CustomerDto>(customer));
-            }
-            
+            var customerDtoList = Converter.GenericListConvert
+                <CustomerDto, Customer>(customers, _mapper);
+
             if (customerDtoList.Any())
             {
                 return Ok(customerDtoList);

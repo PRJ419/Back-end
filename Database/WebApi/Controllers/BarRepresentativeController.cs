@@ -20,6 +20,7 @@ namespace WebApi.Controllers
     [ApiController]
     public class BarRepresentativeController : ControllerBase
     {
+        
         /// <summary>
         /// Reference to a UnitOfWork implementation, used for database access. 
         /// </summary>
@@ -58,8 +59,9 @@ namespace WebApi.Controllers
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetBarRepresentatives()
         {
-            var barRepList= _unitOfWork.BarRepRepository.GetAll();
+            var barRepList= _unitOfWork.BarRepRepository.GetAll().ToList();
             var barRepDtoList = new List<BarRepresentativeDto>();
+
             foreach (var barRep in barRepList)
             {
                 barRepDtoList.Add(_mapper.Map<BarRepresentativeDto>(barRep));

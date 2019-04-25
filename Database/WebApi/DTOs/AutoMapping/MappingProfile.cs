@@ -2,6 +2,8 @@
 using Database;
 using WebApi.DTOs.BarEvent;
 using WebApi.DTOs.BarRepresentative;
+using WebApi.DTOs.Bars;
+using WebApi.DTOs.Coupon;
 using WebApi.DTOs.Customers;
 using WebApi.DTOs.Drinks;
 
@@ -13,9 +15,14 @@ namespace WebApi.DTOs.AutoMapping
     /// </summary>
     public class MappingProfile : Profile
     {
-
+        /// <summary>
+        /// Setup of mappings, some of these are not used, e.g. BarDto to Bar. 
+        /// </summary>
         public MappingProfile()
         {
+            CreateMap<Bar, BarDto>();
+            CreateMap<BarDto, Bar>();
+
             CreateMap<Customer, CustomerDto>();
             CreateMap<CustomerDto, Customer>();
 
@@ -30,6 +37,9 @@ namespace WebApi.DTOs.AutoMapping
 
             CreateMap<Review, ReviewDto.ReviewDto>();
             CreateMap<ReviewDto.ReviewDto, Review>();
+
+            CreateMap<Database.Coupon, CouponDto>();
+            CreateMap<CouponDto, Database.Coupon>();
         }
     }
 }
