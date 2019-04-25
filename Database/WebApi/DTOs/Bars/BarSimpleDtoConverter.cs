@@ -45,7 +45,7 @@ namespace WebApi.DTOs.Bars
                 BarName = bar.BarName,
                 AvgRating = bar.AvgRating,
                 ShortDescription = bar.ShortDescription,
-                Picture = bar.Image,
+                Image = bar.Image,
             };
 
             return barDTO;

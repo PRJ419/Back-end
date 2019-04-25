@@ -30,7 +30,7 @@ namespace WebApi.Utility
         /// <returns>
         /// a list of List&lt;To&gt; equivalent of the input param from. 
         /// </returns>
-        public static List<To> GenericListConvert<To, From>(IEnumerable<From> from, IMapper mapper)
+        public static List<To> GenericListConvert<From, To>(IEnumerable<From> from, IMapper mapper)
                 where To : class
                 where From : class
         {

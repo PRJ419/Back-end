@@ -61,7 +61,7 @@ namespace WebApi.Controllers
         {
             var customers = _unitOfWork.CustomerRepository.GetAll();
             var customerDtoList = Converter.GenericListConvert
-                <CustomerDto, Customer>(customers, _mapper);
+                <Customer, CustomerDto>(customers, _mapper);
 
             if (customerDtoList.Any())
             {

@@ -61,7 +61,7 @@ namespace WebApi.Controllers
         {
             var coupons = _unitOfWork.CouponRepository.Find(c => c.BarName == barName);
             var couponDtoList = Converter.GenericListConvert
-                <CouponDto, Coupon>(coupons, _mapper);
+                <Coupon, CouponDto>(coupons, _mapper);
 
             if (couponDtoList.Any())
             {
