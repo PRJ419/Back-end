@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using Database;
 using Database.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,9 @@ using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using NUnit.Framework;
 using WebApi.Controllers;
+using WebApi.DTOs.AutoMapping;
 using WebApi.DTOs.Bars;
+using WebApi.Utility;
 
 namespace WebApi.Test.UnitTest.ControllerTests
 {
@@ -18,6 +21,7 @@ namespace WebApi.Test.UnitTest.ControllerTests
     {
         private BarController uut;
         private IUnitOfWork mockUnitOfWork;
+        private IMapper mapper;
         private List<Bar> defaultList;
         private Bar defaultBar;
         private List<BarSimpleDto> correctResultList;
@@ -26,7 +30,12 @@ namespace WebApi.Test.UnitTest.ControllerTests
         public void Setup()
         {
             mockUnitOfWork = Substitute.For<IUnitOfWork>();
-            uut = new BarController(mockUnitOfWork);
+
+            var profile = new MappingProfile();
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profile));
+            mapper = new Mapper(configuration);
+
+            uut = new BarController(mockUnitOfWork, mapper);
             defaultList = new List<Bar>();
             defaultList.Add(new Bar()
             {
@@ -57,7 +66,8 @@ namespace WebApi.Test.UnitTest.ControllerTests
                 PhoneNumber = 88888888,
             });
             defaultBar = defaultList[0];
-            correctResultList = BarSimpleDtoConverter.ToDtoList(defaultList);
+            correctResultList = Converter.GenericListConvert
+                <Bar, BarSimpleDto>(defaultList, mapper);
 
         }
 
@@ -96,10 +106,16 @@ namespace WebApi.Test.UnitTest.ControllerTests
             // Act
             var result = uut.GetBestBars() as OkObjectResult;
             var resultList = result.Value as List<BarSimpleDto>;
-            
+
             // Assert
             Assert.That(resultList[0].BarName, Is.EqualTo(correctResultList[0].BarName));
             Assert.That(resultList[1].BarName, Is.EqualTo(correctResultList[1].BarName));
+            Assert.That(resultList[0].AvgRating, Is.EqualTo(correctResultList[0].AvgRating));
+            Assert.That(resultList[1].AvgRating, Is.EqualTo(correctResultList[1].AvgRating));
+            Assert.That(resultList[0].Image, Is.EqualTo(correctResultList[0].Image));
+            Assert.That(resultList[1].Image, Is.EqualTo(correctResultList[1].Image));
+            Assert.That(resultList[0].ShortDescription, Is.EqualTo(correctResultList[0].ShortDescription));
+            Assert.That(resultList[1].ShortDescription, Is.EqualTo(correctResultList[1].ShortDescription));
         }
 
         [Test]
@@ -107,7 +123,7 @@ namespace WebApi.Test.UnitTest.ControllerTests
         {
             // Arrange
             mockUnitOfWork.BarRepository.Get("TestBar").Returns(defaultBar);
-            var correctBar = BarDtoConverter.ToDto(defaultBar);
+            var correctBar = mapper.Map<BarDto>(defaultBar);
 
             // Act
             var resultObject = uut.GetBar("TestBar") as OkObjectResult;
@@ -135,7 +151,7 @@ namespace WebApi.Test.UnitTest.ControllerTests
         public void AddBar_SuppliedValidBar_ReturnsCreated()
         {
             // Arrange
-            var receivedBarDto = BarDtoConverter.ToDto(defaultBar);
+            var receivedBarDto = mapper.Map<BarDto>(defaultBar);
             // Act
             var result = uut.AddBar(receivedBarDto);
             // Assert
@@ -150,8 +166,8 @@ namespace WebApi.Test.UnitTest.ControllerTests
             // Arrange
             mockUnitOfWork.BarRepository
                 .When(x => x.Add(Arg.Any<Bar>()))
-                .Do( x => throw new Exception());
-               
+                .Do(x => throw new Exception());
+
             var badBarDto = new BarDto()
             {
                 BarName = "This Bar Only has a name which isn't enough",
@@ -199,11 +215,11 @@ namespace WebApi.Test.UnitTest.ControllerTests
         public void UpdateBar_ValidModel_ReturnsSuccess()
         {
             // Arrange
-            var receivedDto = BarDtoConverter.ToDto(defaultBar);
-           
+            var receivedDto = mapper.Map<BarDto>(defaultBar);
+
             // Act
             var result = uut.UpdateBar(receivedDto);
-            
+
             // Assert
             Assert.That(result, Is.TypeOf<CreatedResult>());
         }
@@ -212,7 +228,7 @@ namespace WebApi.Test.UnitTest.ControllerTests
         public void UpdateBar_NonValidModel_ReturnsBadRequest()
         {
             // Arrange
-            var receivedDto = BarDtoConverter.ToDto(defaultBar);
+            var receivedDto = mapper.Map<BarDto>(defaultBar);
             mockUnitOfWork.BarRepository
                 .When(repo => repo.Edit(Arg.Any<Bar>()))
                 .Do(x => throw new Exception());
@@ -237,7 +253,7 @@ namespace WebApi.Test.UnitTest.ControllerTests
             // Assert
             Assert.That(result, Is.TypeOf<OkObjectResult>());
             Assert.That(resultList.Count, Is.EqualTo(2));
-            Assert.That(resultList.First().BarName, 
+            Assert.That(resultList.First().BarName,
                         Is.EqualTo(correctResultList.First().BarName));
         }
         [Test]

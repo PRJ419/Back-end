@@ -23,6 +23,9 @@ namespace WebApi.DTOs.AutoMapping
             CreateMap<Bar, BarDto>();
             CreateMap<BarDto, Bar>();
 
+            CreateMap<Bar, BarSimpleDto>();
+            CreateMap<BarSimpleDto, Bar>();
+
             CreateMap<Customer, CustomerDto>();
             CreateMap<CustomerDto, Customer>();
 

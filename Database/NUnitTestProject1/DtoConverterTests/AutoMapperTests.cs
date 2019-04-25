@@ -24,8 +24,6 @@ namespace WebApi.Test.UnitTest.DtoConverterTests
             var profile = new MappingProfile();
             var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profile));
             uut = new Mapper(configuration);
-
-
         }
 
         [Test]
@@ -134,6 +132,14 @@ namespace WebApi.Test.UnitTest.DtoConverterTests
             var barDto = new BarDto();
             var bar = uut.Map<Bar>(barDto);
             Assert.That(bar, Is.TypeOf<Bar>());
+        }
+
+        [Test]
+        public void Map_MapFromBarDtoToBarSimpleDto_CorrectType()
+        {
+            var bar = new Bar();
+            var barSimpleDto = uut.Map<BarSimpleDto>(bar);
+            Assert.That(barSimpleDto, Is.TypeOf<BarSimpleDto>());
         }
 
         [Test]

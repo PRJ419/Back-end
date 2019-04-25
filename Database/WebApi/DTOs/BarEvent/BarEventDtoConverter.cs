@@ -8,7 +8,7 @@ namespace WebApi.DTOs.BarEvent
     /// Static class and functions enable calling the functions without
     /// allocating new memory every time for use. 
     /// </summary>
-    public static class BarEventDtoConverter
+    public static class BarEventDtoConverterREMOVED
     {
         /// <summary>
         /// Converts a BarEvent object to a BarEventDto object. 

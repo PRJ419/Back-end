@@ -7,7 +7,7 @@ namespace WebApi.DTOs.Drinks
     /// <summary>
     /// Converter class for DrinkDto and Drink. 
     /// </summary>
-    public static class DrinkDtoConverter
+    public static class DrinkDtoConverterREMOVED
     {
 
         /// <summary>

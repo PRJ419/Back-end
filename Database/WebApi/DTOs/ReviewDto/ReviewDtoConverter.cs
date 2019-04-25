@@ -6,7 +6,7 @@ namespace WebApi.DTOs.ReviewDto
     /// <summary>
     /// Converter class for Review and ReviewDto
     /// </summary>
-    public static class ReviewDtoConverter
+    public static class ReviewDtoConverterREMOVED
     {
         /// <summary>
         /// Converts a Review to a ReviewDto

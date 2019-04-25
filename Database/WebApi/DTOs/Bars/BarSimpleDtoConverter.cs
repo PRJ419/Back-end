@@ -6,7 +6,7 @@ namespace WebApi.DTOs.Bars
     /// <summary>
     /// Converter class for BarSimpleDto class. 
     /// </summary>
-    public static class BarSimpleDtoConverter
+    public static class BarSimpleDtoConverterREMOVED
     {
         /// <summary>
         /// Converts a IEnumerable&lt;Bar&gt; to a List&lt;BarSimpleDto&gt;
