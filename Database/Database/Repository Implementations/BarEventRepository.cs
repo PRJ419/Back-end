@@ -27,6 +27,7 @@ namespace Database.Repository_Implementations
         {
             var OldEvent = Get(entity.BarName, entity.EventName);
             OldEvent.Date = entity.Date;
+            OldEvent.Image = entity.Image;
         }
     }
 }

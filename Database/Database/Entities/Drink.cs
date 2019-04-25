@@ -22,6 +22,11 @@ namespace Database
         public double Price { get; set; }
 
         /// <summary>
+        /// Property for getting and setting the image of a drink
+        /// </summary>
+        public string Image { get; set; }
+
+        /// <summary>
         /// Navigational property required by the database for finding the associated bar
         /// </summary>
         public virtual Bar Bar { get; set; }

@@ -24,6 +24,11 @@ namespace Database
         /// </summary>
         public DateTime Date { get; set; }
 
+        /// <summary>
+        /// Property for getting and setting the image of a BarEvent
+        /// </summary>
+        public string Image { get; set; }
+
 
         /// <summary>
         /// Navigation property for finding the bar of the event.
