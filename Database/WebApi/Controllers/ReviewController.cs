@@ -43,6 +43,7 @@ namespace WebApi.Controllers
         public ReviewController(IUnitOfWork UnitOfWork, IMapper mapper)
         {
             _unitOfWork = UnitOfWork;
+            _mapper = mapper; 
         }
 
         /// <summary>

@@ -6,7 +6,7 @@ namespace WebApi.DTOs.Bars
     /// Converter for BarDto objects. <para></para>
     /// Objects are converted before they are sent. 
     /// </summary>
-    public static class BarDtoConverter
+    public static class BarDtoConverterREMOVED
     {
         /// <summary>
         /// Converts a Bar object (from database model layer) to a BarDto object. <para></para>

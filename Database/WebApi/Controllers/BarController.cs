@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Database;
 using Database.Interfaces;
 using Database.Repository_Implementations;
@@ -12,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using WebApi.DTOs.Bars;
+using WebApi.Utility;
 
 namespace WebApi.Controllers
 {
@@ -29,7 +31,12 @@ namespace WebApi.Controllers
         /// Reference to UnitOfwork used for database access
         /// </summary>
         private IUnitOfWork _unitOfWork;
-        //private Repository<Bar> repo;
+
+        /// <summary>
+        /// Field to store IMapper implementation.
+        /// </summary>
+        private readonly IMapper _mapper;
+
         /// <summary>
         /// Constructor for the controller.
         /// <para>
@@ -39,9 +46,13 @@ namespace WebApi.Controllers
         /// <param name="unitOfWork">
         /// Dependency injected through Startup.ConfigureServices()
         /// </param>
-        public BarController(IUnitOfWork unitOfWork)//IRepository<Bar> barRepo)
+        /// <param name="mapper">
+        /// IMapper implementation used to map Dto object to model objects and vice versa. 
+        /// </param>
+        public BarController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this._unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -57,8 +68,7 @@ namespace WebApi.Controllers
         public IActionResult GetBestBars()
         {
             var bars = _unitOfWork.BarRepository.GetBestBars();
-            var listOfBars = BarSimpleDtoConverter.ToDtoList(bars);
-
+            var listOfBars = Converter.GenericListConvert<Bar, BarSimpleDto>(bars, _mapper);
             if (listOfBars.Any())
                 return Ok(listOfBars);
             else
@@ -86,7 +96,7 @@ namespace WebApi.Controllers
             var bar = _unitOfWork.BarRepository.Get(id);
             if (bar != null)
             {
-                var dto = BarDtoConverter.ToDto(bar);
+                var dto = _mapper.Map<BarDto>(bar);
                 return Ok(dto);
             }
             else
@@ -110,7 +120,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                _unitOfWork.BarRepository.Add(BarDtoConverter.ToBar(dtoBar));
+                _unitOfWork.BarRepository.Add(_mapper.Map<Bar>(dtoBar));
                 _unitOfWork.Complete();
                 return Created($"api/bars/{dtoBar.BarName}", dtoBar);
             }
@@ -165,7 +175,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                var bar = BarDtoConverter.ToBar(barDto);
+                var bar = _mapper.Map<Bar>(barDto);
                 _unitOfWork.BarRepository.Edit(bar);
                 _unitOfWork.Complete();
                 return Created($"api/bars/{barDto.BarName}", barDto);
@@ -188,8 +198,9 @@ namespace WebApi.Controllers
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         public IActionResult GetWorstBars()
         {
-            var bars = _unitOfWork.BarRepository.GetWorstBars().ToList();
-            var DtoList = BarSimpleDtoConverter.ToDtoList(bars);
+            var bars = _unitOfWork.BarRepository.GetWorstBars();
+            var DtoList = Converter.GenericListConvert
+                <Bar, BarSimpleDto>(bars, _mapper);
             _unitOfWork.Complete();
 
 
@@ -219,7 +230,8 @@ namespace WebApi.Controllers
         {
 
             var bars = _unitOfWork.BarRepository.GetXBars(index, length).ToList();
-            var listOfBars = BarSimpleDtoConverter.ToDtoList(bars);
+            var listOfBars = Converter.GenericListConvert
+                <Bar, BarSimpleDto>(bars, _mapper);
             _unitOfWork.Complete();
 
 
