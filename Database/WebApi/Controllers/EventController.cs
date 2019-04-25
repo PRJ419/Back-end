@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using AutoMapper;
+using Database;
 using Database.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.DTOs.BarEvent;
+using WebApi.Utility;
 
 namespace WebApi.Controllers
 {
@@ -23,6 +26,11 @@ namespace WebApi.Controllers
         /// Reference to unit of work, used for database access. 
         /// </summary>
         private IUnitOfWork _unitOfWork;
+        
+        /// <summary>
+        /// Field to store IMapper implementation.
+        /// </summary>
+        private readonly IMapper _mapper;
 
         /// <summary>
         /// Constructor for the controller. <para/>
@@ -31,9 +39,13 @@ namespace WebApi.Controllers
         /// <param name="unitOfWork">
         /// UnitOfWork implementation used for database access. 
         /// </param>
-        public EventController(IUnitOfWork unitOfWork)
+        /// <param name="mapper">
+        /// IMapper implementation used to map Dto object to model objects and vice versa. 
+        /// </param>
+        public EventController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper; 
         }
 
         /// <summary>
@@ -52,7 +64,8 @@ namespace WebApi.Controllers
         public IActionResult GetEvents(string barName)
         {
             var events = _unitOfWork.BarEventRepository.Find(x => x.BarName == barName);
-            var dtoEvents = BarEventDtoConverter.ToDtoList(events);
+            var dtoEvents = Converter.GenericListConvert<BarEvent, BarEventDto>(events, _mapper);
+
             if (dtoEvents.Any())
             {
                 return Ok(dtoEvents);
@@ -78,7 +91,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                var barEvent = BarEventDtoConverter.ToBarEvent(eventDto);
+                var barEvent = _mapper.Map<BarEvent>(eventDto);
                 _unitOfWork.BarEventRepository.Add(barEvent);
                 _unitOfWork.Complete();
                 return Created(string.Format($"api/bars/{barEvent.BarName}/events"), eventDto);
@@ -108,7 +121,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                var barEvent = BarEventDtoConverter.ToBarEvent(eventDto);
+                var barEvent = _mapper.Map<BarEvent>(eventDto);
                 _unitOfWork.BarEventRepository.Edit(barEvent);
                 _unitOfWork.Complete();
                 return Created(string.Format($"api/bars/{barEvent.BarName}/events"), eventDto);

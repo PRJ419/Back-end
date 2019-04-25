@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Database;
 using Database.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApi.DTOs;
 using WebApi.DTOs.Drinks;
+using WebApi.Utility;
 
 namespace WebApi.Controllers
 {
@@ -26,15 +28,24 @@ namespace WebApi.Controllers
         private IUnitOfWork _unitOfWork;
 
         /// <summary>
+        /// Field to store IMapper implementation.
+        /// </summary>
+        private readonly IMapper _mapper;
+
+        /// <summary>
         /// Constructor for DrinksController. <para></para>
         /// Gets a IUnitOfWork by dependency injection.
         /// </summary>
         /// <param name="UnitOfWork">
         /// UnitOfWork injected through dependency injection in Startup.cs
         /// </param>
-        public DrinksController(IUnitOfWork UnitOfWork)
+        /// <param name="mapper">
+        /// IMapper implementation used to map Dto object to model objects and vice versa. 
+        /// </param>
+        public DrinksController(IUnitOfWork UnitOfWork, IMapper mapper)
         {
             _unitOfWork = UnitOfWork;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -53,10 +64,11 @@ namespace WebApi.Controllers
         public IActionResult GetDrinks(string barName)
         {
             var drinks = _unitOfWork.DrinkRepository.Find(x => x.BarName == barName);
-            var drinkDtos = DrinkDtoConverter.ToDtoList(drinks);
+            var drinkDtoList = Converter.GenericListConvert<Drink, DrinkDto>
+                (drinks, _mapper);
 
-            if (drinkDtos.Any())
-                return Ok(drinkDtos);
+            if (drinkDtoList.Any())
+                return Ok(drinkDtoList);
             else
                 return NotFound();
         }
@@ -79,7 +91,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                var drink = DrinkDtoConverter.ToDrink(drinkDto);
+                var drink = _mapper.Map<Drink>(drinkDto);
                 _unitOfWork.DrinkRepository.Add(drink);
                 _unitOfWork.Complete();
                 return Created(string.Format($"api/bars/{drink.BarName}/Drinks"), drinkDto);
@@ -138,7 +150,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                var drink = DrinkDtoConverter.ToDrink(drinkDto);
+                var drink = _mapper.Map<Drink>(drinkDto);
                 _unitOfWork.DrinkRepository.Edit(drink);
                 _unitOfWork.Complete();
                 return Created(string.Format($"api/bars/{drink.BarName}/Drinks"), drinkDto);

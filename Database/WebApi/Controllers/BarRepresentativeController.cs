@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.DTOs.BarRepresentative;
 using WebApi.DTOs.Customers;
+using WebApi.Utility;
 
 namespace WebApi.Controllers
 {
@@ -60,12 +61,8 @@ namespace WebApi.Controllers
         public IActionResult GetBarRepresentatives()
         {
             var barRepList= _unitOfWork.BarRepRepository.GetAll().ToList();
-            var barRepDtoList = new List<BarRepresentativeDto>();
-
-            foreach (var barRep in barRepList)
-            {
-                barRepDtoList.Add(_mapper.Map<BarRepresentativeDto>(barRep));
-            }
+            var barRepDtoList = Converter.GenericListConvert
+                <BarRepresentative, BarRepresentativeDto>(barRepList, _mapper);
 
             if (barRepDtoList.Any())
             {

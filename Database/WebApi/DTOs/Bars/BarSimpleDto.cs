@@ -20,6 +20,6 @@ namespace WebApi.DTOs.Bars
         [MaxLength(500)]
         public string ShortDescription { get; set; }
 
-        public string Picture { get; set; }
+        public string Image { get; set; }
     }
 }
