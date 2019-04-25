@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 
 namespace WebApi.Models
@@ -25,11 +26,35 @@ namespace WebApi.Models
            [Required]
            public string Username { get; set; }
 
-          
+           public string Role { get; set; }
+
+
 
         }
+        public class BarRegisterBindingModel
+        {
+            [Required]
+            [Display(Name = "Email")]
+            public string Email { get; set; }
 
-        public class ChangePasswordBindingModel
+            [Required]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+            [DataType(DataType.Password)]
+            [Display(Name = "Password")]
+            public string Password { get; set; }
+
+            //[Required]
+            //public DateTime Birthday { get; set; }
+
+            [Required]
+            public string BarName { get; set; }
+
+            public string Role { get; set; }
+
+
+
+        }
+    public class ChangePasswordBindingModel
         {
             [Required]
             [DataType(DataType.Password)]
@@ -56,7 +81,6 @@ namespace WebApi.Models
             [Required]
             public string Password { get; set; }
 
-     
-
+            public string Role { get; set; }
         }
 }   

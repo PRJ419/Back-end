@@ -87,14 +87,14 @@ namespace WebApi.Controllers
         /// Ok (200) with the found Bar object if successful. <para/>
         /// NotFound (400) if the bar could not be found.
         /// </returns>
-        [Authorize]
+        [Authorize(Roles = "Kunde")]
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(BarDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetBar(string id)
         {
             var bar = _unitOfWork.BarRepository.Get(id);
-            if (bar != null)
+            if (bar != null)    
             {
                 var dto = BarDtoConverter.ToDto(bar);
                 return Ok(dto);

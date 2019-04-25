@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using Database;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -27,6 +28,30 @@ namespace WebApi.Controllers
         }
         // POST api/Register
         [AllowAnonymous]
+        [Route("api/register/bar")]
+        [HttpPost]
+        public async Task<IActionResult> RegisterBar([FromBody] RegisterBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = new BarOMeterIdentityUser() { UserName = model.Username, Email = model.Email };
+
+            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                BadRequest();
+            }
+
+            var roleClaim = new Claim("Role", "Bar");
+            await _userManager.AddClaimAsync(user, roleClaim);
+            return Ok();
+        }
+        // POST api/Register
+        [AllowAnonymous]
         [Route("api/register")]
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegisterBindingModel model)
@@ -44,7 +69,9 @@ namespace WebApi.Controllers
             {
                 BadRequest();
             }
-           // await _signInManager.SignInAsync(user, isPersistent: false);
+           
+            var roleClaim = new Claim("Role", "Kunde");
+            await _userManager.AddClaimAsync(user, roleClaim);
             return Ok();
         }
 
@@ -54,7 +81,7 @@ namespace WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginBindingModel model)
         {
-
+            
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -66,11 +93,14 @@ namespace WebApi.Controllers
                 ModelState.AddModelError(string.Empty, "Invalid login");
                 return BadRequest(ModelState);
             }
+
+            var claims = await _userManager.GetClaimsAsync(user);
+          
             TokenHelper th = new TokenHelper();
             var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
             if (result.Succeeded)
             {
-                return new ObjectResult(th.GenerateToken(model.Username));
+                return new ObjectResult(th.GenerateToken(model.Username, claims.First().Value));
                
             }
 

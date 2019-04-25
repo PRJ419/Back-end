@@ -6,13 +6,14 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
+using WebApi.Models;
 
 namespace WebApi.Helpers
 {
     public class TokenHelper
     {
 
-        public string GenerateToken(string username)
+        public string GenerateToken(string username, string role)
         {
             var claims = new Claim[]
             {
@@ -21,6 +22,9 @@ namespace WebApi.Helpers
                     DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString()),
                 new Claim(JwtRegisteredClaimNames.Exp, new
                     DateTimeOffset(DateTime.Now.AddDays(1)).ToUnixTimeSeconds().ToString()),
+                new Claim(ClaimTypes.Role,role), 
+             
+              
             };
             var token = new JwtSecurityToken(
                 new JwtHeader(new SigningCredentials(
