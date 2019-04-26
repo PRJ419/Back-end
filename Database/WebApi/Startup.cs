@@ -19,6 +19,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.IdentityModel.Protocols;
+using WebApi.Controllers;
 using WebApi.DTOs.AutoMapping;
 
 namespace WebApi
@@ -45,7 +46,9 @@ namespace WebApi
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
             // *************************************************
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                
 
             // Dependency injection
             services.AddScoped<IUnitOfWork, UnitOfWork>();

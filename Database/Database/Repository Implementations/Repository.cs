@@ -67,7 +67,6 @@ namespace Database.Repository_Implementations
             return _dbContext.Set<T>().Where(predicate).AsEnumerable().ToList();
         }
 
-
         /// <summary>
         /// Takes the id of a type and returns the object from database.
         /// </summary>

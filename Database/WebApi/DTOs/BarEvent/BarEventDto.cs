@@ -16,5 +16,7 @@ namespace WebApi.DTOs.BarEvent
         public string EventName { get; set; }
 
         public DateTime Date { get; set; }
+
+        public string Image { get; set; }
     }
 }
