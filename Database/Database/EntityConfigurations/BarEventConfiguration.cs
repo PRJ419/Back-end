@@ -21,6 +21,24 @@ namespace Database.EntityConfigurations
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasForeignKey(b => b.BarName);
+
+            #region Dataseeding
+
+            builder.HasData(new BarEvent()
+            {
+                BarName = "Katrines Kælder",
+                EventName = "Tobias tager Level Up",
+                Date = new DateTime(2019,04,26)
+            });
+
+            builder.HasData(new BarEvent()
+            {
+                BarName = "Medicinsk Fredagsbar - Umbilicus",
+                EventName = "Andreas på tur!",
+                Date = new DateTime(2019,05,29)                
+            });
+
+            #endregion
         }
     }
 }
