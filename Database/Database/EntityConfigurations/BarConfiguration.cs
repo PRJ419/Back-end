@@ -36,7 +36,8 @@ namespace Database.EntityConfigurations
                 CVR = 33985703,
                 PhoneNumber = 12345678,
                 Email = "katrineskaelder@outlook.dk",
-                AvgRating = 5.0
+                AvgRating = 5.0,
+                Image = "https://scontent-dus1-1.xx.fbcdn.net/v/t1.0-9/13166_441233562611984_1450333570_n.png?_nc_cat=105&_nc_ht=scontent-dus1-1.xx&oh=3a0e9139a633dd8d9131afd229eab1da&oe=5D2B6EDD"
             });
 
             builder.HasData(new Bar()
@@ -50,7 +51,8 @@ namespace Database.EntityConfigurations
                 CVR = 29129932,
                 PhoneNumber = 51927090,
                 Email = "bestyrelsen@umbi.dk",
-                AvgRating = 3.0
+                AvgRating = 3.0,
+                Image = "https://scontent-dus1-1.xx.fbcdn.net/v/t1.0-9/43698279_2427965823910886_4605085834809442304_n.png?_nc_cat=111&_nc_ht=scontent-dus1-1.xx&oh=e3bc006d52005d545011cc52b1f8a7d8&oe=5D76ACBE"
             });
 
             #endregion
