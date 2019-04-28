@@ -69,9 +69,9 @@ namespace Database {
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //var connection = @"Data Source=DESKTOP-QND3SFP\MSSQLSERVER03;Initial Catalog=PRJTestDatabase2;Integrated Security=True";
+                var connection = @"Data Source=DESKTOP-QND3SFP\MSSQLSERVER03;Initial Catalog=PRJTestDatabase2;Integrated Security=True";
                 //var connection = @"Data Source=DESKTOP-UGIDUH3;Initial Catalog=PRJ4Database;Integrated Security=True";
-                var connection = @"Data Source=DESKTOP-APD51SV;Initial Catalog=BarOMeter_Database_Test;Integrated Security = True";
+                //var connection = @"Data Source=DESKTOP-APD51SV;Initial Catalog=BarOMeter_Database_Test;Integrated Security = True";
                 optionsBuilder.UseLazyLoadingProxies().UseSqlServer(connection);
             }
         }
