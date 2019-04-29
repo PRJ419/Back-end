@@ -30,6 +30,37 @@ namespace Database.EntityConfigurations
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasForeignKey(a => a.BarName);
 
+            #region Dataseeding
+
+            builder.HasData(new Review()
+            {
+                BarPressure = 5,
+                Username = "Bodega Bent",
+                BarName = "Katrines Kælder"
+            });
+
+            builder.HasData(new Review()
+            {
+                BarPressure = 3,
+                Username = "Bodega Bent",
+                BarName = "Medicinsk Fredagsbar - Umbilicus"
+            });
+
+            builder.HasData(new Review()
+            {
+                BarPressure = 5,
+                Username = "Dehydrerede Dennis",
+                BarName = "Katrines Kælder",
+            });
+
+            builder.HasData(new Review()
+            {
+                BarPressure = 3,
+                Username = "Dehydrerede Dennis",
+                BarName = "Medicinsk Fredagsbar - Umbilicus"
+            });
+
+            #endregion
         }
     }
 }

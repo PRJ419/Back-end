@@ -297,6 +297,14 @@
     <Compile Include="Migrations\20190425120946_ImageStringAddedToDrinkAndEvent.designer.cs">
       <DependentUpon>20190425120946_ImageStringAddedToDrinkAndEvent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20190427114516_DataSeedsAdded.cs" />
+    <Compile Include="Migrations\20190427114516_DataSeedsAdded.designer.cs">
+      <DependentUpon>20190427114516_DataSeedsAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20190428175753_AddedImagesToDataSeedings.cs" />
+    <Compile Include="Migrations\20190428175753_AddedImagesToDataSeedings.designer.cs">
+      <DependentUpon>20190428175753_AddedImagesToDataSeedings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\BarOMeterContextModelSnapshot.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
