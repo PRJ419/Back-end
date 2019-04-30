@@ -271,7 +271,10 @@
     <Compile Include="EntityConfigurations\CustomerConfiguration.cs" />
     <Compile Include="EntityConfigurations\DrinkConfiguration.cs" />
     <Compile Include="EntityConfigurations\ReviewConfiguration.cs" />
+    <Compile Include="Interfaces\ICustomerRepository.cs" />
+    <Compile Include="Interfaces\IDrinkRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Interfaces\IReviewRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Migrations\20190325101521_PRJ4-v1.cs" />
     <Compile Include="Migrations\20190325101521_PRJ4-v1.designer.cs">

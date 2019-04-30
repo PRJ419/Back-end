@@ -11,17 +11,17 @@ namespace Database.Interfaces
     {
         IBarRepository BarRepository { get; }
 
-        BarEventRepository BarEventRepository { get; }
+        IBarEventRepository BarEventRepository { get; }
 
-        BarRepresentativeRepository BarRepRepository { get; }
+        IBarRepresentativeRepository BarRepRepository { get; }
 
-        CouponRepository CouponRepository { get; }
+        ICouponRepository CouponRepository { get; }
 
-        CustomerRepository CustomerRepository { get; }
+        ICustomerRepository CustomerRepository { get; }
 
-        DrinkRepository DrinkRepository { get; }
+        IDrinkRepository DrinkRepository { get; }
 
-        ReviewRepository ReviewRepository { get; }
+        IReviewRepository ReviewRepository { get; }
 
         /// <summary>
         /// Used in conjunction with changes made to the database, is called to save the changes made
