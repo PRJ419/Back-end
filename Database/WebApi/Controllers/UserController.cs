@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Areas.Identity.Data;
+using WebApi.DTOs.Bars;
 using WebApi.Helpers;
 
 
@@ -18,13 +19,16 @@ namespace WebApi.Controllers
     {
         private readonly SignInManager<BarOMeterIdentityUser> _signInManager;
         private readonly UserManager<BarOMeterIdentityUser> _userManager;
+        private readonly BarController _barController;
 
 
         public UserController(UserManager<BarOMeterIdentityUser> userManager,
-            SignInManager<BarOMeterIdentityUser> signInManager)
+            SignInManager<BarOMeterIdentityUser> signInManager,
+            BarController barController)
         {
              _userManager = userManager;
              _signInManager = signInManager;
+             _barController = barController;
         }
         // POST api/Register/barrep
         [AllowAnonymous]
@@ -72,6 +76,10 @@ namespace WebApi.Controllers
            
             var roleClaim = new Claim("Role", "Kunde");
             await _userManager.AddClaimAsync(user, roleClaim);
+
+
+            _barController.AddBar(new BarDto());
+
             return Ok();
         }
 

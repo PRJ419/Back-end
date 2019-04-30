@@ -26,6 +26,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Tokens;
 using WebApi.Areas.Identity.Data;
+using WebApi.Controllers;
 using WebApi.Models;
 
 namespace WebApi
@@ -62,6 +63,9 @@ namespace WebApi
                     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = true;
             });
+
+            // 
+            services.AddTransient<BarController>();
 
             services.AddMvc();
             services.AddAuthorization(options =>
