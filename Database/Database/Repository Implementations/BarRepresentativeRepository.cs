@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
 {
-    public class CouponRepository : Repository<Coupon>, ICouponRepository
+    public class BarRepresentativeRepository : Repository<BarRepresentative>,IBarRepresentativeRepository
     {
         /// <summary>
         /// Takes the database context and sends it to the base class constructor (Repository).
@@ -16,17 +16,18 @@ namespace Database.Repository_Implementations
         /// <param name="dbContext">
         /// Takes a database context that's gonna be set, so you can access the db.
         /// </param>
-        public CouponRepository(BarOMeterContext dbContext) : base(dbContext)
+        public BarRepresentativeRepository(BarOMeterContext dbContext) : base(dbContext)
         {
         }
 
 
-     
-        public void Edit(Coupon entity)
+       
+        public void Edit(BarRepresentative entity)
         {
-            var oldCoupon = Get(entity.CouponID, entity.BarName);
+            var oldBarRep = Get(entity.Username);
 
-            oldCoupon.ExpirationDate = entity.ExpirationDate;
+            oldBarRep.Name = entity.Name;
+            
         }
     }
 }

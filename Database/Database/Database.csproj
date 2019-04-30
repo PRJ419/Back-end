@@ -271,6 +271,9 @@
     <Compile Include="EntityConfigurations\CustomerConfiguration.cs" />
     <Compile Include="EntityConfigurations\DrinkConfiguration.cs" />
     <Compile Include="EntityConfigurations\ReviewConfiguration.cs" />
+    <Compile Include="Interfaces\IBarEventRepository.cs" />
+    <Compile Include="Interfaces\IBarRepresentativeRepository.cs" />
+    <Compile Include="Interfaces\ICouponRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Migrations\20190325101521_PRJ4-v1.cs" />
