@@ -53,7 +53,7 @@ namespace Database
         /// <summary>
         /// Returns the current Bar event repository associated to the database, if it doesn't exist the property will create a new bar event repository
         /// </summary>
-        public BarEventRepository BarEventRepository => 
+        public IBarEventRepository BarEventRepository => 
             _barEventRepository ?? (_barEventRepository = new BarEventRepository(_boMContext));
 
         /// <summary>
