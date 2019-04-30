@@ -9,12 +9,12 @@ namespace Database
     public class UnitOfWork : IUnitOfWork
     {
         private readonly BarOMeterContext _boMContext;
-        private BarEventRepository _barEventRepository;
-        private BarRepresentativeRepository _barRepresentativeRepository;
-        private CouponRepository _couponRepository;
-        private CustomerRepository _customerRepository;
-        private DrinkRepository _drinkRepository;
-        private ReviewRepository _reviewRepository;
+        private IBarEventRepository _barEventRepository;
+        private IBarRepresentativeRepository _barRepresentativeRepository;
+        private ICouponRepository _couponRepository;
+        private ICustomerRepository _customerRepository;
+        private IDrinkRepository _drinkRepository;
+        private IReviewRepository _reviewRepository;
         private IBarRepository _barRepository;
 
 
@@ -53,37 +53,37 @@ namespace Database
         /// <summary>
         /// Returns the current Bar event repository associated to the database, if it doesn't exist the property will create a new bar event repository
         /// </summary>
-        public BarEventRepository BarEventRepository => 
+        public IBarEventRepository BarEventRepository => 
             _barEventRepository ?? (_barEventRepository = new BarEventRepository(_boMContext));
 
         /// <summary>
         /// Returns the current Bar representative repository associated to the database, if it doesn't exist the property will create a new bar representative repository
         /// </summary>
-        public BarRepresentativeRepository BarRepRepository => 
+        public IBarRepresentativeRepository BarRepRepository => 
             _barRepresentativeRepository ?? (_barRepresentativeRepository = new BarRepresentativeRepository(_boMContext));
 
         /// <summary>
         /// Returns the current Coupon repository associated to the database, if it doesn't exist the property will create a new Coupon repository
         /// </summary>
-        public CouponRepository CouponRepository => 
+        public ICouponRepository CouponRepository => 
             _couponRepository ?? (_couponRepository = new CouponRepository(_boMContext));
 
         /// <summary>
         /// Returns the current Customer repository associated to the database, if it doesn't exist the property will create a new Customer repository
         /// </summary>
-        public CustomerRepository CustomerRepository => 
+        public ICustomerRepository CustomerRepository => 
             _customerRepository ?? (_customerRepository = new CustomerRepository(_boMContext));
 
         /// <summary>
         /// Returns the current Drink repository associated to the database, if it doesn't exist the property will create a new Drink repository
         /// </summary>
-        public DrinkRepository DrinkRepository => 
+        public IDrinkRepository DrinkRepository => 
             _drinkRepository ?? (_drinkRepository = new DrinkRepository(_boMContext));
 
         /// <summary>
         /// Returns the current  Review repository associated to the database, if it doesn't exist the property will create a new Review repository
         /// </summary>
-        public ReviewRepository ReviewRepository => 
+        public IReviewRepository ReviewRepository => 
             _reviewRepository ?? (_reviewRepository = new ReviewRepository(_boMContext));
 
 

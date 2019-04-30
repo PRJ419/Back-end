@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Database.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
 {
-    public class DrinkRepository : Repository<Drink>
+    public class DrinkRepository : Repository<Drink>, IDrinkRepository
     {
         /// <summary>
         /// Takes the database context and sends it to the base class constructor (Repository).
@@ -15,13 +16,7 @@ namespace Database.Repository_Implementations
      
         }
 
-        /// <summary>
-        /// This function is for editing an already existing drink in the database.
-        /// </summary>
-        /// <param name="entity">
-        /// Takes an edited drink as a parameter. It's a precondition that the keys of the drink
-        /// haven't been changed.
-        /// </param>
+        
         public void Edit(Drink entity)
         {
             var OldDrink = Get(entity.BarName, entity.DrinksName);

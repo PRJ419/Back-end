@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Database.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
 {
-    public class BarEventRepository : Repository<BarEvent>
+    public class BarEventRepository : Repository<BarEvent>, IBarEventRepository
     {
         /// <summary>
         /// Takes the database context and sends it to the base class constructor (Repository).
@@ -15,14 +16,7 @@ namespace Database.Repository_Implementations
 
         }
 
-        /// <summary>
-        /// This method is for editing a BarEvent entity that already exists in the db.
-        /// Therefore the keys of the edited entity has to correspond to the one in the db.
-        /// </summary>
-        /// <param name="entity">
-        /// Takes an edited BarEvent entity as parameter and finds the entity in the db,
-        /// with the same keys.
-        /// </param>
+        
         public void Edit(BarEvent entity)
         {
             var OldEvent = Get(entity.BarName, entity.EventName);

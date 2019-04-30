@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Data.SqlClient;
+using System.Linq;
 using Database.Repository_Implementations;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 
@@ -11,22 +13,31 @@ namespace Database.UnitTest
         private BarRepository _repository;
         private DbContextOptions<BarOMeterContext> _options;
         private BarOMeterContext _context;
+        private SqliteConnection _connection;
+
+        [SetUp]
+        public void Setup()
+        {
+            _connection = new SqliteConnection("Datasource=:memory:");
+            _connection.Open();
+            _options =
+                new DbContextOptionsBuilder<BarOMeterContext>().UseSqlite(_connection).Options;
+            _context = new BarOMeterContext(_options);
+            _repository = new BarRepository(_context);
+            _context.Database.EnsureCreated();
+        }
 
         [Test]
         public void BarRepository_GetBestBars_GetsListOfBars()
         {
-            _options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "GetBest")
-                    .Options;
-            _context = new BarOMeterContext(_options);
-            _repository = new BarRepository(_context);
+            
 
             var bar = new Bar()
             {
                 BarName = "Bar",
                 Address = "FakeAddress",
                 AgeLimit = 18,
-                AvgRating = 0,
+                AvgRating = 5,
                 CVR = 88888888,
                 PhoneNumber = 12345678,
                 Educations = "IKT",
@@ -37,11 +48,11 @@ namespace Database.UnitTest
             };
             var bar2 = new Bar()
             {
-                BarName = "New bar",
+                BarName = "Bar2",
                 Address = "New fakeAddress",
                 AgeLimit = 21,
-                AvgRating = 3,
-                CVR = 88888888,
+                AvgRating = 5,
+                CVR = 88888889,
                 PhoneNumber = 12345679,
                 Educations = "ST",
                 Email = "NewFake@email",
@@ -55,18 +66,13 @@ namespace Database.UnitTest
             _context.SaveChanges();
 
             var bars = _repository.GetBestBars().ToList();
-            Assert.AreEqual("New bar", bars[0].BarName);
-            Assert.AreSame("Bar", bars[1].BarName);
+            Assert.AreEqual("Bar", bars[0].BarName);
+            Assert.AreSame("Bar2", bars[1].BarName);
         }
 
         [Test]
         public void BarRepository_GetWorstBars_GetsListOfBars()
         {
-            _options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "GetWorst")
-                    .Options;
-            _context = new BarOMeterContext(_options);
-            _repository = new BarRepository(_context);
 
             var bar = new Bar()
             {
@@ -87,8 +93,8 @@ namespace Database.UnitTest
                 BarName = "New bar",
                 Address = "New fakeAddress",
                 AgeLimit = 21,
-                AvgRating = 3,
-                CVR = 88888888,
+                AvgRating = 0,
+                CVR = 888888889,
                 PhoneNumber = 12345679,
                 Educations = "ST",
                 Email = "NewFake@email",
@@ -557,6 +563,12 @@ namespace Database.UnitTest
 
                 Assert.That(() => _repository.Add(bar2), Throws.Exception);
             
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            _connection.Close();
         }
     }
 }
