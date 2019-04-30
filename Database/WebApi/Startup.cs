@@ -78,8 +78,8 @@ namespace WebApi
                 options.User.RequireUniqueEmail = true;
             });
 
-            // 
-            services.AddTransient<BarController>();
+            // Need to access controller from Identity user registration 
+            services.AddTransient<CustomerController>();
 
             services.AddMvc();
             services.AddAuthorization(options =>

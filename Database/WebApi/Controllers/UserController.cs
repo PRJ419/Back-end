@@ -10,6 +10,7 @@ using WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Areas.Identity.Data;
 using WebApi.DTOs.Bars;
+using WebApi.DTOs.Customers;
 using WebApi.Helpers;
 
 
@@ -19,16 +20,16 @@ namespace WebApi.Controllers
     {
         private readonly SignInManager<BarOMeterIdentityUser> _signInManager;
         private readonly UserManager<BarOMeterIdentityUser> _userManager;
-        private readonly BarController _barController;
+        private readonly CustomerController _customerController;
 
 
         public UserController(UserManager<BarOMeterIdentityUser> userManager,
             SignInManager<BarOMeterIdentityUser> signInManager,
-            BarController barController)
+            CustomerController customerController)
         {
              _userManager = userManager;
              _signInManager = signInManager;
-             _barController = barController;
+             _customerController = customerController;
         }
         // POST api/Register/barrep
         [AllowAnonymous]
@@ -54,6 +55,44 @@ namespace WebApi.Controllers
             await _userManager.AddClaimAsync(user, roleClaim);
             return Ok();
         }
+        // POST api/Register/barrep
+        [AllowAnonymous]
+        [Route("api/register/Admin")]
+        [HttpPost]
+        public async Task<IActionResult> RegisterAdmin([FromBody] AdminRegisterBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = new BarOMeterIdentityUser() { UserName = model.Username, Email = model.Email };
+
+            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                BadRequest();
+            }
+
+            var roleClaim = new Claim("Role", "Admin");
+            await _userManager.AddClaimAsync(user, roleClaim);
+            var addResult = _customerController.AddCustomer(new CustomerDto
+            {
+                Email = model.Email,
+                DateOfBirth = model.DateOfBirth,
+                Name = model.Name,
+                FavoriteBar = model.FavoriteBar,
+                FavoriteDrink = model.FavoriteDrink,
+                Username = model.Username,
+
+            });
+
+            if (addResult is CreatedResult)
+                return Ok();
+            else
+                return BadRequest();
+        }
         // POST api/Register
         [AllowAnonymous]
         [Route("api/register")]
@@ -78,9 +117,21 @@ namespace WebApi.Controllers
             await _userManager.AddClaimAsync(user, roleClaim);
 
 
-            _barController.AddBar(new BarDto());
+           var addResult = _customerController.AddCustomer(new CustomerDto
+            {
+                Email = model.Email,
+                DateOfBirth = model.DateOfBirth,
+                Name = model.Name,
+                FavoriteBar = model.FavoriteBar,
+                FavoriteDrink = model.FavoriteDrink,
+                Username = model.Username,
 
-            return Ok();
+            });
+
+           if (addResult is CreatedResult)
+               return Ok();
+           else
+               return BadRequest();
         }
 
         //POST api/Login

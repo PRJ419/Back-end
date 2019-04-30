@@ -6,6 +6,7 @@ using System.Web.Http;
 using AutoMapper;
 using Database;
 using Database.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.DTOs.ReviewDto;
@@ -58,6 +59,7 @@ namespace WebApi.Controllers
         /// NotFound(404) if no reviews were found.
         /// </returns>
         [Microsoft.AspNetCore.Mvc.HttpGet] 
+        [Microsoft.AspNetCore.Authorization.Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(List<ReviewDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetReviews([FromRoute] string BarName)
@@ -142,6 +144,7 @@ namespace WebApi.Controllers
         /// BadRequest (400) if unsuccessful. 
         /// </returns>
         [Microsoft.AspNetCore.Mvc.HttpPost]
+        [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Kunde")]
         [ProducesResponseType(typeof(ReviewDto), 201)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult AddUserReview([Microsoft.AspNetCore.Mvc.FromBody] ReviewDto reviewDto)
