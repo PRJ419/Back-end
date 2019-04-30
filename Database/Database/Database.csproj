@@ -273,6 +273,9 @@
     <Compile Include="EntityConfigurations\ReviewConfiguration.cs" />
     <Compile Include="Interfaces\ICustomerRepository.cs" />
     <Compile Include="Interfaces\IDrinkRepository.cs" />
+    <Compile Include="Interfaces\IBarEventRepository.cs" />
+    <Compile Include="Interfaces\IBarRepresentativeRepository.cs" />
+    <Compile Include="Interfaces\ICouponRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IReviewRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
