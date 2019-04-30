@@ -23,8 +23,20 @@ namespace Database.Interfaces
 
         ReviewRepository ReviewRepository { get; }
 
+        /// <summary>
+        /// Used in conjunction with changes made to the database, is called to save the changes made
+        /// </summary>
+        /// <returns>
+        /// Returns the number of changes made to the database
+        /// </returns>
         int Complete();
 
+        /// <summary>
+        /// Updates the current rating of a given bar and calculates the average rating of said bar
+        /// </summary>
+        /// <param name="barID">
+        /// Id of the chosen bar, in this case the name of the bar
+        /// </param>
         void UpdateBarRating(string barID);
     }
 }

@@ -5,7 +5,7 @@ namespace WebApi.DTOs.Bars
 {
     /// <summary>
     /// A data transfer object version of the Bar object from the database model layer. <para></para>
-    /// Reasoning for the different attributes on the properties can be seen in the Bar documentation. 
+    /// Reasoning for the different attributes on the properties can be seen in the Database.Entities.Bar documentation. 
     /// </summary>
     public class BarDto
     {

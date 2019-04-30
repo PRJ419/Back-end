@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AutoMapper;
 using Database;
 using Database.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.DTOs.ReviewDto;
+using WebApi.Utility;
 
 namespace WebApi.Controllers
 {
@@ -26,14 +28,23 @@ namespace WebApi.Controllers
         private IUnitOfWork _unitOfWork;
 
         /// <summary>
+        /// Field to store IMapper implementation.
+        /// </summary>
+        private readonly IMapper _mapper;
+
+        /// <summary>
         /// Constructor for the controller. 
         /// </summary>
         /// <param name="UnitOfWork">
         /// UnitOfWork implementation is dependency injected through configuration in Startup.cs
         /// </param>
-        public ReviewController(IUnitOfWork UnitOfWork)
+        /// <param name="mapper">
+        /// IMapper implementation used to map Dto object to model objects and vice versa. 
+        /// </param>
+        public ReviewController(IUnitOfWork UnitOfWork, IMapper mapper)
         {
             _unitOfWork = UnitOfWork;
+            _mapper = mapper; 
         }
 
         /// <summary>
@@ -51,12 +62,11 @@ namespace WebApi.Controllers
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetReviews([FromRoute] string BarName)
         {
-           
-            var bars = _unitOfWork.ReviewRepository.Find(x => x.BarName == BarName);
-            if(bars.Any())
+            var reviews = _unitOfWork.ReviewRepository.Find(x => x.BarName == BarName);
+            if(reviews.Any())
             {
-                var dtoList = ReviewDtoConverter.ToDtoList(bars);
-                return Ok(dtoList);
+                var reviewDtoList = Converter.GenericListConvert<Review, ReviewDto>(reviews, _mapper);
+                return Ok(reviewDtoList);
             }
             else
                 return NotFound();
@@ -84,7 +94,7 @@ namespace WebApi.Controllers
             var review = _unitOfWork.ReviewRepository.Get(new object[] {BarName, username});
             if (review != null)
             {
-                var reviewDto = ReviewDtoConverter.ToDto(review);
+                var reviewDto = _mapper.Map<ReviewDto>(review);
                 return Ok(reviewDto);
             }
             else
@@ -108,7 +118,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                var review = ReviewDtoConverter.ToReview(receivedReview);
+                var review = _mapper.Map<Review>(receivedReview);
                 _unitOfWork.ReviewRepository.Edit(review);
                 _unitOfWork.Complete();
                 _unitOfWork.UpdateBarRating(review.BarName);
@@ -138,7 +148,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                var review = ReviewDtoConverter.ToReview(reviewDto);
+                var review = _mapper.Map<Review>(reviewDto);
                 _unitOfWork.ReviewRepository.Add(review);
                 _unitOfWork.Complete();
                 _unitOfWork.UpdateBarRating(reviewDto.BarName);

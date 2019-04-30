@@ -1,24 +1,25 @@
 ﻿using System.Linq;
-using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
+using Database.Repository_Implementations;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 
 namespace Database.UnitTest
 {
+    [TestFixture]
     public class BarRepositoryTest
     {
-        [SetUp]
-        public void Setup()
-        {
-            
-        }
+        private BarRepository _repository;
+        private DbContextOptions<BarOMeterContext> _options;
+        private BarOMeterContext _context;
 
         [Test]
         public void BarRepository_GetBestBars_GetsListOfBars()
         {
-            var options =
+            _options =
                 new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "GetBest")
                     .Options;
+            _context = new BarOMeterContext(_options);
+            _repository = new BarRepository(_context);
 
             var bar = new Bar()
             {
@@ -31,7 +32,8 @@ namespace Database.UnitTest
                 Educations = "IKT",
                 Email = "Fake@email",
                 ShortDescription = "Short description",
-                LongDescription = "Long description"
+                LongDescription = "Long description",
+                Image = "FakeImg"
             };
             var bar2 = new Bar()
             {
@@ -44,32 +46,27 @@ namespace Database.UnitTest
                 Educations = "ST",
                 Email = "NewFake@email",
                 ShortDescription = "New short description",
-                LongDescription = "New long description"
+                LongDescription = "New long description",
+                Image = "FakeImg"
             };
 
-            using (var uow = new UnitOfWork(options))
-            {
-                uow.BarRepository.Add(bar);
-                uow.BarRepository.Add(bar2);
-                uow.Complete();
-            }
+            _repository.Add(bar);
+            _repository.Add(bar2);
+            _context.SaveChanges();
 
-            using (var uow = new UnitOfWork(options))
-            {
-                var bars = uow.BarRepository.GetBestBars().ToList();
-                
-                Assert.AreSame(uow.BarRepository.Get("New bar"), bars[0]);
-                Assert.AreSame(uow.BarRepository.Get("Bar"), bars[1]);
-            }
-
+            var bars = _repository.GetBestBars().ToList();
+            Assert.AreEqual("New bar", bars[0].BarName);
+            Assert.AreSame("Bar", bars[1].BarName);
         }
 
         [Test]
         public void BarRepository_GetWorstBars_GetsListOfBars()
         {
-            var options =
+            _options =
                 new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "GetWorst")
                     .Options;
+            _context = new BarOMeterContext(_options);
+            _repository = new BarRepository(_context);
 
             var bar = new Bar()
             {
@@ -82,7 +79,8 @@ namespace Database.UnitTest
                 Educations = "IKT",
                 Email = "Fake@email",
                 ShortDescription = "Short description",
-                LongDescription = "Long description"
+                LongDescription = "Long description",
+                Image = "FakeImg"
             };
             var bar2 = new Bar()
             {
@@ -95,32 +93,28 @@ namespace Database.UnitTest
                 Educations = "ST",
                 Email = "NewFake@email",
                 ShortDescription = "New short description",
-                LongDescription = "New long description"
+                LongDescription = "New long description",
+                Image = "FakeImg"
             };
 
-            using (var uow = new UnitOfWork(options))
-            {
-                uow.BarRepository.Add(bar);
-                uow.BarRepository.Add(bar2);
-                uow.Complete();
-            }
+            _repository.Add(bar);
+            _repository.Add(bar2);
+            _context.SaveChanges();
 
-            using (var uow = new UnitOfWork(options))
-            {
-                var bars = uow.BarRepository.GetWorstBars().ToList();
+            var bars = _repository.GetWorstBars().ToList();
 
-                Assert.AreSame(uow.BarRepository.Get("Bar"), bars[0]);
-                Assert.AreSame(uow.BarRepository.Get("New bar"), bars[1]);
-            }
-
+            Assert.AreSame("Bar", bars[0].BarName);
+            Assert.AreSame("New bar", bars[1].BarName);
         }
 
         [Test]
         public void BarRepository_AddThreeBarsRequestTwo_GetListOfTwo()
         {
-            var options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "GetTwo")
+            _options =
+                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "AddThreeGetTwo")
                     .Options;
+            _context = new BarOMeterContext(_options);
+            _repository = new BarRepository(_context);
 
             var bar = new Bar()
             {
@@ -133,7 +127,8 @@ namespace Database.UnitTest
                 Educations = "IKT",
                 Email = "Fake@email",
                 ShortDescription = "Short description",
-                LongDescription = "Long description"
+                LongDescription = "Long description",
+                Image = "FakeImg"
             };
             var bar2 = new Bar()
             {
@@ -146,7 +141,8 @@ namespace Database.UnitTest
                 Educations = "ST",
                 Email = "NewFake@email",
                 ShortDescription = "New short description",
-                LongDescription = "New long description"
+                LongDescription = "New long description",
+                Image = "FakeImg"
             };
             var bar3 = new Bar()
             {
@@ -159,30 +155,31 @@ namespace Database.UnitTest
                 Educations = "ST",
                 Email = "NewNewFake@email",
                 ShortDescription = "New new short description",
-                LongDescription = "New new long description"
+                LongDescription = "New new long description",
+                Image = "FakeImg"
             };
 
-            using (var uow = new UnitOfWork(options))
-            {
-                uow.BarRepository.Add(bar);
-                uow.BarRepository.Add(bar2);
-                uow.BarRepository.Add(bar3);
-                uow.Complete();
-            }
+            _repository.Add(bar);
+            _repository.Add(bar2);
+            _repository.Add(bar3);
+            _context.SaveChanges();
+            
 
-            using (var uow = new UnitOfWork(options))
-            {
-                var bars = uow.BarRepository.GetXBars(1, 2);
-                Assert.AreEqual(2, bars.Count());
-            }
+            var bars = _repository.GetXBars(1, 2).ToList();
+            Assert.AreEqual(2, bars.Count);
+            Assert.AreEqual("New bar", bars[0].BarName);
+            Assert.AreEqual("New new bar", bars[1].BarName);
+            
         }
 
         [Test]
         public void BarRepository_AddThreeBarsRequestZero_GetEmptyList()
         {
-            var options =
+            _options =
                 new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "GetEmpty")
                     .Options;
+            _context = new BarOMeterContext(_options);
+            _repository = new BarRepository(_context);
 
             var bar = new Bar()
             {
@@ -195,7 +192,8 @@ namespace Database.UnitTest
                 Educations = "IKT",
                 Email = "Fake@email",
                 ShortDescription = "Short description",
-                LongDescription = "Long description"
+                LongDescription = "Long description",
+                Image = "FakeImg"
             };
             var bar2 = new Bar()
             {
@@ -208,7 +206,8 @@ namespace Database.UnitTest
                 Educations = "ST",
                 Email = "NewFake@email",
                 ShortDescription = "New short description",
-                LongDescription = "New long description"
+                LongDescription = "New long description",
+                Image = "FakeImg"
             };
             var bar3 = new Bar()
             {
@@ -221,31 +220,28 @@ namespace Database.UnitTest
                 Educations = "ST",
                 Email = "NewNewFake@email",
                 ShortDescription = "New new short description",
-                LongDescription = "New new long description"
+                LongDescription = "New new long description",
+                Image = "FakeImg"
             };
 
-            using (var uow = new UnitOfWork(options))
-            {
-                uow.BarRepository.Add(bar);
-                uow.BarRepository.Add(bar2);
-                uow.BarRepository.Add(bar3);
-                uow.Complete();
-            }
+            _repository.Add(bar);
+            _repository.Add(bar2);
+            _repository.Add(bar3);
+            _context.SaveChanges();
 
-            using (var uow = new UnitOfWork(options))
-            {
-                var bars = uow.BarRepository.GetXBars(0, 0);
-                Assert.AreEqual(0, bars.Count());
-            }
+            var bars = _repository.GetXBars(0, 0);
+            Assert.AreEqual(0, bars.Count());
         }
 
 
         [Test]
         public void BarRepository_AddTwoFindSpecific_FindsSpecific()
         {
-            var options =
+            _options =
                 new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "FindSpecific")
                     .Options;
+            _context = new BarOMeterContext(_options);
+            _repository = new BarRepository(_context);
 
             var bar = new Bar()
             {
@@ -258,7 +254,8 @@ namespace Database.UnitTest
                 Educations = "IKT",
                 Email = "Fake@email",
                 ShortDescription = "Short description",
-                LongDescription = "Long description"
+                LongDescription = "Long description",
+                Image = "FakeImg"
             };
             var bar2 = new Bar()
             {
@@ -271,22 +268,26 @@ namespace Database.UnitTest
                 Educations = "ST",
                 Email = "NewFake@email",
                 ShortDescription = "New short description",
-                LongDescription = "New long description"
+                LongDescription = "New long description",
+                Image = "FakeImg"
             };
+            _repository.Add(bar);
+            _repository.Add(bar2);
+            _context.SaveChanges();
 
-            using (var uow = new UnitOfWork(options))
-            {
-                var barFound = uow.BarRepository.Find(x => x.PhoneNumber == 12345678);
-                Assert.That(barFound.All(x=>x.PhoneNumber == 12345678));
-            }
+            var barFound = _repository.Find(x => x.PhoneNumber == 12345678);
+            Assert.That(barFound.All(x=>x.PhoneNumber == 12345678));
+            
         }
 
         [Test]
         public void BarRepository_AddTwoBarsGetAll_GetAListOfTwo()
         {
-            var options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "GetAllList")
+            _options =
+                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "GetListOfAll")
                     .Options;
+            _context = new BarOMeterContext(_options);
+            _repository = new BarRepository(_context);
 
             var bar = new Bar()
             {
@@ -299,9 +300,10 @@ namespace Database.UnitTest
                 Educations = "IKT",
                 Email = "Fake@email",
                 ShortDescription = "Short description",
-                LongDescription = "Long description"
+                LongDescription = "Long description",
+                Image = "FakeImg"
             };
-            var Bar2 = new Bar()
+            var bar2 = new Bar()
             {
                 BarName = "New bar",
                 Address = "New fakeAddress",
@@ -312,28 +314,26 @@ namespace Database.UnitTest
                 Educations = "ST",
                 Email = "NewFake@email",
                 ShortDescription = "New short description",
-                LongDescription = "New long description"
+                LongDescription = "New long description",
+                Image = "FakeImg"
             };
 
-            using (var uow = new UnitOfWork(options))
-            {
-                uow.BarRepository.Add(bar);
-                uow.BarRepository.Add(Bar2);
-                uow.Complete();
-            }
+            _repository.Add(bar);
+            _repository.Add(bar2);
+            _context.SaveChanges();
 
-            using (var uow = new UnitOfWork(options))
-            {
-                Assert.AreEqual(2, uow.BarRepository.GetAll().Count());
-            }
+            Assert.AreEqual(2, _repository.GetAll().Count());
+            
         }
 
         [Test]
         public void BarRepository_EditBar_BarIsEdited()
         {
-            var options =
+            _options =
                 new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "EditBar")
                     .Options;
+            _context = new BarOMeterContext(_options);
+            _repository = new BarRepository(_context);
 
             var bar = new Bar()
             {
@@ -346,9 +346,10 @@ namespace Database.UnitTest
                 Educations = "IKT",
                 Email = "Fake@email",
                 ShortDescription = "Short description",
-                LongDescription = "Long description"
+                LongDescription = "Long description",
+                Image = "FakeImg"
             };
-            var EditedBar = new Bar()
+            var editedBar = new Bar()
             {
                 BarName = "New bar",
                 Address = "New fakeAddress",
@@ -359,39 +360,37 @@ namespace Database.UnitTest
                 Educations = "ST",
                 Email = "NewFake@email",
                 ShortDescription = "New short description",
-                LongDescription = "New long description"
+                LongDescription = "New long description",
+                Image = "New FakeImg"
             };
 
-            using (var uow = new UnitOfWork(options))
-            {
-                uow.BarRepository.Add(bar);
-                uow.Complete();
-            }
+            _repository.Add(bar);
+            _context.SaveChanges();
 
-            using (var uow = new UnitOfWork(options))
-            {
-                uow.BarRepository.Edit(EditedBar);
-                uow.Complete();
-                Assert.AreEqual("New bar", uow.BarRepository.Get("New bar").BarName);
-                Assert.AreEqual("New fakeAddress", uow.BarRepository.Get("New bar").Address);
-                Assert.AreEqual(21, uow.BarRepository.Get("New bar").AgeLimit);
-                Assert.AreEqual(3, uow.BarRepository.Get("New bar").AvgRating);
-                Assert.AreEqual("ST", uow.BarRepository.Get("New bar").Educations);
-                Assert.AreEqual(12345679, uow.BarRepository.Get("New bar").PhoneNumber);
-                Assert.AreEqual(88888888, uow.BarRepository.Get("New bar").CVR);
-                Assert.AreEqual("NewFake@email", uow.BarRepository.Get("New bar").Email);
-                Assert.AreEqual("New short description", uow.BarRepository.Get("New bar").ShortDescription);
-                Assert.AreEqual("New long description", uow.BarRepository.Get("New bar").LongDescription);
+            _repository.Edit(editedBar);
+            _context.SaveChanges();
+            Assert.AreEqual("New bar", _repository.Get("New bar").BarName);
+            Assert.AreEqual("New fakeAddress", _repository.Get("New bar").Address);
+            Assert.AreEqual(21, _repository.Get("New bar").AgeLimit);
+            Assert.AreEqual(3, _repository.Get("New bar").AvgRating);
+            Assert.AreEqual("ST", _repository.Get("New bar").Educations);
+            Assert.AreEqual(12345679, _repository.Get("New bar").PhoneNumber);
+            Assert.AreEqual(88888888, _repository.Get("New bar").CVR);
+            Assert.AreEqual("NewFake@email", _repository.Get("New bar").Email);
+            Assert.AreEqual("New short description", _repository.Get("New bar").ShortDescription);
+            Assert.AreEqual("New long description", _repository.Get("New bar").LongDescription);
+            Assert.AreEqual("New FakeImg", _repository.Get("New bar").Image);
 
-            }
         }
 
         [Test]
         public void BarRepository_GetBar_GetBarWithKey()
         {
-            var options =
+            _options =
                 new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "GetBarWithKey")
                     .Options;
+            _context = new BarOMeterContext(_options);
+            _repository = new BarRepository(_context);
 
             var bar = new Bar()
             {
@@ -404,7 +403,8 @@ namespace Database.UnitTest
                 Educations = "IKT",
                 Email = "Fake@email",
                 ShortDescription = "Short description",
-                LongDescription = "Long description"
+                LongDescription = "Long description",
+                Image = "FakeImg"
             };
             var bar2 = new Bar()
             {
@@ -414,39 +414,41 @@ namespace Database.UnitTest
                 AvgRating = 0,
                 CVR = 88888889,
                 PhoneNumber = 12345679,
-                Educations = "IKT",
+                Educations = "IKT2",
                 Email = "Fake@email2",
-                ShortDescription = "Short description",
-                LongDescription = "Long description"
+                ShortDescription = "Short description2",
+                LongDescription = "Long description2",
+                Image = "FakeImg2"
             };
-            using (var uow = new UnitOfWork(options))
-            {
-                uow.BarRepository.Add(bar);
-                uow.BarRepository.Add(bar2);
-                uow.Complete();
-            }
+            
+            _repository.Add(bar);
+            _repository.Add(bar2);
+            _context.SaveChanges();
+            
 
-            using (var uow = new UnitOfWork(options))
-            {
-                Assert.AreEqual("Testbar", uow.BarRepository.Get("Testbar").BarName);
-                Assert.AreEqual("FakeAddress2", uow.BarRepository.Get("Testbar").Address);
-                Assert.AreEqual(18, uow.BarRepository.Get("Testbar").AgeLimit);
-                Assert.AreEqual(0, uow.BarRepository.Get("Testbar").AvgRating);
-                Assert.AreEqual(88888889, uow.BarRepository.Get("Testbar").CVR);
-                Assert.AreEqual(12345679, uow.BarRepository.Get("Testbar").PhoneNumber);
-                Assert.AreEqual("IKT", uow.BarRepository.Get("Testbar").Educations);
-                Assert.AreEqual("Fake@email2", uow.BarRepository.Get("Testbar").Email);
-                Assert.AreEqual("Short description", uow.BarRepository.Get("Testbar").ShortDescription);
-                Assert.AreEqual("Long description", uow.BarRepository.Get("Testbar").LongDescription);
-            }
+            Assert.AreEqual("Testbar", _repository.Get("Testbar").BarName);
+            Assert.AreEqual("FakeAddress2", _repository.Get("Testbar").Address);
+            Assert.AreEqual(18, _repository.Get("Testbar").AgeLimit);
+            Assert.AreEqual(0, _repository.Get("Testbar").AvgRating);
+            Assert.AreEqual(88888889, _repository.Get("Testbar").CVR);
+            Assert.AreEqual(12345679, _repository.Get("Testbar").PhoneNumber);
+            Assert.AreEqual("IKT2", _repository.Get("Testbar").Educations);
+            Assert.AreEqual("Fake@email2", _repository.Get("Testbar").Email);
+            Assert.AreEqual("Short description2", _repository.Get("Testbar").ShortDescription);
+            Assert.AreEqual("Long description2", _repository.Get("Testbar").LongDescription);
+            Assert.AreEqual("FakeImg2", _repository.Get("Testbar").Image);
+            
         }
 
         [Test]
         public void BarRepository_AddBars_NoException()
         {
-            var options =
+            _options =
                 new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "AddBars")
                     .Options;
+            _context = new BarOMeterContext(_options);
+            _repository = new BarRepository(_context);
+
             var bar = new Bar()
             {
                 BarName = "New bar",
@@ -458,34 +460,34 @@ namespace Database.UnitTest
                 Educations = "IKT",
                 Email = "Fake@email",
                 ShortDescription = "Short description",
-                LongDescription = "Long description"
+                LongDescription = "Long description",
+                Image = "FakeImg"
             };
-            using (var uow = new UnitOfWork(options))
-            {
-                uow.BarRepository.Add(bar);
-                uow.Complete();
-            }
-
-            using (var uow = new UnitOfWork(options))
-            {
-                Assert.AreEqual("New bar", uow.BarRepository.Get("New bar").BarName);
-                Assert.AreEqual("FakeAddress", uow.BarRepository.Get("New bar").Address);
-                Assert.AreEqual(18, uow.BarRepository.Get("New bar").AgeLimit);
-                Assert.AreEqual(0, uow.BarRepository.Get("New bar").AvgRating);
-                Assert.AreEqual("IKT", uow.BarRepository.Get("New bar").Educations);
-                Assert.AreEqual("Fake@email", uow.BarRepository.Get("New bar").Email);
-                Assert.AreEqual("Short description", uow.BarRepository.Get("New bar").ShortDescription);
-                Assert.AreEqual("Long description", uow.BarRepository.Get("New bar").LongDescription);
-                Assert.AreEqual(12345678, uow.BarRepository.Get("New bar").PhoneNumber);
-            }
+            _repository.Add(bar);
+            _context.SaveChanges();
+            
+            Assert.AreEqual("New bar", _repository.Get("New bar").BarName);
+            Assert.AreEqual("FakeAddress", _repository.Get("New bar").Address);
+            Assert.AreEqual(18, _repository.Get("New bar").AgeLimit);
+            Assert.AreEqual(0, _repository.Get("New bar").AvgRating);
+            Assert.AreEqual("IKT", _repository.Get("New bar").Educations);
+            Assert.AreEqual("Fake@email", _repository.Get("New bar").Email);
+            Assert.AreEqual("Short description", _repository.Get("New bar").ShortDescription);
+            Assert.AreEqual("Long description", _repository.Get("New bar").LongDescription);
+            Assert.AreEqual(12345678, _repository.Get("New bar").PhoneNumber);
+            Assert.AreEqual("FakeImg", _repository.Get("New bar").Image);
+            
         }
 
         [Test]
         public void BarRepository_DeleteExistingBar_BarNoLongerInDB()
         {
-            var options =
+            _options =
                 new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "DeleteExistingBar")
                     .Options;
+            _context = new BarOMeterContext(_options);
+            _repository = new BarRepository(_context);
+
             var bar = new Bar()
             {
                 BarName = "New bar",
@@ -497,64 +499,64 @@ namespace Database.UnitTest
                 Educations = "IKT",
                 Email = "Fake@email",
                 ShortDescription = "Short description",
-                LongDescription = "Long description"
+                LongDescription = "Long description",
+                Image = "FakeImg"
             };
-            using (var uow = new UnitOfWork(options))
-            {
-                uow.BarRepository.Add(bar);
-                uow.Complete();
-            }
 
-            using (var uow = new UnitOfWork(options))
-            {
-                uow.BarRepository.Delete("New bar");
-                uow.Complete();
+            _repository.Add(bar);
+            _context.SaveChanges();
+            
 
-                Assert.AreEqual(null, uow.BarRepository.Get("New bar"));
-            }
+            _repository.Delete("New bar");
+            _context.SaveChanges();
+            Assert.AreEqual(null, _repository.Get("New bar"));
+            
         }
 
         [Test]
         public void BarRepository_Add2Bars1DuplicateName_ThrowsException()
         {
-            var options =
+            _options =
                 new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "Add2Bars1Duplicate")
                     .Options;
-            using (var uow = new UnitOfWork(options))
+            _context = new BarOMeterContext(_options);
+            _repository = new BarRepository(_context);
+
+
+            var bar = new Bar()
             {
-                var bar = new Bar()
-                {
-                    Address = "Address",
-                    AgeLimit = 18,
-                    AvgRating = 0,
-                    BarName = "Testbar",
-                    CVR = 12345678,
-                    PhoneNumber = 12345678,
-                    Educations = "IKT",
-                    Email = "FakeMail",
-                    ShortDescription = "ShortDesc",
-                    LongDescription = "LongDesc",
-                };
-                uow.BarRepository.Add(bar);
-                
-                uow.Complete();
+                Address = "Address",
+                AgeLimit = 18,
+                AvgRating = 0,
+                BarName = "Testbar",
+                CVR = 12345678,
+                PhoneNumber = 12345678,
+                Educations = "IKT",
+                Email = "FakeMail",
+                ShortDescription = "ShortDesc",
+                LongDescription = "LongDesc",
+                Image = "FakeImg"
+            };
+            _repository.Add(bar);
+            _context.SaveChanges();
 
-                var bar2 = new Bar()
-                {
-                    Address = "Address2",
-                    AgeLimit = 21,
-                    AvgRating = 0,
-                    BarName = "Testbar",
-                    CVR = 87654321,
-                    PhoneNumber = 12345679,
-                    Educations = "IKT",
-                    Email = "FakeMail2",
-                    ShortDescription = "ShortDesc",
-                    LongDescription = "LongDesc"
-                };
+            var bar2 = new Bar()
+            {
+                Address = "Address2",
+                AgeLimit = 21,
+                AvgRating = 0,
+                BarName = "Testbar",
+                CVR = 87654321,
+                PhoneNumber = 12345679,
+                Educations = "IKT",
+                Email = "FakeMail2",
+                ShortDescription = "ShortDesc",
+                LongDescription = "LongDesc",
+                Image = "FakeImg"
+            };
 
-                Assert.That(() => uow.BarRepository.Add(bar2), Throws.Exception);
-            }
+                Assert.That(() => _repository.Add(bar2), Throws.Exception);
+            
         }
     }
 }

@@ -18,6 +18,30 @@ namespace Database.EntityConfigurations
             builder
                 .HasIndex(a => a.Email)
                 .IsUnique();
+
+            #region Dataseeding
+
+            builder.HasData(new Customer()
+            {
+                Username = "Bodega Bent",
+                Name = "Bent",
+                DateOfBirth = new DateTime(1990,01,01),
+                Email = "JegElskerØl@Yahoo.com",
+                FavoriteBar = "Katrines Kælder",
+                FavoriteDrink = "Fadøl"
+            });
+
+            builder.HasData(new Customer()
+            {
+                Username = "Dehydrerede Dennis",
+                Name = "Dennis",
+                DateOfBirth = new DateTime(1990,02,02),
+                Email = "JegErTørstig@gmail.com",
+                FavoriteBar = "Medicinsk Fredagsbar - Umbilicus",
+                FavoriteDrink = "Vodka Redbull"
+            });
+
+            #endregion
         }
     }
 }

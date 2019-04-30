@@ -61,6 +61,36 @@ namespace Database.Migrations
                         .HasFilter("[Email] IS NOT NULL");
 
                     b.ToTable("Bar");
+
+                    b.HasData(
+                        new
+                        {
+                            BarName = "Katrines Kælder",
+                            Address = "5125 Edison, Finlandsgade 22, 8200 Aarhus",
+                            AgeLimit = 18,
+                            AvgRating = 5.0,
+                            CVR = 33985703,
+                            Educations = "IKT,EE,E,ST",
+                            Email = "katrineskaelder@outlook.dk",
+                            Image = "https://scontent-dus1-1.xx.fbcdn.net/v/t1.0-9/13166_441233562611984_1450333570_n.png?_nc_cat=105&_nc_ht=scontent-dus1-1.xx&oh=3a0e9139a633dd8d9131afd229eab1da&oe=5D2B6EDD",
+                            LongDescription = "Der er mange øl",
+                            PhoneNumber = 12345678,
+                            ShortDescription = "Der er øl"
+                        },
+                        new
+                        {
+                            BarName = "Medicinsk Fredagsbar - Umbilicus",
+                            Address = "Medicinerhuset, Bygning 1161, Ole Worms Allé 4, 8000 Aarhus",
+                            AgeLimit = 18,
+                            AvgRating = 3.0,
+                            CVR = 29129932,
+                            Educations = "Medicin",
+                            Email = "bestyrelsen@umbi.dk",
+                            Image = "https://scontent-dus1-1.xx.fbcdn.net/v/t1.0-9/43698279_2427965823910886_4605085834809442304_n.png?_nc_cat=111&_nc_ht=scontent-dus1-1.xx&oh=e3bc006d52005d545011cc52b1f8a7d8&oe=5D76ACBE",
+                            LongDescription = "Der er alt for mange mennesker og alt for få øl",
+                            PhoneNumber = 51927090,
+                            ShortDescription = "Der er varme øl"
+                        });
                 });
 
             modelBuilder.Entity("Database.BarEvent", b =>
@@ -73,9 +103,27 @@ namespace Database.Migrations
 
                     b.Property<DateTime>("Date");
 
+                    b.Property<string>("Image");
+
                     b.HasKey("BarName", "EventName");
 
                     b.ToTable("BarEvents");
+
+                    b.HasData(
+                        new
+                        {
+                            BarName = "Katrines Kælder",
+                            EventName = "Tobias tager Level Up",
+                            Date = new DateTime(2019, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Image = "https://vignette.wikia.nocookie.net/my-hero-academia-fanon/images/0/0a/Level_Up.png/revision/latest?cb=20180722000746"
+                        },
+                        new
+                        {
+                            BarName = "Medicinsk Fredagsbar - Umbilicus",
+                            EventName = "Andreas på tur!",
+                            Date = new DateTime(2019, 5, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Image = "https://media1.s-nbcnews.com/i/newscms/2016_48/1811466/161128-drinking-alcohol-jpo-108p_52ad934c90bc61c93c2242c4349f5e55.jpg"
+                        });
                 });
 
             modelBuilder.Entity("Database.BarRepresentative", b =>
@@ -97,6 +145,20 @@ namespace Database.Migrations
                     b.HasIndex("BarName");
 
                     b.ToTable("BarRepresentatives");
+
+                    b.HasData(
+                        new
+                        {
+                            Username = "Legend27",
+                            BarName = "Katrines Kælder",
+                            Name = "Ole Ølmave"
+                        },
+                        new
+                        {
+                            Username = "Kratluskeren",
+                            BarName = "Medicinsk Fredagsbar - Umbilicus",
+                            Name = "Tørstige Torsten"
+                        });
                 });
 
             modelBuilder.Entity("Database.Coupon", b =>
@@ -114,6 +176,20 @@ namespace Database.Migrations
                     b.HasIndex("BarName");
 
                     b.ToTable("Coupons");
+
+                    b.HasData(
+                        new
+                        {
+                            CouponID = "123ØL",
+                            BarName = "Katrines Kælder",
+                            ExpirationDate = new DateTime(2019, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            CouponID = "VarmØlNuTak",
+                            BarName = "Medicinsk Fredagsbar - Umbilicus",
+                            ExpirationDate = new DateTime(2019, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("Database.Customer", b =>
@@ -144,6 +220,26 @@ namespace Database.Migrations
                         .IsUnique();
 
                     b.ToTable("Customers");
+
+                    b.HasData(
+                        new
+                        {
+                            Username = "Bodega Bent",
+                            DateOfBirth = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "JegElskerØl@Yahoo.com",
+                            FavoriteBar = "Katrines Kælder",
+                            FavoriteDrink = "Fadøl",
+                            Name = "Bent"
+                        },
+                        new
+                        {
+                            Username = "Dehydrerede Dennis",
+                            DateOfBirth = new DateTime(1990, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "JegErTørstig@gmail.com",
+                            FavoriteBar = "Medicinsk Fredagsbar - Umbilicus",
+                            FavoriteDrink = "Vodka Redbull",
+                            Name = "Dennis"
+                        });
                 });
 
             modelBuilder.Entity("Database.Drink", b =>
@@ -154,11 +250,56 @@ namespace Database.Migrations
                     b.Property<string>("DrinksName")
                         .HasMaxLength(50);
 
+                    b.Property<string>("Image");
+
                     b.Property<double>("Price");
 
                     b.HasKey("BarName", "DrinksName");
 
                     b.ToTable("Drinks");
+
+                    b.HasData(
+                        new
+                        {
+                            BarName = "Katrines Kælder",
+                            DrinksName = "Spejlæg",
+                            Price = 50.0
+                        },
+                        new
+                        {
+                            BarName = "Katrines Kælder",
+                            DrinksName = "Flaskeøl",
+                            Image = "https://www.calle.dk/SL/PI/705/128/8c021bde-d649-4515-8c92-0effa962bafe.jpg",
+                            Price = 10.0
+                        },
+                        new
+                        {
+                            BarName = "Katrines Kælder",
+                            DrinksName = "Fadøl",
+                            Image = "https://r2brewery.dk/wp-content/uploads/2017/11/pilsner.png",
+                            Price = 20.0
+                        },
+                        new
+                        {
+                            BarName = "Medicinsk Fredagsbar - Umbilicus",
+                            DrinksName = "Ceres Top",
+                            Image = "https://www.calle.dk/SL/PI/705/128/8c021bde-d649-4515-8c92-0effa962bafe.jpg",
+                            Price = 10.0
+                        },
+                        new
+                        {
+                            BarName = "Medicinsk Fredagsbar - Umbilicus",
+                            DrinksName = "Vodka Redbull",
+                            Image = "https://www.drinkdelivery.it/wp-content/uploads/2015/05/vodka-absolute-redbull.jpg",
+                            Price = 20.0
+                        },
+                        new
+                        {
+                            BarName = "Medicinsk Fredagsbar - Umbilicus",
+                            DrinksName = "Hospitalssprit",
+                            Image = "https://www.fotoagent.dk/single_picture/11981/138/mega/201096_1.jpg",
+                            Price = 10.0
+                        });
                 });
 
             modelBuilder.Entity("Database.Review", b =>
@@ -176,6 +317,32 @@ namespace Database.Migrations
                     b.HasIndex("Username");
 
                     b.ToTable("Reviews");
+
+                    b.HasData(
+                        new
+                        {
+                            BarName = "Katrines Kælder",
+                            Username = "Bodega Bent",
+                            BarPressure = 5
+                        },
+                        new
+                        {
+                            BarName = "Medicinsk Fredagsbar - Umbilicus",
+                            Username = "Bodega Bent",
+                            BarPressure = 3
+                        },
+                        new
+                        {
+                            BarName = "Katrines Kælder",
+                            Username = "Dehydrerede Dennis",
+                            BarPressure = 5
+                        },
+                        new
+                        {
+                            BarName = "Medicinsk Fredagsbar - Umbilicus",
+                            Username = "Dehydrerede Dennis",
+                            BarPressure = 3
+                        });
                 });
 
             modelBuilder.Entity("Database.BarEvent", b =>

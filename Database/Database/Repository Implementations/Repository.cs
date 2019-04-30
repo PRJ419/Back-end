@@ -27,72 +27,30 @@ namespace Database.Repository_Implementations
         {
             _dbContext = dbcontext;
         }
-
-
-        /// <summary>
-        /// Adds an object of a given type to the database, if this type is valid inside the database.
-        /// </summary>
-        /// <param name="entity">
-        /// Takes a class entity and adds it to the repository if it's an acceptable class.
-        /// </param>
+        
         public void Add(T entity)
         {
             _dbContext.Set<T>().Add(entity);
         }
-
-
-        /// <summary>
-        /// Takes the keys for a given object and deletes it from the database.
-        /// </summary>
-        /// <param name="keys">
-        /// If using a composite key, then it has to be in matching order of how it's defined in the Fluent API.
-        /// </param>
+        
         public void Delete(params object [] keys)
         {
             _dbContext.Set<T>().Remove(Get(keys));
         }
-
-
-        /// <summary>
-        /// Takes an expression as parameter and returns list of the matching objects.
-        /// </summary>
-        /// <param name="predicate"></param>
-        /// Can for example take x=>x.Bar.BarName == "BarName";
-        /// <returns>
-        /// If successful, returns list of the matching object if existing.
-        /// If unsuccessful, null.
-        /// </returns>
+        
         public IEnumerable<T> Find(Expression<Func<T, bool>> predicate)
         {
             return _dbContext.Set<T>().Where(predicate).AsEnumerable().ToList();
         }
 
-
-        /// <summary>
-        /// Takes the id of a type and returns the object from database.
-        /// </summary>
-        /// <param name="keys">
-        /// Can take composite keys by typing Get(key1, key2, key3...).
-        /// Have to be in exact order defined in fluent api. Drinks e.g. has to be Get(barname, drinkname).
-        /// </param>
-        /// <returns>
-        /// If successful, object if it exists and param was correct.
-        /// If unsuccessful, null.
-        /// </returns>
+        
         public T Get(params object[] keys)
         {
             return _dbContext.Set<T>().Find(keys);
         }
 
 
-        /// <summary>
-        /// Takes no parameters and returns a list of all the objects of the given type.
-        /// </summary>
-        /// <returns>
-        /// If successful, list(as IEnumerable) of objects of the given type if they exist.
-        /// If unsuccessful, null.
-        /// </returns>
-        public IEnumerable<T> GetAll()
+       public IEnumerable<T> GetAll()
         {
             return _dbContext.Set<T>().AsEnumerable().ToList();
         }

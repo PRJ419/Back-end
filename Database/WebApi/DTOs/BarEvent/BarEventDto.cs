@@ -5,7 +5,7 @@ namespace WebApi.DTOs.BarEvent
 {
     /// <summary>
     /// Data transfer object for BarEvent. <para></para>
-    /// See BarEvent documentation for reasoning behind the Attributes. 
+    /// See Database.Entities.BarEvent documentation for reasoning behind the Attributes. 
     /// </summary>
     public class BarEventDto
     {
@@ -16,5 +16,7 @@ namespace WebApi.DTOs.BarEvent
         public string EventName { get; set; }
 
         public DateTime Date { get; set; }
+
+        public string Image { get; set; }
     }
 }

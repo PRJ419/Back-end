@@ -1,198 +1,187 @@
 ﻿using System;
 using System.Linq;
+using Database.Repository_Implementations;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 
 namespace Database.UnitTest
 {
+    [TestFixture]
     public class CustomerRepositoryTest
     {
+        private CustomerRepository _repository;
+        private DbContextOptions<BarOMeterContext> _options;
+        private BarOMeterContext _context;
 
         [Test]
         public void Add_Entity_To_Database()
         {
-           var options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "TestOfAddCustomerRepo")
+            _options =
+                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "AddCustomer")
                     .Options;
+            _context = new BarOMeterContext(_options);
+            _repository = new CustomerRepository(_context);
 
-            using (var uow = new UnitOfWork(options))
-            {
-                uow.CustomerRepository.Add(new Customer()
-                {
-                    Username = "TestUsername",
-                    Name = "TestName",
-                    DateOfBirth = DateTime.MaxValue,
-                    Email = "Test@Dab.com",
-                    FavoriteBar = "TestBar",
-                    FavoriteDrink = "TestDrink"
-                });
-                uow.Complete();
-            }
 
-            using (var uow = new UnitOfWork(options))
+            _repository.Add(new Customer()
             {
-                Assert.AreEqual("TestUsername",uow.CustomerRepository.Get("TestUsername").Username);
-                Assert.AreEqual("TestName",uow.CustomerRepository.Get("TestUsername").Name);
-                Assert.AreEqual(DateTime.MaxValue,uow.CustomerRepository.Get("TestUsername").DateOfBirth);
-                Assert.AreEqual("Test@Dab.com",uow.CustomerRepository.Get("TestUsername").Email);
-                Assert.AreEqual("TestBar",uow.CustomerRepository.Get("TestUsername").FavoriteBar);
-                Assert.AreEqual("TestDrink",uow.CustomerRepository.Get("TestUsername").FavoriteDrink);
-            }
+                Username = "TestUsername",
+                Name = "TestName",
+                DateOfBirth = DateTime.MaxValue,
+                Email = "Test@Dab.com",
+                FavoriteBar = "TestBar",
+                FavoriteDrink = "TestDrink"
+            });
+            _context.SaveChanges();
+            
+
+            Assert.AreEqual("TestUsername",_repository.Get("TestUsername").Username);
+            Assert.AreEqual("TestName",_repository.Get("TestUsername").Name);
+            Assert.AreEqual(DateTime.MaxValue,_repository.Get("TestUsername").DateOfBirth);
+            Assert.AreEqual("Test@Dab.com",_repository.Get("TestUsername").Email);
+            Assert.AreEqual("TestBar",_repository.Get("TestUsername").FavoriteBar);
+            Assert.AreEqual("TestDrink",_repository.Get("TestUsername").FavoriteDrink);
+
         }
 
         [Test]
         public void Edit_Entity()
         {
-            var options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "TestOfEditCustomerRepo")
+            _options =
+                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "EditCustomer")
                     .Options;
+            _context = new BarOMeterContext(_options);
+            _repository = new CustomerRepository(_context);
 
-            using (var uow = new UnitOfWork(options))
+            _repository.Add(new Customer()
             {
-                uow.CustomerRepository.Add(new Customer()
-                {
-                    Username = "TestUsername",
-                    Name = "TestName",
-                    DateOfBirth = DateTime.MaxValue,
-                    Email = "Test@Dab.com",
-                    FavoriteBar = "TestBar",
-                    FavoriteDrink = "TestDrink"
-                });
-                uow.Complete();
+                Username = "TestUsername",
+                Name = "TestName",
+                DateOfBirth = DateTime.MaxValue,
+                Email = "Test@Dab.com",
+                FavoriteBar = "TestBar",
+                FavoriteDrink = "TestDrink"
+            });
+            _context.SaveChanges();
 
-                Customer newCustomer = new Customer()
-                {
-                    Username = "TestUsername",
-                    Name = "TestName",
-                    DateOfBirth = DateTime.MaxValue,
-                    Email = "NewMail@Dab.com",
-                    FavoriteBar = "NewBar",
-                    FavoriteDrink = "NewDrink"
-                };
-
-                uow.CustomerRepository.Edit(newCustomer);
-                uow.Complete();
-            }
-
-            using (var uow = new UnitOfWork(options))
+            Customer newCustomer = new Customer()
             {
-                Assert.AreEqual("TestUsername", uow.CustomerRepository.Get("TestUsername").Username);
-                Assert.AreEqual("TestName", uow.CustomerRepository.Get("TestUsername").Name);
-                Assert.AreEqual(DateTime.MaxValue, uow.CustomerRepository.Get("TestUsername").DateOfBirth);
-                Assert.AreEqual("NewMail@Dab.com", uow.CustomerRepository.Get("TestUsername").Email);
-                Assert.AreEqual("NewBar", uow.CustomerRepository.Get("TestUsername").FavoriteBar);
-                Assert.AreEqual("NewDrink", uow.CustomerRepository.Get("TestUsername").FavoriteDrink);
-            }
+                Username = "TestUsername",
+                Name = "TestName",
+                DateOfBirth = DateTime.MaxValue,
+                Email = "NewMail@Dab.com",
+                FavoriteBar = "NewBar",
+                FavoriteDrink = "NewDrink"
+            };
+
+            _repository.Edit(newCustomer);
+            _context.SaveChanges();
+        
+            Assert.AreEqual("TestUsername", _repository.Get("TestUsername").Username);
+            Assert.AreEqual("TestName", _repository.Get("TestUsername").Name);
+            Assert.AreEqual(DateTime.MaxValue, _repository.Get("TestUsername").DateOfBirth);
+            Assert.AreEqual("NewMail@Dab.com", _repository.Get("TestUsername").Email);
+            Assert.AreEqual("NewBar", _repository.Get("TestUsername").FavoriteBar);
+            Assert.AreEqual("NewDrink", _repository.Get("TestUsername").FavoriteDrink);
+            
         }
 
         [Test]
         public void Remove_Entity_From_Database()
         {
-            var options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "TestOfDeleteCustomerRepo")
+            _options =
+                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "RemoveCustomer")
                     .Options;
+            _context = new BarOMeterContext(_options);
+            _repository = new CustomerRepository(_context);
 
-            using (var uow = new UnitOfWork(options))
+            _repository.Add(new Customer()
             {
-                uow.CustomerRepository.Add(new Customer()
-                {
-                    Username = "TestUsername",
-                    Name = "TestName",
-                    DateOfBirth = DateTime.MaxValue,
-                    Email = "Test@Dab.com",
-                    FavoriteBar = "TestBar",
-                    FavoriteDrink = "TestDrink"
-                });
+                Username = "TestUsername",
+                Name = "TestName",
+                DateOfBirth = DateTime.MaxValue,
+                Email = "Test@Dab.com",
+                FavoriteBar = "TestBar",
+                FavoriteDrink = "TestDrink"
+            });
 
-                uow.Complete();
-                uow.CustomerRepository.Delete("TestUsername");
-                uow.Complete();
-            }
-
-            using (var uow = new UnitOfWork(options))
-            {
-                Assert.AreEqual(null, uow.CustomerRepository.Get("TestUsername"));
-            }
+            _context.SaveChanges();
+            _repository.Delete("TestUsername");
+            _context.SaveChanges();
+            
+            Assert.AreEqual(null, _repository.Get("TestUsername"));
+            
         }
 
         [Test]
         public void Get_All_Customers()
         {
-            var options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "TestOfGetAllCustomerRepo")
+            _options =
+                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "GetAllCustomers")
                     .Options;
+            _context = new BarOMeterContext(_options);
+            _repository = new CustomerRepository(_context);
 
-            using (var uow = new UnitOfWork(options))
+            _repository.Add(new Customer()
             {
-                uow.CustomerRepository.Add(new Customer()
-                {
-                    Username = "TestUsername1",
-                    Name = "TestName1",
-                    DateOfBirth = DateTime.MaxValue,
-                    Email = "Test@Dab.com1",
-                    FavoriteBar = "TestBar1",
-                    FavoriteDrink = "TestDrink1"
-                });
-                uow.Complete();
+                Username = "TestUsername1",
+                Name = "TestName1",
+                DateOfBirth = DateTime.MaxValue,
+                Email = "Test@Dab.com1",
+                FavoriteBar = "TestBar1",
+                FavoriteDrink = "TestDrink1"
+            });
+            _context.SaveChanges();
 
-                uow.CustomerRepository.Add(new Customer()
-                {
-                    Username = "TestUsername2",
-                    Name = "TestName2",
-                    DateOfBirth = DateTime.MaxValue,
-                    Email = "Test@Dab.com2",
-                    FavoriteBar = "TestBar2",
-                    FavoriteDrink = "TestDrink2"
-                });
-                uow.Complete();
-            }
-
-            using (var uow = new UnitOfWork(options))
+            _repository.Add(new Customer()
             {
-                Assert.AreEqual(2, uow.CustomerRepository.GetAll().Count());
-            }
+                Username = "TestUsername2",
+                Name = "TestName2",
+                DateOfBirth = DateTime.MaxValue,
+                Email = "Test@Dab.com2",
+                FavoriteBar = "TestBar2",
+                FavoriteDrink = "TestDrink2"
+            });
+            _context.SaveChanges();
+            
+            Assert.AreEqual(2, _repository.GetAll().Count());
+            
         }
 
 
         [Test]
         public void Find_Customer()
         {
-            var options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "TestOfFindCustomerRepo")
+            _options =
+                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "FindCustomer")
                     .Options;
+            _context = new BarOMeterContext(_options);
+            _repository = new CustomerRepository(_context);
 
-            using (var uow = new UnitOfWork(options))
+            _repository.Add(new Customer()
             {
-                uow.CustomerRepository.Add(new Customer()
-                {
-                    Username = "TestUsername",
-                    Name = "TestName",
-                    DateOfBirth = DateTime.MaxValue,
-                    Email = "Test@Dab.com",
-                    FavoriteBar = "TestBar",
-                    FavoriteDrink = "TestDrink"
-                });
-                uow.Complete();
+                Username = "TestUsername",
+                Name = "TestName",
+                DateOfBirth = DateTime.MaxValue,
+                Email = "Test@Dab.com",
+                FavoriteBar = "TestBar",
+                FavoriteDrink = "TestDrink"
+            });
+            _context.SaveChanges();
 
-                uow.CustomerRepository.Add(new Customer()
-                {
-                    Username = "TestUsername2",
-                    Name = "TestName2",
-                    DateOfBirth = DateTime.MaxValue,
-                    Email = "Test@Dab.com2",
-                    FavoriteBar = "TestBar2",
-                    FavoriteDrink = "TestDrink2"
-                });
-                uow.Complete();
-            }
-
-            using (var uow = new UnitOfWork(options))
+            _repository.Add(new Customer()
             {
-                var foundCustomer = uow.CustomerRepository.Find(c => c.Username == "TestUsername2").ToList();
-                Assert.Contains(uow.CustomerRepository.Get("TestUsername2"),foundCustomer);
-            }
-
+                Username = "TestUsername2",
+                Name = "TestName2",
+                DateOfBirth = DateTime.MaxValue,
+                Email = "Test@Dab.com2",
+                FavoriteBar = "TestBar2",
+                FavoriteDrink = "TestDrink2"
+            });
+            _context.SaveChanges();
+            
+            var foundCustomer = _repository.Find(c => c.Username == "TestUsername2").ToList();
+            Assert.Contains(_repository.Get("TestUsername2"),foundCustomer);
         }
     }
-
 }

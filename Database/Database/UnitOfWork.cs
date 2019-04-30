@@ -17,11 +17,23 @@ namespace Database
         private ReviewRepository _reviewRepository;
         private IBarRepository _barRepository;
 
+
+        /// <summary>
+        /// Used for creating an instance of UnitOfWork with standard BarOMeterContext connectionstring.
+        /// </summary>
         public UnitOfWork()
         {
             _boMContext = new BarOMeterContext();
         }
 
+        /// <summary>
+        /// Used for creating an instance of UnitOfWork with certain options for the BarOMeterContext.
+        /// Primarily used for testing the database with an inMemory database.
+        /// </summary>
+        /// <param name="options">
+        /// Takes an DbContextOptions of BarOMeterContext as the parameter. This could for example be
+        /// an inMemory database.
+        /// </param>
         public UnitOfWork(DbContextOptions<BarOMeterContext> options)
         {
             _boMContext = new BarOMeterContext(options);
@@ -30,7 +42,7 @@ namespace Database
         // The following properties check if the repository for the entities already exist. If they don't, then it instantiates a new repository
         // with the same context so we always work on the same context between the repositories.
         // 
-        // This code is inspired by microsofts "Implementing the Repository and Unit of Work Patterns" page
+        // This code is inspired by the "Implementing the Repository and Unit of Work Patterns" page by Microsoft
 
 
         /// <summary>

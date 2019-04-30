@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Database;
 using Database.Interfaces;
 using Database.Repository_Implementations;
@@ -24,6 +25,8 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Protocols;
+using WebApi.Controllers;
+using WebApi.DTOs.AutoMapping;
 using Microsoft.IdentityModel.Tokens;
 using WebApi.Areas.Identity.Data;
 using WebApi.Controllers;
@@ -43,6 +46,17 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // *** Inspired from below link *******************
+            // https://stackoverflow.com/questions/40275195/how-to-setup-automapper-in-asp-net-core
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+            // *************************************************
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             // Dependency injection
             services.AddScoped<IUnitOfWork, UnitOfWork>();

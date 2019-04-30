@@ -22,6 +22,24 @@ namespace Database.EntityConfigurations
             builder
                 .HasKey(a => new { a.CouponID, a.BarName });
 
+            #region Dataseeding
+
+            builder.HasData(new Coupon()
+            {
+                BarName = "Katrines Kælder",
+                CouponID = "123ØL",
+                ExpirationDate = new DateTime(2019,06,20)
+            });
+
+            builder.HasData(new Coupon()
+            {
+                BarName = "Medicinsk Fredagsbar - Umbilicus",
+                CouponID = "VarmØlNuTak",
+                ExpirationDate = new DateTime(2019,07,10)
+            });
+
+            #endregion
+
         }
     }
 }

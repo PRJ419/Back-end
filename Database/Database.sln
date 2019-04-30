@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Databa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csproj", "{3F0F8FD2-5161-4349-94AA-C7B1CD25E70C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Test.UnitTest", "NUnitTestProject1\WebApi.Test.UnitTest.csproj", "{54DB4F79-26D2-402C-9471-AB4D0340E07B}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database.UnitTest", "Database.UnitTest\Database.UnitTest.csproj", "{FB8BED5A-2F46-4CE3-977E-EF81BE8C9CE0}"
 EndProject
 Global
@@ -23,6 +25,10 @@ Global
 		{3F0F8FD2-5161-4349-94AA-C7B1CD25E70C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F0F8FD2-5161-4349-94AA-C7B1CD25E70C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F0F8FD2-5161-4349-94AA-C7B1CD25E70C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54DB4F79-26D2-402C-9471-AB4D0340E07B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54DB4F79-26D2-402C-9471-AB4D0340E07B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54DB4F79-26D2-402C-9471-AB4D0340E07B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54DB4F79-26D2-402C-9471-AB4D0340E07B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FB8BED5A-2F46-4CE3-977E-EF81BE8C9CE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FB8BED5A-2F46-4CE3-977E-EF81BE8C9CE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB8BED5A-2F46-4CE3-977E-EF81BE8C9CE0}.Release|Any CPU.ActiveCfg = Release|Any CPU

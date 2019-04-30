@@ -26,6 +26,7 @@ namespace Database.Repository_Implementations
         {
             var OldDrink = Get(entity.BarName, entity.DrinksName);
             OldDrink.Price = entity.Price;
+            OldDrink.Image = entity.Image;
         }
     }
 }
