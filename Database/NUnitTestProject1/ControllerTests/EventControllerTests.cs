@@ -18,7 +18,6 @@ namespace WebApi.Test.UnitTest.ControllerTests
     public class EventControllerTests
     {
 
-
         private EventController uut;
         private IUnitOfWork mockUnitOfWork;
         private IMapper mapper;
