@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Database;
 using Database.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.DTOs.Coupon;

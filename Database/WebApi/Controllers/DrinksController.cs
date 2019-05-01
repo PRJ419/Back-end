@@ -7,6 +7,7 @@ using Database;
 using Database.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using WebApi.DTOs;
 using WebApi.DTOs.Drinks;

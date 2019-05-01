@@ -8,6 +8,7 @@ using Database;
 using Database.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using WebApi.DTOs.BarEvent;
 using WebApi.Utility;
 

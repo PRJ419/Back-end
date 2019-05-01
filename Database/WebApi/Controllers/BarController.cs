@@ -67,7 +67,7 @@ namespace WebApi.Controllers
         /// NotFound (404) if no bars could be found.
         /// </returns>
         [HttpGet]
-        // [Authorize]
+
         [AllowAnonymous]
         [ProducesResponseType(typeof(List<BarSimpleDto>), 200)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]

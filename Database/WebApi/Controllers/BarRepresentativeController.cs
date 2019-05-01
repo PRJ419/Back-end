@@ -6,6 +6,7 @@ using AutoMapper;
 using Database;
 using Database.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.DTOs.BarRepresentative;
 using WebApi.DTOs.Customers;
