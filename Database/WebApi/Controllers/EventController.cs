@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Database;
 using Database.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.DTOs.BarEvent;
@@ -19,6 +20,7 @@ namespace WebApi.Controllers
     /// Returns BarEventDto objects
     /// </summary>
     [Route("api/bars/{barName}/events")]
+    [Authorize(Roles = "Admin")]
     [ApiController]
     public class EventController : ControllerBase
     {
@@ -50,6 +52,7 @@ namespace WebApi.Controllers
 
         /// <summary>
         /// Returns all events associated with a Bar. 
+        /// Authorization: None
         /// </summary>
         /// <param name="barName">
         /// string identifying the bar. 
@@ -59,6 +62,7 @@ namespace WebApi.Controllers
         /// NotFound (404) if no events were found. 
         /// </returns>
         [HttpGet]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(List<BarEventDto>), 200)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetEvents(string barName)
@@ -76,6 +80,7 @@ namespace WebApi.Controllers
 
         /// <summary>
         /// Adds a BarEvent to the database. 
+        /// Authorization: Admin, BarRepresentative
         /// </summary>
         /// <param name="eventDto">
         /// is a BarEventDto object. Must match property attribute rules. 
@@ -85,6 +90,7 @@ namespace WebApi.Controllers
         /// BadRequest (400) if model requirements weren't. 
         /// </returns>
         [HttpPost]
+        [Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(BarEventDto), 201)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult AddEvent([FromBody] BarEventDto eventDto)
@@ -103,7 +109,8 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Edits an BarEvent
+        /// Edits an BarEvent.
+        /// Authorization: Admin, BarRepresentative
         /// </summary>
         /// <param name="eventDto">
         /// is a BarEventDto which holds edited data. <para></para>
@@ -115,6 +122,7 @@ namespace WebApi.Controllers
         /// BadRequest (404) if edit was unsuccessful. See parameter requirements. 
         /// </returns>
         [HttpPut]
+        [Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(BarEventDto), 201)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult EditEvent([FromBody] BarEventDto eventDto)
@@ -134,6 +142,7 @@ namespace WebApi.Controllers
 
         /// <summary>
         /// Deletes an event. 
+        /// Authorization: Admin, BarRepresentative
         /// </summary>
         /// <param name="eventName">
         /// is a string holding the event name
@@ -146,6 +155,7 @@ namespace WebApi.Controllers
         /// BadRequest (400) if deletion was unsuccessful. 
         /// </returns>
         [HttpDelete("{eventName}")]
+        [Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(Nullable), 200)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult DeleteEvent(string eventName, string barName)

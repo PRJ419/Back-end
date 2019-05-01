@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Database;
 using Database.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ namespace WebApi.Controllers
     /// Controller for drinks.
     /// Route is api/bars/{BarName}/Drinks.
     /// </summary>
+    [Authorize(Roles = "Admin")]
     [Route("api/bars/{BarName}/Drinks")]
     [ApiController]
     public class DrinksController : ControllerBase
@@ -50,6 +52,7 @@ namespace WebApi.Controllers
 
         /// <summary>
         /// Returns all drinks sold by the bar.
+        /// Authorization: None
         /// </summary>
         /// <param name="barName">
         /// is a string which is the id of the bar,
@@ -59,6 +62,7 @@ namespace WebApi.Controllers
         /// Returns List&lt;DrinkDto&gt; of all the bars drinks.
         /// </returns>
         [HttpGet]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(List<DrinkDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetDrinks(string barName)
@@ -75,6 +79,7 @@ namespace WebApi.Controllers
 
         /// <summary>
         /// Adds a drink to the database. 
+        /// Authorization: Admin, BarRepresentative
         /// </summary>
         /// <param name="drinkDto">
         /// is a DrinkDto object version of Drink object. <para></para>
@@ -85,6 +90,7 @@ namespace WebApi.Controllers
         /// Returns 400 (BadRequest) on failure to insert or bad model supplied.  
         /// </returns>
         [HttpPost]
+        [Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(Drink), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult AddDrink([FromBody] DrinkDto drinkDto)
@@ -104,6 +110,7 @@ namespace WebApi.Controllers
 
         /// <summary>
         /// Deletes a drink identified by BarName and drinkName
+        /// Authorization: Admin, BarRepresentative
         /// </summary>
         /// <param name="BarName">
         /// is a string which is the bars name.
@@ -116,6 +123,7 @@ namespace WebApi.Controllers
         /// BadRequest(400) if deletion is unsuccessful.
         /// </returns>
         [HttpDelete("{drinkName}")]
+        [Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult DeleteDrink(string BarName, string drinkName)
@@ -134,6 +142,7 @@ namespace WebApi.Controllers
 
         /// <summary>
         /// Edit a drink.
+        /// Authorization: Admin, BarRepresentative. 
         /// </summary>
         /// <param name="drinkDto">
         /// is an updated version of a Drink object in the database. <para></para>
@@ -144,6 +153,7 @@ namespace WebApi.Controllers
         /// BadRequest (400) if edit was not successful.
         /// </returns>
         [HttpPut]
+        [Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(DrinkDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult EditDrink([FromBody] DrinkDto drinkDto)

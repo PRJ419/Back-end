@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -59,14 +60,14 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Returns all Bars ranked from highest to lowest
+        /// Returns all Bars ranked from highest to lowest.
+        /// Authorization: None
         /// </summary>
         /// <returns>
         /// Ok (200) returns a List&lt;BarSimpleDto&gt; ordered by avg ranking (descending). <para/>
         /// NotFound (404) if no bars could be found.
         /// </returns>
         [HttpGet]
-        // [Authorize]
         [AllowAnonymous]
         [ProducesResponseType(typeof(List<BarSimpleDto>), 200)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
@@ -81,7 +82,8 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Returns a specific Bar found by provided id
+        /// Returns a specific Bar found by provided id.
+        /// Authorization: None
         /// </summary>
         /// <param name="id">
         /// is BarName property of Bar class.
@@ -93,7 +95,7 @@ namespace WebApi.Controllers
         /// Ok (200) with the found Bar object if successful. <para/>
         /// NotFound (400) if the bar could not be found.
         /// </returns>
-        [Authorize(Roles = "Kunde")]
+        [AllowAnonymous]
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(BarDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
@@ -110,7 +112,8 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Adds a Bar object to the database, if bar with same name does not exist
+        /// Adds a Bar object to the database, if bar with same name does not exist.
+        /// Authorization: Admin
         /// </summary>
         /// <param name="dtoBar">
         /// is a BarDto object supplied in the Http Body in JSON formatting. Must match property attribute rules. 
@@ -120,7 +123,7 @@ namespace WebApi.Controllers
         /// BadRequest (400) if unsuccessful.
         /// </returns>
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(BarDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult AddBar([FromBody]BarDto dtoBar)
@@ -138,7 +141,8 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Deletes a bar identified by id
+        /// Deletes a bar identified by id.
+        /// Authorization: Admin
         /// </summary>
         /// <param name="id">
         /// string which must match a BarName.
@@ -148,6 +152,7 @@ namespace WebApi.Controllers
         /// BadRequest (400) if bar could not be found or deletion was unsuccessful.
         /// </returns>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult DeleteBar(string id)
@@ -166,6 +171,7 @@ namespace WebApi.Controllers
 
         /// <summary>
         /// Updates a bar if it already exists.
+        /// Authorization: BarRepresentative, Admin
         /// </summary>
         /// <param name="barDto">
         /// BarDto object supplied in the Http Body in JSON formatting. <para/>
@@ -176,7 +182,7 @@ namespace WebApi.Controllers
         /// 400 (BadRequest) if edit was unsuccessful. 
         /// </returns>
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(BarDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult UpdateBar([FromBody]BarDto barDto)
@@ -195,13 +201,14 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Returns a list of bars ranked from worst to best
+        /// Returns a list of bars ranked from worst to best.
+        /// Authorization: None
         /// </summary>
         /// <returns>
         /// Ok (200) Response and List&lt;BarDto&gt; if any found <para/>
         /// NotFound (404) Response no bars were found. 
         /// </returns>
-        [Authorize(Roles = "BarRep")]
+        [AllowAnonymous]
         [HttpGet("Worst")]
         [ProducesResponseType(typeof(BarSimpleDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
@@ -220,7 +227,8 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Returns a range of barDto's in a List
+        /// Returns a range of barDto's in a List.
+        /// Authorization: None 
         /// </summary>
         /// <param name="index">
         /// Start index.
@@ -232,7 +240,6 @@ namespace WebApi.Controllers
         /// Ok (200) if found, a List&lt;BarSimpleDto&gt; picked with range as specified by the parameters. <para/>
         /// NotFound (404) if none found, and no List. 
         /// </returns>
-        ///
         [AllowAnonymous]
         [HttpGet("{index}/{length}")]
         [ProducesResponseType(typeof(List<BarSimpleDto>), StatusCodes.Status200OK)]
