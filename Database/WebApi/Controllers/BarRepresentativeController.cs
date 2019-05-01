@@ -21,6 +21,7 @@ namespace WebApi.Controllers
     /// Functions can be called from other controllers though. 
     /// </summary>
     [Route("api/BarRepresentatives")]
+    [Authorize(Roles = "Admin")]
     [ApiController]
     public class BarRepresentativeController : ControllerBase
     {
@@ -89,7 +90,7 @@ namespace WebApi.Controllers
         /// NotFOund (404) if the BarRepresentative was not found.
         /// </returns>
         [HttpGet("{username}")]
-        [Authorize(Roles = "BarRep,Admin")]
+        [Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(BarRepresentativeDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetBarRepresentative(string username)
@@ -133,7 +134,7 @@ namespace WebApi.Controllers
 
         /// <summary>
         /// Edits an BarRepresentative.
-        /// Authorization: Admin, BarRepresentative
+        /// Authorization: Admin, BarRepresentattive
         /// </summary>
         /// <param name="barRepDto">
         /// is a BarRepresentativeDto which holds edited data. <para></para>
@@ -145,7 +146,7 @@ namespace WebApi.Controllers
         /// BadRequest (404) if edit was unsuccessful. See parameter requirements. 
         /// </returns>
         [HttpPut]
-        [Authorize(Roles = "BarRep,Admin")]
+        [Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(BarRepresentativeDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult EditBarRepresentative([FromBody] BarRepresentativeDto barRepDto)
