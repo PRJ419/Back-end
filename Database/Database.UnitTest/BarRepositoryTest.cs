@@ -15,6 +15,14 @@ namespace Database.UnitTest
         private BarOMeterContext _context;
         private SqliteConnection _connection;
 
+
+        /// <summary>
+        /// This setup is run before every test, hence creating the database before every test.
+        /// TearDown makes sure to delete the database between each test, to make sure we have a clean
+        /// database.
+        /// Due to DataSeeding there will always be two bars in the repository, which is why
+        /// the tests sometimes assert on these.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
@@ -116,12 +124,6 @@ namespace Database.UnitTest
         [Test]
         public void BarRepository_AddThreeBarsRequestTwo_GetListOfTwo()
         {
-            _options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "AddThreeGetTwo")
-                    .Options;
-            _context = new BarOMeterContext(_options);
-            _repository = new BarRepository(_context);
-
             var bar = new Bar()
             {
                 BarName = "Bar",
@@ -136,57 +138,22 @@ namespace Database.UnitTest
                 LongDescription = "Long description",
                 Image = "FakeImg"
             };
-            var bar2 = new Bar()
-            {
-                BarName = "New bar",
-                Address = "New fakeAddress",
-                AgeLimit = 21,
-                AvgRating = 3,
-                CVR = 88888858,
-                PhoneNumber = 12345679,
-                Educations = "ST",
-                Email = "NewFake@email",
-                ShortDescription = "New short description",
-                LongDescription = "New long description",
-                Image = "FakeImg"
-            };
-            var bar3 = new Bar()
-            {
-                BarName = "New new bar",
-                Address = "New new fakeAddress",
-                AgeLimit = 23,
-                AvgRating = 4,
-                CVR = 88888884,
-                PhoneNumber = 12345679,
-                Educations = "ST",
-                Email = "NewNewFake@email",
-                ShortDescription = "New new short description",
-                LongDescription = "New new long description",
-                Image = "FakeImg"
-            };
+            
 
             _repository.Add(bar);
-            _repository.Add(bar2);
-            _repository.Add(bar3);
             _context.SaveChanges();
             
 
             var bars = _repository.GetXBars(1, 2).ToList();
             Assert.AreEqual(2, bars.Count);
-            Assert.AreEqual("New bar", bars[0].BarName);
-            Assert.AreEqual("New new bar", bars[1].BarName);
+            Assert.AreEqual("Medicinsk Fredagsbar - Umbilicus", bars[0].BarName);
+            Assert.AreEqual("Bar", bars[1].BarName);
             
         }
 
         [Test]
         public void BarRepository_AddThreeBarsRequestZero_GetEmptyList()
         {
-            _options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "GetEmpty")
-                    .Options;
-            _context = new BarOMeterContext(_options);
-            _repository = new BarRepository(_context);
-
             var bar = new Bar()
             {
                 BarName = "Bar",
@@ -243,12 +210,7 @@ namespace Database.UnitTest
         [Test]
         public void BarRepository_AddTwoFindSpecific_FindsSpecific()
         {
-            _options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "FindSpecific")
-                    .Options;
-            _context = new BarOMeterContext(_options);
-            _repository = new BarRepository(_context);
-
+            
             var bar = new Bar()
             {
                 BarName = "Bar",
@@ -269,7 +231,7 @@ namespace Database.UnitTest
                 Address = "New fakeAddress",
                 AgeLimit = 21,
                 AvgRating = 3,
-                CVR = 88888888,
+                CVR = 88888889,
                 PhoneNumber = 12345679,
                 Educations = "ST",
                 Email = "NewFake@email",
@@ -287,14 +249,8 @@ namespace Database.UnitTest
         }
 
         [Test]
-        public void BarRepository_AddTwoBarsGetAll_GetAListOfTwo()
+        public void BarRepository_AddTwoBarsGetAll_GetAListOfFourBecauseOfSeeding()
         {
-            _options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "GetListOfAll")
-                    .Options;
-            _context = new BarOMeterContext(_options);
-            _repository = new BarRepository(_context);
-
             var bar = new Bar()
             {
                 BarName = "Bar",
@@ -315,7 +271,7 @@ namespace Database.UnitTest
                 Address = "New fakeAddress",
                 AgeLimit = 21,
                 AvgRating = 3,
-                CVR = 88888888,
+                CVR = 88888889,
                 PhoneNumber = 12345679,
                 Educations = "ST",
                 Email = "NewFake@email",
@@ -328,19 +284,13 @@ namespace Database.UnitTest
             _repository.Add(bar2);
             _context.SaveChanges();
 
-            Assert.AreEqual(2, _repository.GetAll().Count());
+            Assert.AreEqual(4, _repository.GetAll().Count());
             
         }
 
         [Test]
         public void BarRepository_EditBar_BarIsEdited()
         {
-            _options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "EditBar")
-                    .Options;
-            _context = new BarOMeterContext(_options);
-            _repository = new BarRepository(_context);
-
             var bar = new Bar()
             {
                 BarName = "New bar",
@@ -392,12 +342,6 @@ namespace Database.UnitTest
         [Test]
         public void BarRepository_GetBar_GetBarWithKey()
         {
-            _options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "GetBarWithKey")
-                    .Options;
-            _context = new BarOMeterContext(_options);
-            _repository = new BarRepository(_context);
-
             var bar = new Bar()
             {
                 BarName = "New bar",
@@ -449,12 +393,6 @@ namespace Database.UnitTest
         [Test]
         public void BarRepository_AddBars_NoException()
         {
-            _options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "AddBars")
-                    .Options;
-            _context = new BarOMeterContext(_options);
-            _repository = new BarRepository(_context);
-
             var bar = new Bar()
             {
                 BarName = "New bar",
@@ -488,12 +426,6 @@ namespace Database.UnitTest
         [Test]
         public void BarRepository_DeleteExistingBar_BarNoLongerInDB()
         {
-            _options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "DeleteExistingBar")
-                    .Options;
-            _context = new BarOMeterContext(_options);
-            _repository = new BarRepository(_context);
-
             var bar = new Bar()
             {
                 BarName = "New bar",
@@ -522,13 +454,7 @@ namespace Database.UnitTest
         [Test]
         public void BarRepository_Add2Bars1DuplicateName_ThrowsException()
         {
-            _options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "Add2Bars1Duplicate")
-                    .Options;
-            _context = new BarOMeterContext(_options);
-            _repository = new BarRepository(_context);
-
-
+            
             var bar = new Bar()
             {
                 Address = "Address",
