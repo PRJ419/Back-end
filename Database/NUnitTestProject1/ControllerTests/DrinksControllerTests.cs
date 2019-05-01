@@ -141,6 +141,8 @@ namespace WebApi.Test.UnitTest.ControllerTests
             Assert.That(resultObj.Value, Is.TypeOf<DrinkDto>());
         }
 
+        
+
         [Test]
         public void AddDrink_UnitOfWorkThrowsException_ReturnsBadRequest()
         {

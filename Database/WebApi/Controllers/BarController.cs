@@ -6,6 +6,7 @@ using AutoMapper;
 using Database;
 using Database.Interfaces;
 using Database.Repository_Implementations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite.Internal.UrlActions;
