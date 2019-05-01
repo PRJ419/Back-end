@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Http;
 using AutoMapper;
 using Database;
 using Database.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.DTOs.ReviewDto;
@@ -16,7 +18,7 @@ namespace WebApi.Controllers
     /// ReviewController for the Web Api. <para></para>
     /// Returns ReviewDto objects. 
     /// </summary>
-    [Route("api/bars/{BarName}/reviews")]
+    [Microsoft.AspNetCore.Mvc.Route("api/bars/{BarName}/reviews")]
     [ApiController]
     public class ReviewController : ControllerBase
     {
@@ -56,7 +58,8 @@ namespace WebApi.Controllers
         /// Ok (200) and a List&lt;ReviewDto&gt;  <para></para>
         /// NotFound(404) if no reviews were found.
         /// </returns>
-        [HttpGet] 
+        [Microsoft.AspNetCore.Mvc.HttpGet] 
+        [Microsoft.AspNetCore.Authorization.Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(List<ReviewDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetReviews([FromRoute] string BarName)
@@ -85,7 +88,7 @@ namespace WebApi.Controllers
         /// NotFound (404) if the review could not be found. <para></para>'
         /// The review can only be found if username and BarName matches a Review saved in the database. 
         /// </returns>
-        [HttpGet("{username}")]
+        [Microsoft.AspNetCore.Mvc.HttpGet("{username}")]
         [ProducesResponseType(typeof(ReviewDto), 200)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetUserReview(string username, string BarName)
@@ -110,10 +113,10 @@ namespace WebApi.Controllers
         /// Created (201) if edit was successful. <para></para>
         /// BadRequest (400) if edit was unsuccessful. 
         /// </returns>
-        [HttpPut]
+        [Microsoft.AspNetCore.Mvc.HttpPut]
         [ProducesResponseType(typeof(ReviewDto), 201)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
-        public IActionResult EditUserReview([FromBody]ReviewDto receivedReview)
+        public IActionResult EditUserReview([Microsoft.AspNetCore.Mvc.FromBody]ReviewDto receivedReview)
         {
             try
             {
@@ -140,10 +143,11 @@ namespace WebApi.Controllers
         /// Created (201) if successful. <para></para>
         /// BadRequest (400) if unsuccessful. 
         /// </returns>
-        [HttpPost]
+        [Microsoft.AspNetCore.Mvc.HttpPost]
+        [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Kunde")]
         [ProducesResponseType(typeof(ReviewDto), 201)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
-        public IActionResult AddUserReview([FromBody] ReviewDto reviewDto)
+        public IActionResult AddUserReview([Microsoft.AspNetCore.Mvc.FromBody] ReviewDto reviewDto)
         {
             try
             {
@@ -176,7 +180,7 @@ namespace WebApi.Controllers
         /// There must exist a Review with the provided
         /// BarName and username for deletion to be successful
         /// </returns>
-        [HttpDelete("{username}")]
+        [Microsoft.AspNetCore.Mvc.HttpDelete("{username}")]
         [ProducesResponseType(typeof(Nullable), 200)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult DeleteUserReview(string BarName, string username)

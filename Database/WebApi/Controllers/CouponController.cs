@@ -116,8 +116,8 @@ namespace WebApi.Controllers
             {
                 var coupon = _mapper.Map<Coupon>(couponDto);
                 _unitOfWork.CouponRepository.Add(coupon);
-                _unitOfWork.Complete();
-                return Created(string.Format($"api/bars/{coupon.BarName}/{coupon.CouponID}"), couponDto);
+                _unitOfWork.Complete(); // TODO: Wrong route discovered in unit tests, corrected now. 
+                return Created(string.Format($"api/bars/{coupon.BarName}/coupons/{coupon.CouponID}"), couponDto);
             }
             catch (Exception e)
             {
@@ -147,7 +147,7 @@ namespace WebApi.Controllers
                 var coupon = _mapper.Map<Coupon>(couponDto);
                 _unitOfWork.CouponRepository.Edit(coupon);
                 _unitOfWork.Complete();
-                return Created(string.Format($"api/Bars/{coupon.BarName}/{coupon.CouponID}"), couponDto);
+                return Created(string.Format($"api/bars/{coupon.BarName}/coupons/{coupon.CouponID}"), couponDto);
             }
             catch (Exception e)
             {
