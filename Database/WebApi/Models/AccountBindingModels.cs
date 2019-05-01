@@ -117,10 +117,50 @@ namespace WebApi.Models
             public string Username { get; set; }
 
             public string Role { get; set; }
+            /// <summary>
+            /// Property for the name of the representative. This is required and has a max length of 150.
+            /// </summary>
+            [Required]
+            [MaxLength(150)]
+            public string Name { get; set; }
 
 
+            /// <summary>
+            /// Property for the foreign key to the bars bar name. Has a max length of 150 just like in bar.
+            /// </summary>
+            [MaxLength(150)]
+            public string BarName { get; set; }
 
-        }
+            [Required]
+            [MaxLength(255)]
+            public string Address { get; set; }
+
+            [Required]
+            public int AgeLimit { get; set; }
+
+            [MaxLength(255)]
+            public string Educations { get; set; }
+
+            [MaxLength(500)]
+            public string ShortDescription { get; set; }
+
+            [MaxLength(2500)]
+            public string LongDescription { get; set; }
+
+            //[MaxLength(8)]
+            [Required]
+            public int CVR { get; set; }
+
+            //[MaxLength(10)]
+            public int PhoneNumber { get; set; }
+
+            [Range(0.0, 5.0)]
+            public double AvgRating { get; set; }
+
+            public string Image { get; set; }
+
+
+    }
     public class ChangePasswordBindingModel
         {
             [Required]
