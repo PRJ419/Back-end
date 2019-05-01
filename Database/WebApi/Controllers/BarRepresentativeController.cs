@@ -21,7 +21,6 @@ namespace WebApi.Controllers
     /// Functions can be called from other controllers though. 
     /// </summary>
     [Route("api/BarRepresentatives")]
-    [Authorize(Roles = "Admin")]
     [ApiController]
     public class BarRepresentativeController : ControllerBase
     {
@@ -61,6 +60,7 @@ namespace WebApi.Controllers
         /// NotFound (404) if no BarRepresentatives were found. 
         /// </returns>
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(List<BarRepresentativeDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetBarRepresentatives()
@@ -90,7 +90,7 @@ namespace WebApi.Controllers
         /// NotFOund (404) if the BarRepresentative was not found.
         /// </returns>
         [HttpGet("{username}")]
-        [Authorize(Roles = "BarRep")]
+        [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(BarRepresentativeDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetBarRepresentative(string username)
@@ -115,6 +115,7 @@ namespace WebApi.Controllers
         /// BadRequest (400) if model requirements weren't. 
         /// </returns>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(BarRepresentativeDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult AddBarRepresentative([FromBody] BarRepresentativeDto barRepDto)
@@ -146,7 +147,7 @@ namespace WebApi.Controllers
         /// BadRequest (404) if edit was unsuccessful. See parameter requirements. 
         /// </returns>
         [HttpPut]
-        [Authorize(Roles = "BarRep")]
+        [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(BarRepresentativeDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult EditBarRepresentative([FromBody] BarRepresentativeDto barRepDto)
@@ -176,6 +177,7 @@ namespace WebApi.Controllers
         /// BadRequest (400) if deletion was unsuccessful. 
         /// </returns>
         [HttpDelete("{username}")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult DeleteBarRepresentative(string username)
