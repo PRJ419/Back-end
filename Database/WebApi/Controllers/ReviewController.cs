@@ -8,9 +8,11 @@ using Database;
 using Database.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.DTOs.ReviewDto;
 using WebApi.Utility;
+using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace WebApi.Controllers
 {
@@ -19,6 +21,7 @@ namespace WebApi.Controllers
     /// Returns ReviewDto objects. 
     /// </summary>
     [Microsoft.AspNetCore.Mvc.Route("api/bars/{BarName}/reviews")]
+    [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Admin")]
     [ApiController]
     public class ReviewController : ControllerBase
     {
@@ -49,7 +52,8 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Returns all the reviews of a bar
+        /// Returns all the reviews of a bar.
+        /// Authorization: Admin, Kunde, BarRepresentativ
         /// </summary>
         /// <param name="BarName">
         /// is a string to identify the Bar by its BarName. 
@@ -59,7 +63,7 @@ namespace WebApi.Controllers
         /// NotFound(404) if no reviews were found.
         /// </returns>
         [Microsoft.AspNetCore.Mvc.HttpGet] 
-        [Microsoft.AspNetCore.Authorization.Authorize(Roles = "BarRep")]
+        [Microsoft.AspNetCore.Authorization.Authorize(Roles = "BarRep,Kunde")]
         [ProducesResponseType(typeof(List<ReviewDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetReviews([FromRoute] string BarName)
@@ -76,6 +80,7 @@ namespace WebApi.Controllers
 
         /// <summary>
         /// Returns the single review made by 1 user of 1 bar. 
+        /// Authorization: Admin, BarRepresentative, Kunde
         /// </summary>
         /// <param name="username">
         /// is a string holding the username of the user. 
@@ -89,6 +94,7 @@ namespace WebApi.Controllers
         /// The review can only be found if username and BarName matches a Review saved in the database. 
         /// </returns>
         [Microsoft.AspNetCore.Mvc.HttpGet("{username}")]
+        [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Kunde,BarRep")]
         [ProducesResponseType(typeof(ReviewDto), 200)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetUserReview(string username, string BarName)
@@ -105,6 +111,7 @@ namespace WebApi.Controllers
 
         /// <summary>
         /// Edits an user review. 
+        /// Authorization: Admin, Kunde
         /// </summary>
         /// <param name="receivedReview">
         /// is a ReviewDto. Must match property attribute rules.  
@@ -114,6 +121,7 @@ namespace WebApi.Controllers
         /// BadRequest (400) if edit was unsuccessful. 
         /// </returns>
         [Microsoft.AspNetCore.Mvc.HttpPut]
+        [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Kunde")]
         [ProducesResponseType(typeof(ReviewDto), 201)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult EditUserReview([Microsoft.AspNetCore.Mvc.FromBody]ReviewDto receivedReview)
@@ -135,6 +143,7 @@ namespace WebApi.Controllers
 
         /// <summary>
         /// Adds a review.
+        /// Authorization: Admin, Kunde
         /// </summary>
         /// <param name="reviewDto">
         /// is a ReviewDto to be added. Must match property attribute rules. 
@@ -164,9 +173,10 @@ namespace WebApi.Controllers
             }
         }
 
-         
+
         /// <summary>
-        /// Deletes a review
+        /// Deletes a review.
+        /// Authorization: Admin
         /// </summary>
         /// <param name="BarName">
         /// is a string identifying the bar. 

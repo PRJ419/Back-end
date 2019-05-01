@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebApi.DTOs.BarEvent;
 using AutoMapper;
 using Database;
+using Microsoft.AspNetCore.Authorization;
 using WebApi.DTOs.Customers;
 using WebApi.Utility;
 
@@ -17,6 +18,7 @@ namespace WebApi.Controllers
     /// Web Api Controller for Customers.<para/>
     /// Returns BarEventDto objects
     /// </summary>
+    [Authorize(Roles = "Admin")]
     [Route("api/Customers")]
     [ApiController]
     public class CustomerController : ControllerBase
@@ -48,7 +50,8 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Returns all Customers 
+        /// Returns all Customers.
+        /// Authorization: Admin
         /// </summary>
         /// <returns>
         /// Ok (200) and a List&lt;CustomerDto&gt; of all Customers<para></para>
@@ -72,7 +75,8 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Returns a CustomerDto found by username
+        /// Returns a CustomerDto found by username.
+        /// Authorization: Admin
         /// </summary>
         /// <param name="username">
         /// is a string identifying the key of the Customer. 
@@ -96,6 +100,7 @@ namespace WebApi.Controllers
 
         /// <summary>
         /// Adds a Customer to the database. 
+        /// Authorization: Admin
         /// </summary>
         /// <param name="customerDto">
         /// is a CustomerDto object. Must match property attribute rules. 
@@ -123,7 +128,8 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Edits an Customer
+        /// Edits an Customer.
+        /// Authorization: Admin
         /// </summary>
         /// <param name="customerDto">
         /// is a CustomerDto which holds edited data. <para></para>
@@ -154,6 +160,7 @@ namespace WebApi.Controllers
 
         /// <summary>
         /// Deletes an Customer. 
+        /// Authorization: Admin
         /// </summary>
         /// <param name="username">
         /// is a string holding the username
