@@ -80,6 +80,8 @@ namespace WebApi
 
             // Need to access controller from Identity user registration 
             services.AddTransient<CustomerController>();
+            services.AddTransient<BarController>();
+            services.AddTransient<BarRepresentativeController>();
 
             services.AddMvc();
             services.AddAuthorization(options =>
