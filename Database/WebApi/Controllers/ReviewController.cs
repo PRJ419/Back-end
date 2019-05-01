@@ -21,7 +21,6 @@ namespace WebApi.Controllers
     /// Returns ReviewDto objects. 
     /// </summary>
     [Microsoft.AspNetCore.Mvc.Route("api/bars/{BarName}/reviews")]
-    [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Admin")]
     [ApiController]
     public class ReviewController : ControllerBase
     {
@@ -63,7 +62,7 @@ namespace WebApi.Controllers
         /// NotFound(404) if no reviews were found.
         /// </returns>
         [Microsoft.AspNetCore.Mvc.HttpGet] 
-        [Microsoft.AspNetCore.Authorization.Authorize(Roles = "BarRep,Kunde")]
+        [Microsoft.AspNetCore.Authorization.Authorize(Roles = "BarRep,Kunde,Admin")]
         [ProducesResponseType(typeof(List<ReviewDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetReviews([FromRoute] string BarName)
@@ -94,7 +93,7 @@ namespace WebApi.Controllers
         /// The review can only be found if username and BarName matches a Review saved in the database. 
         /// </returns>
         [Microsoft.AspNetCore.Mvc.HttpGet("{username}")]
-        [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Kunde,BarRep")]
+        [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Kunde,BarRep,Admin")]
         [ProducesResponseType(typeof(ReviewDto), 200)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetUserReview(string username, string BarName)
@@ -121,7 +120,7 @@ namespace WebApi.Controllers
         /// BadRequest (400) if edit was unsuccessful. 
         /// </returns>
         [Microsoft.AspNetCore.Mvc.HttpPut]
-        [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Kunde")]
+        [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Kunde,Admin")]
         [ProducesResponseType(typeof(ReviewDto), 201)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult EditUserReview([Microsoft.AspNetCore.Mvc.FromBody]ReviewDto receivedReview)
@@ -153,7 +152,7 @@ namespace WebApi.Controllers
         /// BadRequest (400) if unsuccessful. 
         /// </returns>
         [Microsoft.AspNetCore.Mvc.HttpPost]
-        [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Kunde")]
+        [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Kunde,Admin")]
         [ProducesResponseType(typeof(ReviewDto), 201)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult AddUserReview([Microsoft.AspNetCore.Mvc.FromBody] ReviewDto reviewDto)

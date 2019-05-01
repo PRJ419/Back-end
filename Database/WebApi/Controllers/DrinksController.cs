@@ -19,7 +19,6 @@ namespace WebApi.Controllers
     /// Controller for drinks.
     /// Route is api/bars/{BarName}/Drinks.
     /// </summary>
-    [Authorize(Roles = "Admin")]
     [Route("api/bars/{BarName}/Drinks")]
     [ApiController]
     public class DrinksController : ControllerBase
@@ -90,7 +89,7 @@ namespace WebApi.Controllers
         /// Returns 400 (BadRequest) on failure to insert or bad model supplied.  
         /// </returns>
         [HttpPost]
-        [Authorize(Roles = "BarRep")]
+        [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(Drink), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult AddDrink([FromBody] DrinkDto drinkDto)
@@ -123,7 +122,7 @@ namespace WebApi.Controllers
         /// BadRequest(400) if deletion is unsuccessful.
         /// </returns>
         [HttpDelete("{drinkName}")]
-        [Authorize(Roles = "BarRep")]
+        [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult DeleteDrink(string BarName, string drinkName)
@@ -153,7 +152,7 @@ namespace WebApi.Controllers
         /// BadRequest (400) if edit was not successful.
         /// </returns>
         [HttpPut]
-        [Authorize(Roles = "BarRep")]
+        [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(DrinkDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult EditDrink([FromBody] DrinkDto drinkDto)
