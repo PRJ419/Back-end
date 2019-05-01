@@ -135,7 +135,7 @@ namespace WebApi.Controllers
 
         /// <summary>
         /// Edits an BarRepresentative.
-        /// Authorization: Admin, BarRepresentattive
+        /// Authorization: Admin, BarRepresentative
         /// </summary>
         /// <param name="barRepDto">
         /// is a BarRepresentativeDto which holds edited data. <para></para>
