@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Database;
 using Database.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.DTOs.BarRepresentative;
@@ -16,8 +17,11 @@ namespace WebApi.Controllers
     /// <summary>
     /// Web Api Controller for BarRepresentatives.<para/>
     /// Returns BarRepresentativeDto objects
+    /// Authorization needed: Admin
+    /// Functions can be called from other controllers though. 
     /// </summary>
     [Route("api/BarRepresentatives")]
+    [Authorize(Roles = "Admin")]
     [ApiController]
     public class BarRepresentativeController : ControllerBase
     {
@@ -49,7 +53,8 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Returns all BarRepresentatives 
+        /// Returns all BarRepresentatives.
+        /// Authorization: Admin
         /// </summary>
         /// <returns>
         /// Ok (200) and a List&lt;BarRepresentativeDto&gt; of all BarRepresentatives<para></para>
@@ -74,6 +79,7 @@ namespace WebApi.Controllers
 
         /// <summary>
         /// Returns a BarRepresentativeDto found by username
+        /// Authorization: Admin, BarRepresentative
         /// </summary>
         /// <param name="username">
         /// is a string identifying the key of the BarRepresentative. 
@@ -84,6 +90,7 @@ namespace WebApi.Controllers
         /// NotFOund (404) if the BarRepresentative was not found.
         /// </returns>
         [HttpGet("{username}")]
+        [Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(BarRepresentativeDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetBarRepresentative(string username)
@@ -97,7 +104,8 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Adds a BarRepresentative to the database. 
+        /// Adds a BarRepresentative to the database.
+        /// Authorization: Admin.
         /// </summary>
         /// <param name="barRepDto">
         /// is a BarRepresentativeDto object. Must match property attribute rules. 
@@ -125,7 +133,8 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Edits an BarRepresentative
+        /// Edits an BarRepresentative.
+        /// Authorization: Admin, BarRepresentattive
         /// </summary>
         /// <param name="barRepDto">
         /// is a BarRepresentativeDto which holds edited data. <para></para>
@@ -137,6 +146,7 @@ namespace WebApi.Controllers
         /// BadRequest (404) if edit was unsuccessful. See parameter requirements. 
         /// </returns>
         [HttpPut]
+        [Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(BarRepresentativeDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult EditBarRepresentative([FromBody] BarRepresentativeDto barRepDto)
@@ -156,6 +166,7 @@ namespace WebApi.Controllers
 
         /// <summary>
         /// Deletes an BarRepresentative from database. 
+        /// Authorization: Admin
         /// </summary>
         /// <param name="username">
         /// is a string holding the username

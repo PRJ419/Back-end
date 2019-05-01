@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Database;
 using Database.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.DTOs.Coupon;
@@ -48,13 +49,15 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Returns all Coupons associated with the bar
+        /// Returns all Coupons associated with the bar.
+        /// Authorization: None
         /// </summary>
         /// <returns>
         /// Ok (200) and a List&lt;CouponDto&gt; of all the Coupons linked to the bar<para></para>
         /// NotFound (404) if no Coupons were found. 
         /// </returns>
         [HttpGet]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(List<CouponDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetCoupons([FromRoute] string barName)
@@ -72,7 +75,8 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Returns a CouponDto found by couponId and barName
+        /// Returns a CouponDto found by couponId and barName.
+        /// Authorization: None
         /// </summary>
         /// <param name="couponId">
         /// is a string and one part of the key for a Coupon
@@ -85,6 +89,7 @@ namespace WebApi.Controllers
         /// NotFOund (404) if the Coupon was not found. 
         /// </returns>
         [HttpGet("{couponId}")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(CouponDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetCoupon(string couponId, string barName)
@@ -99,6 +104,7 @@ namespace WebApi.Controllers
 
         /// <summary>
         /// Adds a Coupon to the database. 
+        /// Authorization: Admin, BarRepresentative
         /// </summary>
         /// <param name="couponDto">
         /// is a CouponDto object. Must match property attribute rules. 
@@ -108,6 +114,7 @@ namespace WebApi.Controllers
         /// BadRequest (400) if model requirements weren't. 
         /// </returns>
         [HttpPost]
+        [Authorize( Roles = "Admin,BarRep")]
         [ProducesResponseType(typeof(CouponDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult AddCoupon([FromBody] CouponDto couponDto)
@@ -126,7 +133,8 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Edits an Coupon
+        /// Edits an Coupon.
+        /// Authorization: Admin, BarRepresentative.
         /// </summary>
         /// <param name="couponDto">
         /// is a CouponDto which holds edited data. <para></para>
@@ -138,6 +146,7 @@ namespace WebApi.Controllers
         /// BadRequest (404) if edit was unsuccessful. See parameter requirements. 
         /// </returns>
         [HttpPut]
+        [Authorize( Roles = "Admin,BarRep")]
         [ProducesResponseType(typeof(CouponDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult EditCoupon([FromBody] CouponDto couponDto)
@@ -157,6 +166,7 @@ namespace WebApi.Controllers
 
         /// <summary>
         /// Deletes an Coupon. 
+        /// Authorization: Admin, BarRepresentative
         /// </summary>
         /// <param name="couponId">
         /// is a string holding the couponId part of the key
@@ -169,6 +179,7 @@ namespace WebApi.Controllers
         /// BadRequest (400) if deletion was unsuccessful. 
         /// </returns>
         [HttpDelete("{couponId}")]
+        [Authorize(Roles = "Admin,BarRep")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult DeleteCoupon(string couponId, [FromRoute] string barName)
