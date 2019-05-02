@@ -5,6 +5,7 @@ using System.Security.Claims;
 using Database;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ using WebApi.DTOs.BarRepresentative;
 using WebApi.DTOs.Bars;
 using WebApi.DTOs.Customers;
 using WebApi.Helpers;
+
 
 
 namespace WebApi.Controllers
@@ -38,9 +40,22 @@ namespace WebApi.Controllers
              _barController = barController;
              _barRepresentativeController = barRepresentativeController;
         }
+
+        /// <summary>
+        /// Registers a Bar Representative and adds the bar to the database
+        /// </summary>
+        /// <param name="model">
+        /// Is at model with all the data required to register a bar representative and a bar
+        /// </param>
+        /// <returns>
+        /// Ok (200) if registration was successful. <para></para>
+        /// BadRequest (400) if registration is not successful.<para></para>
+        /// </returns>
         // POST api/Register/barrep
         [AllowAnonymous]
         [Route("api/register/barrep")]
+        [ProducesResponseType(typeof(Nullable), 200)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         [HttpPost]
         public async Task<IActionResult> RegisterBarRep([FromBody] BarRepRegisterBindingModel model)
         {
@@ -55,7 +70,8 @@ namespace WebApi.Controllers
 
             if (!result.Succeeded)
             {
-                BadRequest();
+
+                BadRequest(result.Errors);
             }
 
             var roleClaim = new Claim("Role", "BarRep");
@@ -80,7 +96,7 @@ namespace WebApi.Controllers
             {
                 // if error rollback claim
                 await _userManager.RemoveClaimAsync(user, roleClaim);
-                return BadRequest();
+                return BadRequest(barResult);
 
             }
 
@@ -100,11 +116,11 @@ namespace WebApi.Controllers
                 // if error rollback bar and claim
                 await _userManager.RemoveClaimAsync(user, roleClaim);
                 _barController.DeleteBar(model.BarName);
-                return BadRequest();
+                return BadRequest(addResult);
             }
         }
-        // POST api/Register/barrep
-        [AllowAnonymous]
+        // POST api/Register/admin
+        [Authorize(Roles = "Admin")]
         [Route("api/register/Admin")]
         [HttpPost]
         public async Task<IActionResult> RegisterAdmin([FromBody] AdminRegisterBindingModel model )
@@ -120,7 +136,7 @@ namespace WebApi.Controllers
 
             if (!result.Succeeded)
             {
-                BadRequest();
+                BadRequest(result.Errors);
             }
 
             var roleClaim = new Claim("Role", "Admin");
@@ -142,12 +158,14 @@ namespace WebApi.Controllers
             }
 
             var user = new BarOMeterIdentityUser() {UserName = model.Username, Email = model.Email};
+             
+            
 
             IdentityResult result = await _userManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
             {
-                BadRequest();
+                BadRequest(result.Errors);
             }
            
             var roleClaim = new Claim("Role", "Kunde");
