@@ -122,9 +122,10 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Created (201) if successful, and will return the created object. <para/>
-        /// BadRequest (400) if unsuccessful.
+        /// BadRequest (400) if unsuccessful. Body will contain string: "Duplicate Key"
+        /// if request failed because of duplicate key sql exception
         /// </returns>
-        [HttpPost] // Todo: badrequest tilføj
+        [HttpPost] 
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(BarDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
@@ -138,7 +139,7 @@ namespace WebApi.Controllers
             }
             catch (Exception e)
             {
-                if (e is SqlException exception && exception.Number == 2627)
+                if (e.InnerException is SqlException exception && exception.Number == 2627)
                 {
                     return BadRequest("Duplicate Key");
                 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
@@ -87,10 +88,11 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Created (201) if BarEvent was added. <para></para>
-        /// BadRequest (400) if model requirements weren't. 
+        /// BadRequest (400) if model requirements weren't. Body will contain string: "Duplicate Key"
+        /// if request failed because of duplicate key sql exception
         /// </returns>
         [HttpPost]
-        [Authorize(Roles = "BarRep")]
+        [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(BarEventDto), 201)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult AddEvent([FromBody] BarEventDto eventDto)
@@ -104,6 +106,10 @@ namespace WebApi.Controllers
             }
             catch (Exception e)
             {
+                if (e.InnerException is SqlException exception && exception.Number == 2627)
+                {
+                    return BadRequest("Duplicate Key");
+                }
                 return BadRequest();
             }
         }
@@ -122,7 +128,7 @@ namespace WebApi.Controllers
         /// BadRequest (404) if edit was unsuccessful. See parameter requirements. 
         /// </returns>
         [HttpPut]
-        [Authorize(Roles = "BarRep")]
+        [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(BarEventDto), 201)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult EditEvent([FromBody] BarEventDto eventDto)
@@ -155,7 +161,7 @@ namespace WebApi.Controllers
         /// BadRequest (400) if deletion was unsuccessful. 
         /// </returns>
         [HttpDelete("{eventName}")]
-        [Authorize(Roles = "BarRep")]
+        [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(Nullable), 200)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult DeleteEvent(string eventName, string barName)

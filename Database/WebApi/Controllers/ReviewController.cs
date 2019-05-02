@@ -18,6 +18,7 @@ using WebApi.Utility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -141,7 +142,8 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Created (201) if edit was successful. <para></para>
-        /// BadRequest (400) if edit was unsuccessful. 
+        /// BadRequest (400) if edit was unsuccessful. Body will contain string: "Duplicate Key"
+        /// if request failed because of duplicate key sql exception 
         /// </returns>
         [HttpPut]
         [Authorize(Roles = "Kunde,Admin")]
@@ -192,6 +194,10 @@ namespace WebApi.Controllers
             }
             catch (Exception e)
             {
+                if (e.InnerException is SqlException exception && exception.Number == 2627)
+                {
+                    return BadRequest("Duplicate Key");
+                }
                 return BadRequest();
             }
         }

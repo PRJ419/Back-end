@@ -1,12 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.SqlClient;
 using System.Linq;
 using AutoMapper;
 using Database;
 using Database.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 using NSubstitute.ReturnsExtensions;
 using NUnit.Framework;
 using WebApi.Controllers;
@@ -156,6 +160,7 @@ namespace WebApi.Test.UnitTest.ControllerTests
             var result = uut.AddBar(receivedBarDto);
             // Assert
             mockUnitOfWork.BarRepository.Received(1).Add(Arg.Any<Bar>());
+            mockUnitOfWork.Received(1).Complete();
             Assert.That(receivedBarDto.BarName, Is.EqualTo(defaultBar.BarName));
             Assert.That(result, Is.TypeOf<CreatedResult>());
         }
@@ -180,6 +185,30 @@ namespace WebApi.Test.UnitTest.ControllerTests
             Assert.That(result, Is.TypeOf<BadRequestResult>());
 
         }
+
+        //[Test]
+        //public void AddBar_BarWithSameKeyExists_BadRequestDublicateKeyReturned()
+        //{
+        //    mockUnitOfWork.BarRepository
+        //        .When(x => x.Add(Arg.Any<Bar>()))
+        //        .Do(x =>
+        //        {
+        //            var innerException = System.Runtime.Serialization
+        //                .FormatterServices.GetUninitializedObject(typeof(SqlException)) as SqlException;
+
+        //            //var innerException = Substitute.For<SqlException>();
+        //            //innerException.Number.Returns(2627);
+        //            var exception = new DbUpdateException("", innerException);
+        //            throw exception;
+        //        });
+        //    var badBarDto = new BarDto()
+        //    {
+        //        BarName = "This name could e.g. be duplicate",
+        //    };
+        //    var result = uut.AddBar(badBarDto);
+        //    Assert.That(result, Is.TypeOf<BadRequestResult>());
+        //    Assert.That((result as BadRequestResult), Is.EqualTo("Duplicate Key"));
+        //}
 
         [Test]
         public void DeleteBar_DeleteExistingBar_ReturnsOk()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -87,7 +88,8 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Returns 201 (Created) on success.
-        /// Returns 400 (BadRequest) on failure to insert or bad model supplied.  
+        /// Returns 400 (BadRequest) on failure to insert or bad model supplied. Body will contain string: "Duplicate Key"
+        /// if request failed because of duplicate key sql exception
         /// </returns>
         [HttpPost]
         [Authorize(Roles = "BarRep")]
@@ -104,6 +106,10 @@ namespace WebApi.Controllers
             }
             catch (Exception e)
             {
+                if (e.InnerException is SqlException exception && exception.Number == 2627)
+                {
+                    return BadRequest("Duplicate Key");
+                }
                 return BadRequest();
             }
         }

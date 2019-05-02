@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -91,7 +92,7 @@ namespace WebApi.Controllers
         /// NotFOund (404) if the BarRepresentative was not found.
         /// </returns>
         [HttpGet("{username}")]
-        [Authorize(Roles = "BarRep")]
+        [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(BarRepresentativeDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetBarRepresentative(string username)
@@ -113,7 +114,8 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Created (201) if BarRepresentative was added. <para></para>
-        /// BadRequest (400) if model requirements weren't. 
+        /// BadRequest (400) if model requirements weren't. Body will contain string: "Duplicate Key"
+        /// if request failed because of duplicate key sql exception
         /// </returns>
         [HttpPost]
         [Authorize(Roles = "Admin")]
@@ -130,6 +132,10 @@ namespace WebApi.Controllers
             }
             catch (Exception e)
             {
+                if (e.InnerException is SqlException exception && exception.Number == 2627)
+                {
+                    return BadRequest("Duplicate Key");
+                }
                 return BadRequest();
             }
         }
@@ -148,7 +154,7 @@ namespace WebApi.Controllers
         /// BadRequest (404) if edit was unsuccessful. See parameter requirements. 
         /// </returns>
         [HttpPut]
-        [Authorize(Roles = "BarRep")]
+        [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(BarRepresentativeDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult EditBarRepresentative([FromBody] BarRepresentativeDto barRepDto)

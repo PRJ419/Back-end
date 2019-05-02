@@ -109,9 +109,10 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Created (201) if Customer was added. <para></para>
-        /// BadRequest (400) if model requirements weren't. 
+        /// BadRequest (400) if model requirements weren't. Body will contain string: "Duplicate Key"
+        /// if request failed because of duplicate key sql exception
         /// </returns>
-        [HttpPost] // todo: badreq tilføj
+        [HttpPost] 
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
@@ -126,7 +127,7 @@ namespace WebApi.Controllers
             }
             catch (Exception e)
             {
-                if (e is SqlException exception && exception.Number == 2627)
+                if (e.InnerException is SqlException exception && exception.Number == 2627)
                 {
                     return BadRequest("Duplicate Key");
                 }
