@@ -133,7 +133,7 @@ namespace Database.UnitTest
             });
             _context.SaveChanges();
             
-            Assert.AreEqual(4, _uut.GetAll().Count());
+            Assert.AreEqual(5, _uut.GetAll().Count());
             
         }
 
