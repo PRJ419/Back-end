@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Database.Interfaces;
@@ -110,7 +111,7 @@ namespace WebApi.Controllers
         /// Created (201) if Customer was added. <para></para>
         /// BadRequest (400) if model requirements weren't. 
         /// </returns>
-        [HttpPost]
+        [HttpPost] // todo: badreq tilføj
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
@@ -125,6 +126,10 @@ namespace WebApi.Controllers
             }
             catch (Exception e)
             {
+                if (e is SqlException exception && exception.Number == 2627)
+                {
+                    return BadRequest("Duplicate Key");
+                }
                 return BadRequest();
             }
         }

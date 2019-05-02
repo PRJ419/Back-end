@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -123,7 +124,7 @@ namespace WebApi.Controllers
         /// Created (201) if successful, and will return the created object. <para/>
         /// BadRequest (400) if unsuccessful.
         /// </returns>
-        [HttpPost]
+        [HttpPost] // Todo: badrequest tilføj
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(BarDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
@@ -135,8 +136,12 @@ namespace WebApi.Controllers
                 _unitOfWork.Complete();
                 return Created($"api/bars/{dtoBar.BarName}", dtoBar);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
+                if (e is SqlException exception && exception.Number == 2627)
+                {
+                    return BadRequest("Duplicate Key");
+                }
                 return BadRequest();
             }
         }

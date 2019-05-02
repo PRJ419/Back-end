@@ -2,17 +2,14 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using AutoMapper;
-using Castle.Components.DictionaryAdapter;
 using Database;
 using Database.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 using WebApi.Controllers;
 using WebApi.DTOs.AutoMapping;
-using WebApi.DTOs.BarEvent;
 using WebApi.DTOs.Coupon;
 
 namespace WebApi.Test.UnitTest.ControllerTests
@@ -28,7 +25,6 @@ namespace WebApi.Test.UnitTest.ControllerTests
         private Coupon defaultCoupon;
         private CouponDto defaultCouponDto;
         private List<CouponDto> correctResultList;
-
 
         [SetUp]
         public void Setup()
@@ -106,7 +102,7 @@ namespace WebApi.Test.UnitTest.ControllerTests
         }
 
         [Test]
-        public void GetEvents_UnitOfWorkReturnsList_UutReturnsCorrectDtoList()
+        public void GetCoupons_UnitOfWorkReturnsList_UutReturnsCorrectDtoList()
         {
             string parameter = "TestBar";
 
