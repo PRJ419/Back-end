@@ -55,6 +55,22 @@ namespace Database.EntityConfigurations
                 Image = "https://scontent-dus1-1.xx.fbcdn.net/v/t1.0-9/43698279_2427965823910886_4605085834809442304_n.png?_nc_cat=111&_nc_ht=scontent-dus1-1.xx&oh=e3bc006d52005d545011cc52b1f8a7d8&oe=5D76ACBE"
             });
 
+            builder.HasData(new Bar()
+            {
+                BarName = "Tågekammeret",
+                Address = "Ny Munkegade 118, 8000 Aarhus",
+                AgeLimit = 18,
+                Educations = "Fysik, Datalogi, IT Bachelor, Matematik-Økonomi, Nanoteknologi",
+                ShortDescription = "Husk Tågelygter!",
+                LongDescription = "Du ender i et sort hul, hvis du bliver ved med at drikke her",
+                CVR = 34126399,
+                PhoneNumber = 87154052,
+                Email = "BEST@TAAGEKAMMERET.dk",
+                AvgRating = 4.0,
+                Image = "https://taagekammeret.dk/static/TKlogo.jpg",
+
+            });
+
             #endregion
         }
     }
