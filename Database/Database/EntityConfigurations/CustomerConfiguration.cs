@@ -41,6 +41,17 @@ namespace Database.EntityConfigurations
                 FavoriteDrink = "Vodka Redbull"
             });
 
+
+            builder.HasData(new Customer()
+            {
+                Username = "Koffein Karsten",
+                Name = "Karsten",
+                DateOfBirth = new DateTime(1990,03,03),
+                Email = "KaffeTrolden@gmail.com",
+                FavoriteBar = "Tågekammeret",
+                FavoriteDrink = "Kaffe",
+            });
+
             #endregion
         }
     }

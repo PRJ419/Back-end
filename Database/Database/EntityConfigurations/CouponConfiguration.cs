@@ -38,6 +38,13 @@ namespace Database.EntityConfigurations
                 ExpirationDate = new DateTime(2019,07,10)
             });
 
+            builder.HasData(new Coupon()
+            {
+                BarName = "Tågekammeret",
+                CouponID = "20MemLeak",
+                ExpirationDate = new DateTime(2019,10,15)
+            });
+
             #endregion
 
         }
