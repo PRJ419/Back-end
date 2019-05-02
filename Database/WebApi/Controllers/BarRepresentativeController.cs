@@ -61,6 +61,7 @@ namespace WebApi.Controllers
         /// NotFound (404) if no BarRepresentatives were found. 
         /// </returns>
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(List<BarRepresentativeDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetBarRepresentatives()
@@ -115,6 +116,7 @@ namespace WebApi.Controllers
         /// BadRequest (400) if model requirements weren't. 
         /// </returns>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(BarRepresentativeDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult AddBarRepresentative([FromBody] BarRepresentativeDto barRepDto)
@@ -176,6 +178,7 @@ namespace WebApi.Controllers
         /// BadRequest (400) if deletion was unsuccessful. 
         /// </returns>
         [HttpDelete("{username}")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult DeleteBarRepresentative(string username)

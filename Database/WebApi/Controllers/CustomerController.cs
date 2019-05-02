@@ -18,7 +18,6 @@ namespace WebApi.Controllers
     /// Web Api Controller for Customers.<para/>
     /// Returns BarEventDto objects
     /// </summary>
-    [Authorize(Roles = "Admin")]
     [Route("api/Customers")]
     [ApiController]
     public class CustomerController : ControllerBase
@@ -58,6 +57,7 @@ namespace WebApi.Controllers
         /// NotFound (404) if no Customers were found. 
         /// </returns>
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(List<CustomerDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetCustomers()
@@ -86,6 +86,7 @@ namespace WebApi.Controllers
         /// NotFOund (404) if the Customer was not found. 
         /// </returns>
         [HttpGet("{username}")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetCustomer(string username)
@@ -110,6 +111,7 @@ namespace WebApi.Controllers
         /// BadRequest (400) if model requirements weren't. 
         /// </returns>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult AddCustomer([FromBody] CustomerDto customerDto)
@@ -141,6 +143,7 @@ namespace WebApi.Controllers
         /// BadRequest (404) if edit was unsuccessful. See parameter requirements. 
         /// </returns>
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult EditCustomer([FromBody] CustomerDto customerDto)
@@ -170,6 +173,7 @@ namespace WebApi.Controllers
         /// BadRequest (400) if deletion was unsuccessful. 
         /// </returns>
         [HttpDelete("{username}")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult DeleteCustomer(string username)
