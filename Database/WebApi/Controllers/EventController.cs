@@ -20,6 +20,7 @@ namespace WebApi.Controllers
     /// Returns BarEventDto objects
     /// </summary>
     [Route("api/bars/{barName}/events")]
+    [Authorize(Roles = "Admin")]
     [ApiController]
     public class EventController : ControllerBase
     {
@@ -89,7 +90,7 @@ namespace WebApi.Controllers
         /// BadRequest (400) if model requirements weren't. 
         /// </returns>
         [HttpPost]
-        [Authorize(Roles = "BarRep,Admin")]
+        [Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(BarEventDto), 201)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult AddEvent([FromBody] BarEventDto eventDto)
@@ -121,7 +122,7 @@ namespace WebApi.Controllers
         /// BadRequest (404) if edit was unsuccessful. See parameter requirements. 
         /// </returns>
         [HttpPut]
-        [Authorize(Roles = "BarRep,Admin")]
+        [Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(BarEventDto), 201)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult EditEvent([FromBody] BarEventDto eventDto)
@@ -154,7 +155,7 @@ namespace WebApi.Controllers
         /// BadRequest (400) if deletion was unsuccessful. 
         /// </returns>
         [HttpDelete("{eventName}")]
-        [Authorize(Roles = "BarRep,Admin")]
+        [Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(Nullable), 200)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult DeleteEvent(string eventName, string barName)
