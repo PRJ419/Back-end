@@ -18,6 +18,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using WebApi.DTOs.Bars;
 using WebApi.Utility;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers
 {
@@ -95,8 +96,8 @@ namespace WebApi.Controllers
         /// Ok (200) with the found Bar object if successful. <para/>
         /// NotFound (400) if the bar could not be found.
         /// </returns>
-        [AllowAnonymous]
         [HttpGet("{id}")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(BarDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetBar(string id)
