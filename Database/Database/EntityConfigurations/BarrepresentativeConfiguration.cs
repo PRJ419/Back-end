@@ -38,6 +38,13 @@ namespace Database.EntityConfigurations
                 BarName = "Medicinsk Fredagsbar - Umbilicus"
             });
 
+            builder.HasData(new BarRepresentative()
+            {
+                Username = "Humleridderen",
+                Name = "Kenny Kernel Space",
+                BarName = "Tågekammeret",
+            });
+
             #endregion
 
         }

@@ -68,7 +68,7 @@ namespace Database.EntityConfigurations
                 Email = "BEST@TAAGEKAMMERET.dk",
                 AvgRating = 4.0,
                 Image = "https://taagekammeret.dk/static/TKlogo.jpg",
-
+  
             });
 
             #endregion

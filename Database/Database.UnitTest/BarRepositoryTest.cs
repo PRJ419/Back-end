@@ -122,7 +122,7 @@ namespace Database.UnitTest
         }
 
         [Test]
-        public void BarRepository_AddThreeBarsRequestTwo_GetListOfTwo()
+        public void BarRepository_AddFourBarsRequestTwo_GetListOfTwo()
         {
             var bar = new Bar()
             {
@@ -144,9 +144,9 @@ namespace Database.UnitTest
             _context.SaveChanges();
             
 
-            var bars = _repository.GetXBars(1, 2).ToList();
+            var bars = _repository.GetXBars(2, 2).ToList();
             Assert.AreEqual(2, bars.Count);
-            Assert.AreEqual("Medicinsk Fredagsbar - Umbilicus", bars[0].BarName);
+            Assert.AreEqual("Tågekammeret", bars[0].BarName);
             Assert.AreEqual("Bar", bars[1].BarName);
             
         }
@@ -284,7 +284,7 @@ namespace Database.UnitTest
             _repository.Add(bar2);
             _context.SaveChanges();
 
-            Assert.AreEqual(4, _repository.GetAll().Count());
+            Assert.AreEqual(5, _repository.GetAll().Count());
             
         }
 

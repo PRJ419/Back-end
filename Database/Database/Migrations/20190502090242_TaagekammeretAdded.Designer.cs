@@ -4,14 +4,16 @@ using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Database.Migrations
 {
     [DbContext(typeof(BarOMeterContext))]
-    partial class BarOMeterContextModelSnapshot : ModelSnapshot
+    [Migration("20190502090242_TaagekammeretAdded")]
+    partial class TaagekammeretAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,31 +135,10 @@ namespace Database.Migrations
                         },
                         new
                         {
-                            BarName = "Katrines Kælder",
-                            EventName = "Bingo Bar",
-                            Date = new DateTime(2019, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "https://letsbingo.dk/wp-content/uploads/2016/01/Bingo-graphic21.jpg"
-                        },
-                        new
-                        {
                             BarName = "Medicinsk Fredagsbar - Umbilicus",
                             EventName = "Andreas på tur!",
                             Date = new DateTime(2019, 5, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Image = "https://media1.s-nbcnews.com/i/newscms/2016_48/1811466/161128-drinking-alcohol-jpo-108p_52ad934c90bc61c93c2242c4349f5e55.jpg"
-                        },
-                        new
-                        {
-                            BarName = "Medicinsk Fredagsbar - Umbilicus",
-                            EventName = "Ipod Battle Bar",
-                            Date = new DateTime(2019, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "https://ecdn.evensi.com/e301908712?cph=gAAAAABcvXMS1wYy7ZyTjIpjScMOwT9aERAm7bQrt8iS-5I7umkCbr2B_3zz_OTxoGxamKgI6Su1nCvudV9KA74kF3CljhF-AJEPUhQt7K-NfWz1IbgakBxjcqUGS98Pw-gQ8RLV39CMKlB13oChr1i6Ai8xjvDMOfQ-aJr-3abxG37hRxzubXfSky6WWGnYlQDbioz7SjJXMWE3eT1mPcBhMZox_B0gQLJw7cR802diHabhG3iV17hgvr0-zOUE-DlWTjFEuK_TuZ1yFd6kuC3BWwBswtOM58r_prd6HgX2ETPXJ9iFge65DKMKUsXhVCrwB5GjRBXU0NXP9MccSFwpN2rgrXAXykspY9N_FFUMbaJOZGlhllsH89N4QKdv4oba32VDCPa9"
-                        },
-                        new
-                        {
-                            BarName = "Tågekammeret",
-                            EventName = "Bodycrashing",
-                            Date = new DateTime(2019, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Image = "https://taagekammeret.dk/media/__sized__/2016/bodycrashing/15271383_10210607041708452_1374044913_o-crop-c0-5__0-5-253x253-70.jpg"
                         });
                 });
 
@@ -193,12 +174,6 @@ namespace Database.Migrations
                             Username = "Kratluskeren",
                             BarName = "Medicinsk Fredagsbar - Umbilicus",
                             Name = "Tørstige Torsten"
-                        },
-                        new
-                        {
-                            Username = "Humleridderen",
-                            BarName = "Tågekammeret",
-                            Name = "Kenny Kernel Space"
                         });
                 });
 
@@ -230,12 +205,6 @@ namespace Database.Migrations
                             CouponID = "VarmØlNuTak",
                             BarName = "Medicinsk Fredagsbar - Umbilicus",
                             ExpirationDate = new DateTime(2019, 7, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            CouponID = "20MemLeak",
-                            BarName = "Tågekammeret",
-                            ExpirationDate = new DateTime(2019, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -286,15 +255,6 @@ namespace Database.Migrations
                             FavoriteBar = "Medicinsk Fredagsbar - Umbilicus",
                             FavoriteDrink = "Vodka Redbull",
                             Name = "Dennis"
-                        },
-                        new
-                        {
-                            Username = "Koffein Karsten",
-                            DateOfBirth = new DateTime(1990, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "KaffeTrolden@gmail.com",
-                            FavoriteBar = "Tågekammeret",
-                            FavoriteDrink = "Kaffe",
-                            Name = "Karsten"
                         });
                 });
 
@@ -355,27 +315,6 @@ namespace Database.Migrations
                             DrinksName = "Hospitalssprit",
                             Image = "https://www.fotoagent.dk/single_picture/11981/138/mega/201096_1.jpg",
                             Price = 10.0
-                        },
-                        new
-                        {
-                            BarName = "Tågekammeret",
-                            DrinksName = "Radioaktivt Affald",
-                            Image = "https://videnskab.dk/sites/default/files/styles/columns_12_12_desktop/public/article_media/atomaffald.jpg?itok=LXcUsHe-&timestamp=1464219173",
-                            Price = 20.0
-                        },
-                        new
-                        {
-                            BarName = "Tågekammeret",
-                            DrinksName = "Fadøl",
-                            Image = "https://r2brewery.dk/wp-content/uploads/2017/11/pilsner.png",
-                            Price = 10.0
-                        },
-                        new
-                        {
-                            BarName = "Tågekammeret",
-                            DrinksName = "Stroh Rom",
-                            Image = "https://www.fotoagent.dk/single_picture/10620/138/mega/stroh_80(2).jpg",
-                            Price = 30.0
                         });
                 });
 
