@@ -52,17 +52,17 @@ namespace Database
                 //Event.EventName = "Eventnavn";
                 //uow.BarEventRepository.Add(Event);
 
-                var review = new Review();
-                review.BarName = "Testbar";
-                review.Username = "FalskBruger2";
-                review.BarPressure = 7;
+                //var review = new Review();
+                //review.BarName = "Testbar";
+                //review.Username = "FalskBruger2";
+                //review.BarPressure = 7;
 
-                uow.ReviewRepository.Add(review);
+                //uow.ReviewRepository.Add(review);
 
-                uow.Complete();
+                //uow.Complete();
                 
 
-                var yyy = uow.BarRepository.Get("Testbar");
+                var yyy = uow.BarRepository.Get("Katrines Kælder");
                 
                 Console.WriteLine("{0}",yyy.AvgRating);
 
@@ -80,7 +80,7 @@ namespace Database
                 //    Console.WriteLine("{0}", VARIABLE.BarPressure.ToString());
                 //}
 
-                var mmm = uow.DrinkRepository.Find(DrinkBelongingToBar("Testbar"));
+                var mmm = uow.DrinkRepository.Find(DrinkBelongingToBar("Katrines Kælder"));
 
                 foreach (var VARIABLE in mmm)
                 {
