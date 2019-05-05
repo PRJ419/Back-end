@@ -1,20 +1,47 @@
 ﻿using AutoMapper;
 using NUnit.Framework;
 using Database;
+using Database.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Controllers;
 using WebApi.DTOs.AutoMapping;
 using WebApi.DTOs.Bars;
+using Microsoft.Data.Sqlite;
+
 
 namespace IntegrationTest
 {
     [TestFixture]
     public class IntegrationTests
     {
+
+        private DbContextOptions<BarOMeterContext> _options;
+        private SqliteConnection _connection;
+        IMapper _mapper;
+        private IUnitOfWork _unitOfWork;
+        private BarController _barController;
+
+
         [SetUp]
         public void Setup()
         {
+            _connection = new SqliteConnection("Datasource=:memory:");
+            _connection.Open();
+            //var _context = new BarOMeterContext();
+            //_context.Database.EnsureCreated();
+            _options = new DbContextOptionsBuilder<BarOMeterContext>().UseSqlite(_connection).Options;
+            
+            _unitOfWork = new UnitOfWork(_options);
+
+            var profile = new MappingProfile();
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profile));
+            _mapper = new Mapper(configuration);
+
+            _barController = new BarController(_unitOfWork, _mapper);
+            
+
+
         }
 
         // As it was not possible to throw SQL exceptions in the Unit Test of WebApi, 
@@ -23,25 +50,16 @@ namespace IntegrationTest
         [Test]
         public void AddABar_InvalidModel_DatabaseThrows_ReturnsBadRequest()
         {
-            var _options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "AddBadBar")
-                    .Options;
-            var _uow = new UnitOfWork(_options);
-            IMapper mapper;
-            var profile = new MappingProfile();
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profile));
-            mapper = new Mapper(configuration);
-            var barController = new BarController(_uow, mapper);
-
-             barController.AddBar(new BarDto()
+           
+            var result = _barController.AddBar(new BarDto()
             {
-                BarName = "test",
+                BarName = "TestBar",
+                Address = "FakeStreet",
+                AgeLimit = 18,
+                CVR = 0
             });
-             var result = barController.AddBar(new BarDto()
-             {
-                 BarName = "test",
-             });
-            Assert.That(result, Is.TypeOf<BadRequestResult>());
+            
+            Assert.That(result, Is.TypeOf<OkObjectResult>());
         }
     }
 }
