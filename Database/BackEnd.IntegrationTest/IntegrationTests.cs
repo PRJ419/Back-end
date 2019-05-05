@@ -28,8 +28,8 @@ namespace IntegrationTest
         {
             _connection = new SqliteConnection("Datasource=:memory:");
             _connection.Open();
-            //var _context = new BarOMeterContext();
-            //_context.Database.EnsureCreated();
+            var _context = new BarOMeterContext();
+            _context.Database.EnsureCreated();
             _options = new DbContextOptionsBuilder<BarOMeterContext>().UseSqlite(_connection).Options;
             
             _unitOfWork = new UnitOfWork(_options);
@@ -56,7 +56,14 @@ namespace IntegrationTest
                 BarName = "TestBar",
                 Address = "FakeStreet",
                 AgeLimit = 18,
-                CVR = 0
+                CVR = 0,
+                AvgRating = 5,
+                Email = "email@gmail.com",
+                Educations = "IKT, EE, E",
+                Image = "picture.jpg",
+                LongDescription = "lang",
+                ShortDescription = "kort",
+                PhoneNumber = 88888888,
             });
             
             Assert.That(result, Is.TypeOf<OkObjectResult>());
