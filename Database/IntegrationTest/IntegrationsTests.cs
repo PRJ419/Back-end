@@ -1,8 +1,8 @@
 using NUnit.Framework;
 
-namespace IntegrationTest
+namespace IntegrationsTest
 {
-    public class IntegrationTests
+    public class IntegrationsTests
     {
         [SetUp]
         public void Setup()

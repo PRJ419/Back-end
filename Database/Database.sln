@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Test.UnitTest", "NUn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database.UnitTest", "Database.UnitTest\Database.UnitTest.csproj", "{FB8BED5A-2F46-4CE3-977E-EF81BE8C9CE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTest", "IntegrationTest\IntegrationTest.csproj", "{AE5CD51E-6DEA-4B0C-B4BD-E5CAE3C5E085}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationsTest", "IntegrationTest\IntegrationsTest.csproj", "{AE5CD51E-6DEA-4B0C-B4BD-E5CAE3C5E085}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
