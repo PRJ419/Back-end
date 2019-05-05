@@ -24,6 +24,7 @@ namespace Database
         public UnitOfWork()
         {
             _boMContext = new BarOMeterContext();
+            _boMContext.Database.EnsureCreated();
         }
 
         /// <summary>
@@ -37,6 +38,7 @@ namespace Database
         public UnitOfWork(DbContextOptions<BarOMeterContext> options)
         {
             _boMContext = new BarOMeterContext(options);
+            _boMContext.Database.EnsureCreated();
         }
 
         // The following properties check if the repository for the entities already exist. If they don't, then it instantiates a new repository

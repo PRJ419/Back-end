@@ -29,7 +29,9 @@ namespace IntegrationTest
             _connection = new SqliteConnection("Datasource=:memory:");
             _connection.Open();
             //var _context = new BarOMeterContext();
-            //_context.Database.EnsureCreated();
+            //_context.Database.EnsureCreated(); 
+
+            /* TODO TOBIAS! JEG HAR FIKSET DET!*/
             _options = new DbContextOptionsBuilder<BarOMeterContext>().UseSqlite(_connection).Options;
             
             _unitOfWork = new UnitOfWork(_options);
