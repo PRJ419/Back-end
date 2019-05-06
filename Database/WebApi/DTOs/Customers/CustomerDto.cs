@@ -8,6 +8,7 @@ namespace WebApi.DTOs.Customers
         /// <summary>
         /// Property for getting and setting the username of a Customer
         /// </summary>
+        [Required]
         [MaxLength(50)]
         public string Username { get; set; }
 

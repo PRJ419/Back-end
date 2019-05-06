@@ -10,6 +10,7 @@ namespace WebApi.DTOs.BarRepresentative
         /// <summary>
         /// Property for saving the username of a representative. This has a max length of 50
         /// </summary>
+        [Required]
         [MaxLength(50)]
         public string Username { get; set; }
 

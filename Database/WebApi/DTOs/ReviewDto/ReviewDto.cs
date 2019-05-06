@@ -15,9 +15,11 @@ namespace WebApi.DTOs.ReviewDto
         [Required]
         public int BarPressure { get; set; }
 
+        [Required]
         [MaxLength(150)]
         public string BarName { get; set; }
 
+        [Required]
         [MaxLength(50)]
         public string Username { get; set; }
     }

@@ -9,9 +9,11 @@ namespace WebApi.DTOs.BarEvent
     /// </summary>
     public class BarEventDto
     {
+        [Required]
         [MaxLength(150)]
         public string BarName { get; set; }
 
+        [Required]
         [MaxLength(75)]
         public string EventName { get; set; }
 
