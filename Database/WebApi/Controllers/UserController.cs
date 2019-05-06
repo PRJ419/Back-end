@@ -165,7 +165,14 @@ namespace WebApi.Controllers
 
             if (!result.Succeeded)
             {
-                BadRequest(result.Errors);
+                var sanitizedList = new List<string>();
+                foreach (var error in result.Errors)
+                {
+                    if (error.Code == "DuplicateName")
+                        sanitizedList.Add(error.Code);
+                }
+
+                BadRequest(sanitizedList);
             }
            
             var roleClaim = new Claim("Role", "Kunde");

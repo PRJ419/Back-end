@@ -128,7 +128,7 @@ namespace WebApi.Controllers
         [HttpPost] 
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(BarDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public IActionResult AddBar([FromBody]BarDto dtoBar)
         {
             try
