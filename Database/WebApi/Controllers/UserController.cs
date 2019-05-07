@@ -165,7 +165,15 @@ namespace WebApi.Controllers
 
             if (!result.Succeeded)
             {
-                BadRequest(result.Errors);
+                var sanitizedList = new List<string>();
+                foreach (var error in result.Errors)
+                {
+                    if (error.Code == "DuplicateName" || error.Code == "PasswordRequireUpper" || error.Code == "PasswordTooShort" || error.Code == "PasswordRequireLower" || error.Code == "PasswordRequireDigit")
+                        sanitizedList.Add(error.Code);
+                    
+                }
+
+                BadRequest(sanitizedList);
             }
            
             var roleClaim = new Claim("Role", "Kunde");

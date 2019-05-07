@@ -9,9 +9,11 @@ namespace WebApi.DTOs.Drinks
     /// </summary>
     public class DrinkDto
     {
+        [Required]
         [MaxLength(150)]
         public string BarName { get; set; }
 
+        [Required]
         [MaxLength(50)]
         public string DrinksName { get; set; }
 

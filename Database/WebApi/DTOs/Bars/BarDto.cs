@@ -9,6 +9,7 @@ namespace WebApi.DTOs.Bars
     /// </summary>
     public class BarDto
     {
+        [Required]
         [MaxLength(150)]
         public string BarName { get; set; }
 

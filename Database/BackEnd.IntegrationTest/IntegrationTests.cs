@@ -52,16 +52,33 @@ namespace IntegrationTest
         [Test]
         public void AddABar_InvalidModel_DatabaseThrows_ReturnsBadRequest()
         {
-           
             var result = _barController.AddBar(new BarDto()
             {
-                BarName = "TestBar",
-                Address = "FakeStreet",
-                AgeLimit = 18,
-                CVR = 0
+                PhoneNumber = 88888888,
             });
+
+            Assert.That(result, Is.TypeOf<BadRequestResult>());
+        }
+
+        [Test]
+        public void AddBarTwice_DuplicateKeyExceptionThrown_ReturnsBadReqDubKey()
+        {
+            _barController.AddBar(new BarDto()
+            {
+                AgeLimit = 18, BarName = "TestBar",
+                AvgRating = 4.2, CVR = 0,
+            });
+
+            var result = _barController.AddBar(new BarDto()
+            {
+                AgeLimit = 20,
+                BarName = "TestBar",
+                AvgRating = 2.0,
+                CVR = 1,
+            });
+            var resultObj = (result as BadRequestResult);
             
-            Assert.That(result, Is.TypeOf<OkObjectResult>());
+            Assert.That(result, Is.TypeOf<BadRequestResult>());
         }
     }
 }
