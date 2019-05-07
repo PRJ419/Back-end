@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
 {
-    public class CouponRepository : Repository<Coupon>, ICouponRepository
+    public class CouponRepository : GenericRepository<Coupon>, ICouponRepository
     {
         /// <summary>
         /// Takes the database context and sends it to the base class constructor (Repository).

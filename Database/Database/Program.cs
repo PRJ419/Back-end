@@ -16,7 +16,7 @@ namespace Database
             {
                 //////Opretter ny bar
                 //var bar = new Bar();
-                //bar.BarName = "Testbar"; // Skal være unik
+                ////bar.BarName = "Testbar"; // Skal være unik
                 //bar.Address = "Adresse";
                 //bar.AgeLimit = 18;
                 //bar.AvgRating = 3.4;
@@ -30,6 +30,7 @@ namespace Database
                 //////Tilføjer til databasen og gemmer det
                 //uow.BarRepository.Add(bar);
                 //uow.Complete();
+                
 
                 //var bruger = new Customer();
                 //bruger.Username = "FalskBruger2";
@@ -39,6 +40,7 @@ namespace Database
 
                 //uow.CustomerRepository.Add(bruger);
                 //uow.Complete();
+
 
                 //var drink = new Drink();
                 //drink.BarName = "Testbar";
@@ -60,7 +62,7 @@ namespace Database
                 //uow.ReviewRepository.Add(review);
 
                 //uow.Complete();
-                
+
 
                 var yyy = uow.BarRepository.Get("Katrines Kælder");
                 

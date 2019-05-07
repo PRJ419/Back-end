@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
 {
-    public class BarEventRepository : Repository<BarEvent>, IBarEventRepository
+    public class BarEventRepository : GenericRepository<BarEvent>, IBarEventRepository
     {
         /// <summary>
         /// Takes the database context and sends it to the base class constructor (Repository).

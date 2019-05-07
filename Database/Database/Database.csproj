@@ -331,7 +331,7 @@
     <Compile Include="Interfaces\IBarEventRepository.cs" />
     <Compile Include="Interfaces\IBarRepresentativeRepository.cs" />
     <Compile Include="Interfaces\ICouponRepository.cs" />
-    <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Interfaces\IGenericRepository.cs" />
     <Compile Include="Interfaces\IReviewRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Migrations\20190325101521_PRJ4-v1.cs" />
@@ -384,7 +384,7 @@
     <Compile Include="Repository Implementations\BarRepresentativeRepository.cs" />
     <Compile Include="Repository Implementations\CouponRepository.cs" />
     <Compile Include="Repository Implementations\CustomerRepository.cs" />
-    <Compile Include="Repository Implementations\Repository.cs" />
+    <Compile Include="Repository Implementations\GenericRepository.cs" />
     <Compile Include="Repository Implementations\BarRepository.cs" />
     <Compile Include="Repository Implementations\ReviewRepository.cs" />
     <Compile Include="UnitOfWork.cs" />

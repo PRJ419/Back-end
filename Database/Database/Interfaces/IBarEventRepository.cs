@@ -1,6 +1,6 @@
 ﻿namespace Database.Interfaces
 {
-    public interface IBarEventRepository : IRepository<BarEvent>
+    public interface IBarEventRepository : IGenericRepository<BarEvent>
     {
         /// <summary>
         /// This method is for editing a BarEvent entity that already exists in the db.

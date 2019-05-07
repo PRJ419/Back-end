@@ -7,7 +7,7 @@ using Database.Interfaces;
 
 namespace Database.Interfaces
 {
-    public interface IBarRepository : IRepository<Bar>
+    public interface IBarRepository : IGenericRepository<Bar>
     {
         /// <summary>
         /// This method is for returning X (howManyToReturn parameter) number of bars after skipping

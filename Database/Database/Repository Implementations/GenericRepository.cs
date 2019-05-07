@@ -11,7 +11,7 @@ namespace Database.Repository_Implementations
 {
     // Generic repository that works with all kinds of classes. This is the one that should be used for common methods.
     // Also known as the template pattern
-    public class Repository<T> : IRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         // The database context for the entire class
         protected readonly BarOMeterContext _dbContext;
@@ -23,7 +23,7 @@ namespace Database.Repository_Implementations
         /// <param name="dbcontext">
         /// Takes the database context and sets it in the class.
         /// </param>
-        public Repository(BarOMeterContext dbcontext)
+        public GenericRepository(BarOMeterContext dbcontext)
         {
             _dbContext = dbcontext;
         }
