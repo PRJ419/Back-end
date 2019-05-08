@@ -69,12 +69,12 @@ namespace Database {
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var connection = @"Data Source=DESKTOP-QND3SFP\MSSQLSERVER03;Initial Catalog=PRJTestDatabase2;Integrated Security=True";
+                //var connection = @"Data Source=DESKTOP-QND3SFP\MSSQLSERVER03;Initial Catalog=PRJTestDatabase2;Integrated Security=True";
                 //var connection = @"Data Source=DESKTOP-UGIDUH3;Initial Catalog=PRJ4Database;Integrated Security=True";
                 //var connection = @"Data Source=DESKTOP-APD51SV;Initial Catalog=BarOMeter_Database_Test;Integrated Security = True";
                 //var connection = ConfigurationManager.ConnectionStrings["AndreasPC"].ConnectionString;
                 //var connection = @"Data Source=DESKTOP-3BPGP0V;Initial Catalog=PRJ4Database;Integrated Security=True";
-                //var connection = @"Server=tcp:barometerdatabase.database.windows.net,1433;Initial Catalog=BarOMeterDatabase;Persist Security Info=False;User ID=PRJ42019;Password=Super123Kode098;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+                var connection = @"Server=tcp:barometerdatabase.database.windows.net,1433;Initial Catalog=BarOMeterDatabase;Persist Security Info=False;User ID=PRJ42019;Password=Super123Kode098;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
                 optionsBuilder.UseLazyLoadingProxies().UseSqlServer(connection);
             }
         }
