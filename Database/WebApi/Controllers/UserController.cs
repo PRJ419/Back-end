@@ -42,7 +42,7 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// Registers a Bar Representative and adds the bar to the database
+        /// Registers a Bar Representative and adds the bar to the database. Authorization: None.
         /// </summary>
         /// <param name="model">
         /// Is at model with all the data required to register a bar representative and a bar
@@ -66,16 +66,6 @@ namespace WebApi.Controllers
 
             var user = new BarOMeterIdentityUser() { UserName = model.Username, Email = model.Email };
 
-            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
-
-            if (!result.Succeeded)
-            {
-
-                BadRequest(result.Errors);
-            }
-
-            var roleClaim = new Claim("Role", "BarRep");
-            await _userManager.AddClaimAsync(user, roleClaim);
 
             var barResult = _barController.AddBar(new BarDto
             {
@@ -95,8 +85,9 @@ namespace WebApi.Controllers
             if (!(barResult is CreatedResult))
             {
                 // if error rollback claim
-                await _userManager.RemoveClaimAsync(user, roleClaim);
-                return BadRequest(barResult);
+                var list = new List<string>();
+                list.Add("Bar could not be created");
+                return BadRequest(list);
 
             }
 
@@ -109,16 +100,48 @@ namespace WebApi.Controllers
             });
 
           
-            if (addResult is CreatedResult)
-                return Ok();
-            else
+            if (!(addResult is CreatedResult))
             {
                 // if error rollback bar and claim
-                await _userManager.RemoveClaimAsync(user, roleClaim);
+                var list = new List<string>();
+                list.Add("BarRepresentative exists");
                 _barController.DeleteBar(model.BarName);
-                return BadRequest(addResult);
+                return BadRequest(list);
             }
+
+            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                var sanitizedList = new List<string>();
+                foreach (var error in result.Errors)
+                {
+                    if (error.Code == "DuplicateUserName" || error.Code == "DuplicateEmail" || error.Code == "PasswordRequiresUpper" || error.Code == "PasswordTooShort" || error.Code == "PasswordRequiresLower" || error.Code == "PasswordRequiresDigit")
+                        sanitizedList.Add(error.Code);
+
+                }
+
+                _barController.DeleteBar(model.BarName);
+                _barRepresentativeController.DeleteBarRepresentative(model.Username);
+
+                return BadRequest(sanitizedList);
+
+            }
+            var roleClaim = new Claim("Role", "BarRep");
+            await _userManager.AddClaimAsync(user, roleClaim);
+
+            return Ok();
         }
+        /// <summary>
+        /// Registers an administrator. Authorization: Admin.
+        /// </summary>
+        /// <param name="model">
+        /// Is at model with all the data required to register an admin representative
+        /// </param>
+        /// <returns>
+        /// Ok (200) if registration was successful. <para></para>
+        /// BadRequest (400) if registration is not successful.<para></para>
+        /// </returns>
         // POST api/Register/admin
         [Authorize(Roles = "Admin")]
         [Route("api/register/Admin")]
@@ -136,7 +159,7 @@ namespace WebApi.Controllers
 
             if (!result.Succeeded)
             {
-                BadRequest(result.Errors);
+               // TODO insert errorhandling
             }
 
             var roleClaim = new Claim("Role", "Admin");
@@ -146,6 +169,16 @@ namespace WebApi.Controllers
      
            
         }
+        /// <summary>
+        /// Registers a user to the database Authorization: None.
+        /// </summary>
+        /// <param name="model">
+        /// Is at model with all the data required to register a user
+        /// </param>
+        /// <returns>
+        /// Ok (200) if registration was successful. <para></para>
+        /// BadRequest (400) if registration is not successful.<para></para>
+        /// </returns>
         // POST api/Register
         [AllowAnonymous]
         [Route("api/register")]
@@ -168,12 +201,12 @@ namespace WebApi.Controllers
                 var sanitizedList = new List<string>();
                 foreach (var error in result.Errors)
                 {
-                    if (error.Code == "DuplicateName" || error.Code == "PasswordRequireUpper" || error.Code == "PasswordTooShort" || error.Code == "PasswordRequireLower" || error.Code == "PasswordRequireDigit")
+                    if (error.Code == "DuplicateUserName" ||error.Code == "DuplicateEmail"|| error.Code == "PasswordRequiresUpper" || error.Code == "PasswordTooShort" || error.Code == "PasswordRequiresLower" || error.Code == "PasswordRequiresDigit")
                         sanitizedList.Add(error.Code);
                     
                 }
 
-                BadRequest(sanitizedList);
+               return BadRequest(sanitizedList);
             }
            
             var roleClaim = new Claim("Role", "Kunde");
@@ -198,6 +231,16 @@ namespace WebApi.Controllers
                return BadRequest();
         }
 
+        /// <summary>
+        /// Enables logins to the application. Authorization: None.
+        /// </summary>
+        /// <param name="model">
+        /// Is at model with all the data required to login the given account
+        /// </param>
+        /// <returns>
+        /// Ok (200) if login was successful. <para></para>
+        /// BadRequest (400) if login is not successful.<para></para>
+        /// </returns>
         //POST api/Login
         [AllowAnonymous]
         [Route("api/login")]
@@ -214,7 +257,7 @@ namespace WebApi.Controllers
             if (user== null)
             {
                 ModelState.AddModelError(string.Empty, "Invalid login");
-                return BadRequest(ModelState);
+                return BadRequest("Invalid login");
             }
 
             var claims = await _userManager.GetClaimsAsync(user);
@@ -227,18 +270,8 @@ namespace WebApi.Controllers
                
             }
 
-            return BadRequest(result);
+            return BadRequest("Invalid login");
         }
-        [AllowAnonymous]
-        [Route("api/logout")]
-        [HttpPost]
-        public async Task<IActionResult> Logout()
-        {
-            await _signInManager.SignOutAsync();
-            return Ok();
-        }
-        
-
 
     }
 }
