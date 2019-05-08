@@ -24,7 +24,7 @@ namespace Database.Repository_Implementations
      
         public void Edit(Coupon entity)
         {
-            var oldCoupon = Get(entity.CouponID, entity.BarName);
+            var oldCoupon = Get(entity.BarName, entity.CouponID);
 
             oldCoupon.ExpirationDate = entity.ExpirationDate;
         }

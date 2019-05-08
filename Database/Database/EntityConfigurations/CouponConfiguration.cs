@@ -20,7 +20,7 @@ namespace Database.EntityConfigurations
                 .HasForeignKey(b => b.BarName);
 
             builder
-                .HasKey(a => new { a.CouponID, a.BarName });
+                .HasKey(a => new { a.BarName, a.CouponID });
 
             #region Dataseeding
 

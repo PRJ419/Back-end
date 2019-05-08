@@ -120,10 +120,40 @@ namespace Database.UnitTest
             {
                 Username = "TestUsername",
                 Name = "TestName2",
-                BarName = "Katrines Kælder"
+                BarName = "Katrines Kælder",
             };
 
             Assert.That(()=>_uut.Add(_barRep2),Throws.Exception);
+        }
+
+        [Test]
+        public void BarRepRepo_WithoutUserName_ThrowsAnException()
+        {
+            var barRep = new BarRepresentative()
+            {
+                //Username = "TestUsername",
+                Name = "TestName",
+                BarName = "Katrines Kælder"
+            };
+            
+            Assert.That(() => _uut.Add(barRep), Throws.Exception);
+        }
+
+
+        /// <summary>
+        /// Fails because primary keys can be null in SQLite
+        /// </summary>
+        [Test]
+        public void BarRepRepo_WithoutBarName_ThrowsAnException()
+        {
+            var barRep = new BarRepresentative()
+            {
+                Username = "TestUsername",
+                Name = "TestName",
+                //BarName = "Katrines Kælder"
+            };
+
+            Assert.That(() => _uut.Add(barRep), Throws.Exception);
         }
 
         [TearDown]
