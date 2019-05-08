@@ -99,6 +99,42 @@ namespace Database.UnitTest
             
         }
 
+        [Test]
+        public void DrinksRepo_WithoutBarName_ThrowsAnException()
+        {
+            var drinkToAdd = new Drink()
+            {
+                //BarName = "Katrines Kælder",
+                DrinksName = "TestDrink",
+                Price = 100
+            };
+            Assert.That(() => _uut.Add(drinkToAdd), Throws.Exception);
+        }
+
+        [Test]
+        public void DrinksRepo_WithoutDrinksName_ThrowsAnException()
+        {
+            var drinkToAdd = new Drink()
+            {
+                BarName = "Katrines Kælder",
+                //DrinksName = "TestDrink",
+                Price = 100
+            };
+            Assert.That(() => _uut.Add(drinkToAdd), Throws.Exception);
+        }
+
+        [Test]
+        public void DrinksRepo_WithoutKeys_ThrowsAnException()
+        {
+            var drinkToAdd = new Drink()
+            {
+                //BarName = "Katrines Kælder",
+                //DrinksName = "TestDrink",
+                Price = 100
+            };
+            Assert.That(() => _uut.Add(drinkToAdd), Throws.Exception);
+        }
+
         [TearDown]
         public void TearDown()
         {

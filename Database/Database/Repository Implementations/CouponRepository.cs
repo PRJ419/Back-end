@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
 {
-    public class CouponRepository : Repository<Coupon>, ICouponRepository
+    public class CouponRepository : GenericRepository<Coupon>, ICouponRepository
     {
         /// <summary>
         /// Takes the database context and sends it to the base class constructor (Repository).
@@ -24,7 +24,7 @@ namespace Database.Repository_Implementations
      
         public void Edit(Coupon entity)
         {
-            var oldCoupon = Get(entity.CouponID, entity.BarName);
+            var oldCoupon = Get(entity.BarName, entity.CouponID);
 
             oldCoupon.ExpirationDate = entity.ExpirationDate;
         }

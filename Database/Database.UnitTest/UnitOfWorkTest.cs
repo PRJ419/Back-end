@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 
@@ -8,7 +9,7 @@ namespace Database.UnitTest
     class UnitOfWorkTest
     {
         private DbContextOptions<BarOMeterContext> _options;
-        private UnitOfWork _uow;
+        private UnitOfWork _uut;
         private Bar _bar1;
         private Bar _bar2;
         private Drink _drink1;
@@ -18,6 +19,9 @@ namespace Database.UnitTest
         private BarRepresentative _barRepresentative;
         private Coupon _coupon;
         private Customer _customer;
+        private SqliteConnection _connection;
+        private BarOMeterContext _context;
+
 
         [SetUp]
         public void Setup()
@@ -53,7 +57,7 @@ namespace Database.UnitTest
 
             _drink1 = new Drink()
             {
-                BarName = "FakeAddress",
+                BarName = "Katrines Kælder",
                 DrinksName = "Fadoel",
                 Price = 20,
             };
@@ -62,33 +66,33 @@ namespace Database.UnitTest
             {
                 BarName = "FakeBar",
                 BarPressure = 5,
-                Username = "FakeCustomer",
+                Username = "Bodega Bent",
             };
 
             _review2 = new Review()
             {
                 BarName = "FakeBar",
                 BarPressure = 3,
-                Username = "FakeCustomer2",
+                Username = "Dehydrerede Dennis",
             };
 
             _barEvent = new BarEvent()
             {
-                BarName = "FakeBar",
+                BarName = "Katrines Kælder",
                 Date = new DateTime(2019,5,29),
                 EventName = "FakeEvent",
             };
 
             _barRepresentative = new BarRepresentative()
             {
-                BarName = "FakeBar", 
+                BarName = "Katrines Kælder", 
                 Name = "FakeBarRepresentative",
                 Username = "FakeBarRepUsername",
             };
 
             _coupon = new Coupon()
             {
-                BarName = "FakeBar",
+                BarName = "Katrines Kælder",
                 CouponID = "FakeCouponID",
                 ExpirationDate = new DateTime(2019,12,12),
             };
@@ -101,160 +105,116 @@ namespace Database.UnitTest
                 FavoriteBar = "Katrines Kælder",
                 Name = "Andreas Vorgaard",
             };
+            _connection = new SqliteConnection("Datasource=:memory:");
+            _connection.Open();
+            _options =
+                new DbContextOptionsBuilder<BarOMeterContext>().UseSqlite(_connection).Options;
+            _context = new BarOMeterContext(_options);
+            _context.Database.EnsureCreated();
+            _uut = new UnitOfWork(_options);
         }
 
 
         [Test]
         public void UnitOfWorkComplete_AddsOne_ReceivesOne()
         {
-            _options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "AddOneReceiveOne")
-                    .Options;
-            _uow = new UnitOfWork(_options);
 
-            _uow.BarRepository.Add(_bar1);
+            _uut.BarRepository.Add(_bar1);
             
-            Assert.AreEqual(1, _uow.Complete());
+            Assert.AreEqual(1, _uut.Complete());
         }
 
         [Test]
         public void UnitOfWorkComplete_AddsTwo_ReceivesTwo()
         {
-            _options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "AddTwoReceiveTwo")
-                    .Options;
-            _uow = new UnitOfWork(_options);
 
-            _uow.BarRepository.Add(_bar1);
-            _uow.BarRepository.Add(_bar2);
-            Assert.AreEqual(2, _uow.Complete());
+
+            _uut.BarRepository.Add(_bar1);
+            _uut.BarRepository.Add(_bar2);
+            Assert.AreEqual(2, _uut.Complete());
         }
 
         [Test]
         public void UnitOfWorkComplete_AddsZero_ReceivesZero()
         {
-            _options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "AddZeroReceiveZero")
-                    .Options;
-            _uow = new UnitOfWork(_options);
-            
-            Assert.AreEqual(0, _uow.Complete());
+            Assert.AreEqual(0, _uut.Complete());
         }
 
         [Test]
         public void UnitOfWorkComplete_AddToTwoRepo_ReceivesTwo()
         {
-            _options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "TwoRepoAddReceiveTwo")
-                    .Options;
-            _uow = new UnitOfWork(_options);
 
-            _uow.BarRepository.Add(_bar1);
-            _uow.DrinkRepository.Add(_drink1);
+            _uut.BarRepository.Add(_bar1);
+            _uut.DrinkRepository.Add(_drink1);
 
-            Assert.AreEqual(2, _uow.Complete());
+            Assert.AreEqual(2, _uut.Complete());
         }
 
         [Test]
         public void UnitOfWorkException_AddToTwoDuplicates_ThrowsException()
         {
-            _options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "TwoDuplicateThrowsException")
-                    .Options;
-            _uow = new UnitOfWork(_options);
 
-            _uow.BarRepository.Add(_bar1);
-            _uow.Complete();
+            _uut.BarRepository.Add(_bar1);
+            _uut.Complete();
 
-            _uow.BarRepository.Add(_bar1);
-            Assert.That(() => _uow.Complete(), Throws.Exception);
+            _uut.BarRepository.Add(_bar1);
+            Assert.That(() => _uut.Complete(), Throws.Exception);
         }
 
         [Test]
         public void UnitOfWorkBarEventRepo_AddOne_ReceivesOne()
         {
-            _options =
-                new DbContextOptionsBuilder<BarOMeterContext>().UseInMemoryDatabase(databaseName: "BarEventRepoAddOneReceiveOne")
-                    .Options;
-            _uow = new UnitOfWork(_options);
 
-            _uow.BarEventRepository.Add(_barEvent);
+            _uut.BarEventRepository.Add(_barEvent);
 
-            Assert.AreEqual(1, _uow.Complete());
+            Assert.AreEqual(1, _uut.Complete());
         }
 
         [Test]
         public void UnitOfWorkBarRepRepo_AddOne_ReceivesOne()
         {
-            _options =
-                new DbContextOptionsBuilder<BarOMeterContext>()
-                    .UseInMemoryDatabase(databaseName: "BarRepRepoAddOneReceiveOne")
-                    .Options;
-            _uow = new UnitOfWork(_options);
+            _uut.BarRepRepository.Add(_barRepresentative);
 
-            _uow.BarRepRepository.Add(_barRepresentative);
-
-            Assert.AreEqual(1, _uow.Complete());
+            Assert.AreEqual(1, _uut.Complete());
         }
 
         [Test]
         public void UnitOfWorkCouponRepo_AddOne_ReceivesOne()
         {
-            _options =
-                new DbContextOptionsBuilder<BarOMeterContext>()
-                    .UseInMemoryDatabase(databaseName: "CouponRepoAddOneReceiveOne")
-                    .Options;
-            _uow = new UnitOfWork(_options);
+            _uut.CouponRepository.Add(_coupon);
 
-            _uow.CouponRepository.Add(_coupon);
-
-            Assert.AreEqual(1, _uow.Complete());
+            Assert.AreEqual(1, _uut.Complete());
         }
 
         [Test]
         public void UnitOfWorkCustomerRepo_AddOne_ReceivesOne()
         {
-            _options =
-                new DbContextOptionsBuilder<BarOMeterContext>()
-                    .UseInMemoryDatabase(databaseName: "CustomerRepoAddOneReceiveOne")
-                    .Options;
-            _uow = new UnitOfWork(_options);
+            _uut.CustomerRepository.Add(_customer);
 
-            _uow.CustomerRepository.Add(_customer);
-
-            Assert.AreEqual(1, _uow.Complete());
+            Assert.AreEqual(1, _uut.Complete());
         }
 
         [Test]
         public void UnitOfWorkReviewRepo_AddOne_ReceivesOne()
         {
-            _options =
-                new DbContextOptionsBuilder<BarOMeterContext>()
-                    .UseInMemoryDatabase(databaseName: "ReviewRepoAddOneReceiveOne")
-                    .Options;
-            _uow = new UnitOfWork(_options);
+            _uut.BarRepository.Add(_bar1);
+            _uut.Complete();
+            _uut.ReviewRepository.Add(_review1);
 
-            _uow.ReviewRepository.Add(_review1);
-
-            Assert.AreEqual(1, _uow.Complete());
+            Assert.AreEqual(1, _uut.Complete());
         }
 
         [Test]
         public void UnitOfWorkUpdateBarRating_AddThreeAndFive_ReceivesFour()
         {
-            _options =
-                new DbContextOptionsBuilder<BarOMeterContext>()
-                    .UseInMemoryDatabase(databaseName: "UpdateBarRatingThreeAndFiveGivesFour")
-                    .Options;
-            _uow = new UnitOfWork(_options);
-            _uow.BarRepository.Add(_bar1);
-            _uow.ReviewRepository.Add(_review1);
-            _uow.ReviewRepository.Add(_review2);
-            _uow.Complete();
-            _uow.UpdateBarRating(_review2.BarName);
-            _uow.Complete();
+            _uut.BarRepository.Add(_bar1);
+            _uut.ReviewRepository.Add(_review1);
+            _uut.ReviewRepository.Add(_review2);
+            _uut.Complete();
+            _uut.UpdateBarRating(_review2.BarName);
+            _uut.Complete();
 
-            var bar = _uow.BarRepository.Get("FakeBar");
+            var bar = _uut.BarRepository.Get("FakeBar");
 
             Assert.AreEqual(4, bar.AvgRating);
         }
@@ -262,13 +222,13 @@ namespace Database.UnitTest
         [Test]
         public void UnitOfWorkUpdateBarRating_UpdateNonExisting_ThrowsException()
         {
-            _options =
-                new DbContextOptionsBuilder<BarOMeterContext>()
-                    .UseInMemoryDatabase(databaseName: "UpdateBarRatingThrowsException")
-                    .Options;
-            _uow = new UnitOfWork(_options);
-            
-            Assert.That(() => _uow.UpdateBarRating("NonExistingBar"), Throws.Exception);
+            Assert.That(() => _uut.UpdateBarRating("NonExistingBar"), Throws.Exception);
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            _connection.Close();
         }
 
     }

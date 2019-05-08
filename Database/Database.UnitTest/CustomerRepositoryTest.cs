@@ -192,6 +192,21 @@ namespace Database.UnitTest
             Assert.Contains(_uut.Get("TestUsername2"),foundCustomer);
         }
 
+        [Test]
+        public void CustomerRepo_WithoutUsername_ThrowsAnException()
+        {
+            var customerToAdd = new Customer()
+            {
+                //Username = "TestUsername2",
+                Name = "TestName2",
+                DateOfBirth = DateTime.MaxValue,
+                Email = "Test@Dab.com2",
+                FavoriteBar = "TestBar2",
+                FavoriteDrink = "FakeDrink",
+            };
+            Assert.That(() => _uut.Add(customerToAdd), Throws.Exception);
+        }
+
         [TearDown]
         public void TearDown()
         {

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
 {
-    public class CustomerRepository : Repository<Customer>, ICustomerRepository
+    public class CustomerRepository : GenericRepository<Customer>, ICustomerRepository
     {
         /// <summary>
         /// Takes the database context and sends it to the base class constructor (Repository).

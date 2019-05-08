@@ -53,7 +53,7 @@ namespace Database.UnitTest
             _context.SaveChanges();
 
             Assert.AreEqual(new DateTime(2019,12,12), 
-                    _uut.Get("Coupon123Test", "Katrines Kælder").ExpirationDate);
+                    _uut.Get("Katrines Kælder", "Coupon123Test").ExpirationDate);
 
         }
 
@@ -80,7 +80,7 @@ namespace Database.UnitTest
             _context.SaveChanges();
 
             Assert.AreEqual(new DateTime(1997, 01, 01),
-                _uut.Get("Coupon123Test", "Katrines Kælder").ExpirationDate);
+                _uut.Get("Katrines Kælder", "Coupon123Test").ExpirationDate);
         }
 
         [Test]
@@ -128,6 +128,45 @@ namespace Database.UnitTest
 
             Assert.That(() => _uut.Add(coupon2), Throws.Exception);
             
+        }
+
+        [Test]
+        public void CouponRepo_AddWithoutBarName_ThrowsAnException()
+        {
+            var couponToAdd = new Coupon()
+            {
+                //BarName = "Katrines Kælder",
+                CouponID = "TestCoupon",
+                ExpirationDate = new DateTime(2019,05,05)
+            };
+
+            Assert.That(() => _uut.Add(couponToAdd), Throws.Exception);
+        }
+
+        [Test]
+        public void CouponRepo_AddWithoutCouponID_ThrowsAnException()
+        {
+            var couponToAdd = new Coupon()
+            {
+                BarName = "Katrines Kælder",
+                //CouponID = "TestCoupon",
+                ExpirationDate = new DateTime(2019, 05, 05)
+            };
+
+            Assert.That(() => _uut.Add(couponToAdd), Throws.Exception);
+        }
+
+        [Test]
+        public void CouponRepo_AddWithoutKeys_ThrowsAnException()
+        {
+            var couponToAdd = new Coupon()
+            {
+                //BarName = "Katrines Kælder",
+                //CouponID = "TestCoupon",
+                ExpirationDate = new DateTime(2019, 05, 05)
+            };
+
+            Assert.That(() => _uut.Add(couponToAdd), Throws.Exception);
         }
 
         [TearDown]

@@ -491,6 +491,32 @@ namespace Database.UnitTest
             
         }
 
+
+        /// <summary>
+        /// Should fail, but doesn't due to EFCore's weird Add() function
+        /// </summary>
+        [Test]
+        public void BarRepository_AddWithoutBarName_ThrowsException()
+        {
+            var barToAdd = new Bar()
+            {
+                Address = "Address2",
+                AgeLimit = 21,
+                AvgRating = 0,
+                //BarName = "Testbar",
+                CVR = 87654321,
+                PhoneNumber = 12345679,
+                Educations = "IKT",
+                Email = "FakeMail2",
+                ShortDescription = "ShortDesc",
+                LongDescription = "LongDesc",
+                Image = "FakeImg"
+            };
+
+            Assert.That(() => _repository.Add(barToAdd), Throws.Exception);
+        }
+
+
         [TearDown]
         public void TearDown()
         {

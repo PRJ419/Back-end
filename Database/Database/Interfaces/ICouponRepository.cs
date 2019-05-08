@@ -1,6 +1,6 @@
 ﻿namespace Database.Interfaces
 {
-    public interface ICouponRepository : IRepository<Coupon>
+    public interface ICouponRepository : IGenericRepository<Coupon>
     {
         /// <summary>
         /// This function is for editing a coupon already existing in the database.

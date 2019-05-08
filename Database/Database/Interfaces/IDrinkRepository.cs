@@ -1,6 +1,6 @@
 ﻿namespace Database.Interfaces
 {
-    public interface IDrinkRepository : IRepository<Drink>
+    public interface IDrinkRepository : IGenericRepository<Drink>
     {
         /// <summary>
         /// This function is for editing an already existing drink in the database.

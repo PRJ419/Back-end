@@ -1,6 +1,6 @@
 ﻿namespace Database.Interfaces
 {
-    public interface IBarRepresentativeRepository : IRepository<BarRepresentative>
+    public interface IBarRepresentativeRepository : IGenericRepository<BarRepresentative>
     {
         /// <summary>
         /// This method is for editing a BarRepresentative entity that's already in the database.

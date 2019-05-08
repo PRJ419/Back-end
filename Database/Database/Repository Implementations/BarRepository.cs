@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
 {
-    public class BarRepository : Repository<Bar>, IBarRepository
+    public class BarRepository : GenericRepository<Bar>, IBarRepository
     {
         /// <summary>
         /// Takes the database context and sends it to the base class constructor (Repository).

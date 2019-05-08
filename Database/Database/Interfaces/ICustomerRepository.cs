@@ -1,6 +1,6 @@
 ﻿namespace Database.Interfaces
 {
-    public interface ICustomerRepository : IRepository<Customer>
+    public interface ICustomerRepository : IGenericRepository<Customer>
     {
         /// <summary>
         /// This function is for editing a customer entity in the database. If the keys of the
