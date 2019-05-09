@@ -8,7 +8,6 @@ namespace Database.UnitTest
     [TestFixture]
     class UnitOfWorkTest
     {
-        private DbContextOptions<BarOMeterContext> _options;
         private UnitOfWork _uut;
         private Bar _bar1;
         private Bar _bar2;
@@ -20,7 +19,7 @@ namespace Database.UnitTest
         private Coupon _coupon;
         private Customer _customer;
         private SqliteConnection _connection;
-        private BarOMeterContext _context;
+        private DbContextOptions<BarOMeterContext> _options;
 
 
         [SetUp]
@@ -109,8 +108,6 @@ namespace Database.UnitTest
             _connection.Open();
             _options =
                 new DbContextOptionsBuilder<BarOMeterContext>().UseSqlite(_connection).Options;
-            _context = new BarOMeterContext(_options);
-            _context.Database.EnsureCreated();
             _uut = new UnitOfWork(_options);
         }
 
