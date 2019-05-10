@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace Database.UnitTest
 {
     [TestFixture]
-    class UnitOfWorkTest
+    class ITStep1_UOW_And_Repositories
     {
         private UnitOfWork _uut;
         private Bar _bar1;
