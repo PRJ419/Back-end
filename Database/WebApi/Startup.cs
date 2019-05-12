@@ -55,7 +55,7 @@ namespace WebApi
             });
 
             IMapper mapper = mappingConfig.CreateMapper();
-            services.AddSingleton(mapper);
+            services.AddAutoMapper();
             // *************************************************
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
