@@ -1,6 +1,6 @@
 ﻿namespace Database.Interfaces
 {
-    public interface IReviewRepository : IRepository<Review>
+    public interface IReviewRepository : IGenericRepository<Review>
     {
         /// <summary>
         /// This method is for editing a review entity by finding the corresponding entity in the database

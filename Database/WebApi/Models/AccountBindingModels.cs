@@ -21,25 +21,20 @@ namespace WebApi.Models
             [Display(Name = "Password")]
             public string Password { get; set; }
 
-           //[Required]
-           //public DateTime Birthday { get; set; }
-            
            [Required]
            [MaxLength(50)]
            public string Username { get; set; }
-
-           public string Role { get; set; }
-           /// <summary>
-           /// Property for getting and setting the birthday of a customer
-           /// </summary>
+       
            [Required]
            public DateTime DateOfBirth { get; set; }
+
            /// <summary>
            /// Property for getting and setting the name of a customer
            /// </summary>
            [Required]
            [MaxLength(150)]
            public string Name { get; set; }
+
            /// <summary>
            /// Property for getting and setting the favorite bar of a customer
            /// </summary>

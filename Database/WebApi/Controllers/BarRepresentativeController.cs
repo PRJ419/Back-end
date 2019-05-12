@@ -22,7 +22,6 @@ namespace WebApi.Controllers
     /// Functions can be called from other controllers though. 
     /// </summary>
     [Route("api/BarRepresentatives")]
-    [Authorize(Roles = "Admin")]
     [ApiController]
     public class BarRepresentativeController : ControllerBase
     {

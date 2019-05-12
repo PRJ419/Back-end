@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
 {
-    public class DrinkRepository : Repository<Drink>, IDrinkRepository
+    public class DrinkRepository : GenericRepository<Drink>, IDrinkRepository
     {
         /// <summary>
         /// Takes the database context and sends it to the base class constructor (Repository).

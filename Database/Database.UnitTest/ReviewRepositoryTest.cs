@@ -78,6 +78,42 @@ namespace Database.UnitTest
             Assert.That(()=>_context.SaveChanges(), Throws.Exception);
         }
 
+        [Test]
+        public void ReviewRepo_WithoutUsername_ThrowsAnException()
+        {
+            var reviewToAdd = new Review()
+            {
+                BarName = "Katrines Kælder",
+                //Username = "Bodega Bent",
+                BarPressure = 3,
+            };
+            Assert.That(() => _uut.Add(reviewToAdd), Throws.Exception);
+        }
+
+        [Test]
+        public void ReviewRepo_WithoutBarName_ThrowsAnException()
+        {
+            var reviewToAdd = new Review()
+            {
+                //BarName = "Katrines Kælder",
+                Username = "Bodega Bent",
+                BarPressure = 3,
+            };
+            Assert.That(() => _uut.Add(reviewToAdd), Throws.Exception);
+        }
+
+        [Test]
+        public void ReviewRepo_WithoutKeys_ThrowsAnException()
+        {
+            var reviewToAdd = new Review()
+            {
+                //BarName = "Katrines Kælder",
+                //Username = "Bodega Bent",
+                BarPressure = 3,
+            };
+            Assert.That(() => _uut.Add(reviewToAdd), Throws.Exception);
+        }
+
 
         [TearDown]
         public void TearDown()

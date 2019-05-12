@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
 {
-    public class ReviewRepository : Repository<Review>, IReviewRepository
+    public class ReviewRepository : GenericRepository<Review>, IReviewRepository
     {
         /// <summary>
         /// Takes the database context and sends it to the base class constructor (Repository).

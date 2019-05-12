@@ -128,7 +128,52 @@ namespace Database.UnitTest
             _uut.Add(barEvent);
             Assert.That(() => _uut.Add(barEvent2), Throws.Exception);
         }
-        
+
+        /// <summary>
+        /// Should fail, but apparently doesn't due to some weirdness with EFCore's Add() function
+        /// </summary>
+        [Test]
+        public void BarEventRepository_AddWithoutBarName_ThrowsException()
+        {
+            var eventToAdd = new BarEvent()
+            {
+                //BarName = "Katrines Kælder",
+                Date = new DateTime(2000,01,01),
+                EventName = "EventName",
+                Image = "FakeImg"
+            };
+
+            Assert.That(() => _uut.Add(eventToAdd), Throws.Exception);
+        }
+
+        [Test]
+        public void BarEventRepository_AddWithoutEventName_ThrowsException()
+        {
+            var eventToAdd = new BarEvent()
+            {
+                BarName = "Katrines Kælder",
+                Date = new DateTime(2000, 01, 01),
+                //EventName = "EventName",
+                Image = "FakeImg"
+            };
+
+            Assert.That(() => _uut.Add(eventToAdd), Throws.Exception);
+        }
+
+        [Test]
+        public void BarEventRepository_AddWithoutKeys_ThrowsException()
+        {
+            var eventToAdd = new BarEvent()
+            {
+                //BarName = "Katrines Kælder",
+                Date = new DateTime(2000, 01, 01),
+                //EventName = "EventName",
+                Image = "FakeImg"
+            };
+
+            Assert.That(() => _uut.Add(eventToAdd), Throws.Exception);
+        }
+
         [TearDown]
         public void TearDown()
         {
