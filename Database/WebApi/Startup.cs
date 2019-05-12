@@ -47,8 +47,10 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // *** Inspired from below link *******************
-            // https://stackoverflow.com/questions/40275195/how-to-setup-automapper-in-asp-net-core
+            // Setup for AutoMapper. 
+
+            #region Auto Mapper
+
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());
@@ -56,13 +58,23 @@ namespace WebApi
 
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddAutoMapper();
-            // *************************************************
+
+            #endregion
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            // Dependency injection
+            services.AddMvc();
+
+            // Dependency injection of UnitOfWork, database access from controllers. 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             //Identity
+
+            #region Identity And UserController Setup
+
+            
+
+            
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.
@@ -84,7 +96,6 @@ namespace WebApi
             services.AddTransient<BarController>();
             services.AddTransient<BarRepresentativeController>();
 
-            services.AddMvc();
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("BarRep", policy => policy.RequireClaim("Role", "BarRep"));
@@ -110,33 +121,35 @@ namespace WebApi
                     ClockSkew = TimeSpan.FromMinutes(5)
                 };
             });
+            #endregion
 
+            #region SwaggerGen
 
-
-            //var connection = @"Data Source=DESKTOP-UGIDUH3;Initial Catalog=PRJ4Database;Integrated Security=True";
-            //services.AddDbContext<BarOMeterContext>(options => options.UseSqlServer(connection));
             services.AddSwaggerGen(c =>
-        {
-            c.SwaggerDoc("v1",
-                new Info
-                {
-                    Title = "Bar-O-Meter API",
-                    Version = "v1",
-                    Description = "RESTful API der tillader adgang til database.",
-                    Contact = new Contact
+            {
+                c.SwaggerDoc("v1",
+                    new Info
                     {
-                        Name = "Tobias Sandø Lund"
-                    }
-                });
+                        Title = "Bar-O-Meter API",
+                        Version = "v1",
+                        Description = "RESTful API der tillader adgang til database.",
+                        Contact = new Contact
+                        {
+                            Name = "Tobias Sandø Lund"
+                        }
+                    });
 
-            
-            c.OperationFilter<SecurityRequirementsOperationFilter>();
 
-            // Set the comments path for the Swagger JSON and UI.
-            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-            c.IncludeXmlComments(xmlPath);
-        });
+                c.OperationFilter<SecurityRequirementsOperationFilter>();
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
+
+            #endregion
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
