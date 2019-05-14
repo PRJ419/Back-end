@@ -95,7 +95,7 @@ namespace WebApi.Controllers
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetCoupon(string couponId, string barName)
         {
-            var coupon = _unitOfWork.CouponRepository.Get(new object[] {couponId, barName});
+            var coupon = _unitOfWork.CouponRepository.Get(new object[] {barName, couponId});
 
             if (coupon == null)
                 return NotFound();
@@ -192,7 +192,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                _unitOfWork.CouponRepository.Delete(new object[]{couponId,barName});
+                _unitOfWork.CouponRepository.Delete(new object[]{barName,couponId});
                 _unitOfWork.Complete();
                 return Ok();
             }
