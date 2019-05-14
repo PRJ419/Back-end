@@ -16,6 +16,8 @@ using WebApi.DTOs.AutoMapping;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebApi.DTOs.Bars;
+using WebApi.DTOs.Customers;
+using WebApi.DTOs.ReviewDto;
 
 
 namespace BackEnd.IntegrationTest
@@ -31,6 +33,7 @@ namespace BackEnd.IntegrationTest
         /// <summary>
         /// Need to be able to create new unit of work to mimic proper mvc behavior.
         /// If the tests use e.g. The same BarController and UOW, then a bar will be fetched from memory, not the DB!
+        /// Therefore, use this function to create a fresh BarController to make sure the model is retrieved from the database. 
         /// </summary>
         /// <returns>
         /// A new instance of unit of work.
@@ -165,7 +168,7 @@ namespace BackEnd.IntegrationTest
         }
 
         [Test]
-        public void Add2Bars_GetBarsReturnsAList()
+        public void Add2Bars_GetBarsReturnsListOfAddedBars()
         {
             var barController = new BarController(_uow, _mapper);
 
@@ -205,7 +208,311 @@ namespace BackEnd.IntegrationTest
             Assert.That(retrievedObject.Count, Is.EqualTo(2));
             Assert.That(retrievedObject[0].BarName, Is.EqualTo("Bar2"));
             Assert.That(retrievedObject[1].BarName, Is.EqualTo("Bar1"));
+        }
 
+        [Test]
+        public void AddIdenticalBars_ControllerReturnsError_DuplicateKey()
+        {
+            var barController = new BarController(_uow, _mapper);
+
+            var result1 = barController.AddBar(new BarDto()
+            {
+                BarName = "Bar1",
+                AvgRating = 3.4,
+                ShortDescription = "SD",
+                AgeLimit = 18,
+                CVR = 1235,
+                Image = "png.jpg",
+                LongDescription = "short",
+                Address = "123 street",
+                Email = "gmail@hotmail.com",
+                Educations = "IKT",
+                PhoneNumber = 0000,
+            });
+            var result2 = barController.AddBar(new BarDto()
+            {
+                BarName = "Bar1",
+                AvgRating = 3.4,
+                ShortDescription = "SD",
+                AgeLimit = 18,
+                CVR = 1235,
+                Image = "png.jpg",
+                LongDescription = "short",
+                Address = "123 street",
+                Email = "gmail@hotmail.com",
+                Educations = "IKT",
+                PhoneNumber = 0000,
+            });
+
+            Assert.That(result2, Is.TypeOf<BadRequestResult>());
+            Assert.That(result1, Is.TypeOf<CreatedResult>());
+        }
+
+        [Test]
+        public void GetBestBars_ReturnedDescendingOrder()
+        {
+            var barController = new BarController(_uow, _mapper);
+            barController.AddBar(new BarDto()
+            {
+                BarName = "Bar1",
+                AvgRating = 4.6,
+                ShortDescription = "SD",
+                AgeLimit = 18,
+                CVR = 1235,
+                Image = "png.jpg",
+                LongDescription = "short",
+                Address = "123 street",
+                Email = "gmail@hotmail.com",
+                Educations = "IKT",
+                PhoneNumber = 0000,
+            });
+            barController.AddBar(new BarDto()
+            {
+                BarName = "Highest Rated Bar",
+                AvgRating = 5.0,
+                ShortDescription = "SD",
+                AgeLimit = 18,
+                CVR = 12353,
+                Image = "png.jpg",
+                LongDescription = "short",
+                Address = "123 street",
+                Email = "gmail2@hotmail.com",
+                Educations = "IKT",
+                PhoneNumber = 0000,
+            });
+            barController.AddBar(new BarDto()
+            {
+                BarName = "Bar2",
+                AvgRating = 3.4,
+                ShortDescription = "SD",
+                AgeLimit = 18,
+                CVR = 123599,
+                Image = "png.jpg",
+                LongDescription = "short",
+                Address = "123 street",
+                Email = "gmail3@hotmail.com",
+                Educations = "IKT",
+                PhoneNumber = 0000,
+            });
+
+            var secondBarController = CreateBarController();
+
+            var result = secondBarController.GetBestBars();
+            var resultList = (result as OkObjectResult).Value as List<BarSimpleDto>;
+
+            Assert.That(resultList.Count, Is.EqualTo(3));
+            Assert.That(resultList[0].BarName, Is.EqualTo("Highest Rated Bar"));
+            Assert.That(resultList[0].AvgRating, Is.GreaterThanOrEqualTo(resultList[1].AvgRating));
+            Assert.That(resultList[1].AvgRating, Is.GreaterThanOrEqualTo(resultList[2].AvgRating));
+        }
+
+        [Test]
+        public void AddReview_BarHasUpdatedRating_ReviewIsSaved()
+        {
+            var barController = new BarController(_uow, _mapper);
+            barController.AddBar(new BarDto()
+            {
+                BarName = "Bar1",
+                AvgRating = 0.0,
+                ShortDescription = "SD",
+                AgeLimit = 18,
+                CVR = 1235,
+                Image = "png.jpg",
+                LongDescription = "short",
+                Address = "123 street",
+                Email = "gmail@hotmail.com",
+                Educations = "IKT",
+                PhoneNumber = 0000,
+            });
+
+            var customerController = new CustomerController(_uow, _mapper);
+            customerController.AddCustomer(new CustomerDto
+            {
+                DateOfBirth = DateTime.Now,
+                Email = "fakeEmail@gmail.com",
+                FavoriteBar = "Bar1",
+                FavoriteDrink = "Øl",
+                Name = "TestKunde",
+                Username = "TestUser",
+            });
+
+            var reviewController = new ReviewController(_uow, _mapper);
+            var reviewResult = reviewController.AddUserReview(new ReviewDto()
+            {   
+                BarName = "Bar1",       // Bar added
+                Username = "TestUser",  // User added
+                BarPressure = 5,        // Rating
+            });
+
+            var secondBarController = CreateBarController();
+
+            var barResult = (secondBarController.GetBar("Bar1") as OkObjectResult)
+                .Value as BarDto;
+            
+            Assert.That(reviewResult, Is.TypeOf<CreatedResult>());
+            Assert.That(barResult.AvgRating, Is.EqualTo(5));
+        }
+
+        [Test]
+        public void Add2Reviews_AvgRatingCalculatedCorrectly()
+        {
+            var barController = new BarController(_uow, _mapper);
+            barController.AddBar(new BarDto()
+            {
+                BarName = "Bar1",
+                AvgRating = 0.0,
+                ShortDescription = "SD",
+                AgeLimit = 18,
+                CVR = 1235,
+                Image = "png.jpg",
+                LongDescription = "short",
+                Address = "123 street",
+                Email = "gmail@hotmail.com",
+                Educations = "IKT",
+                PhoneNumber = 0000,
+            });
+
+            var customerController = new CustomerController(_uow, _mapper);
+            customerController.AddCustomer(new CustomerDto
+            {
+                DateOfBirth = DateTime.Now,
+                Email = "fakeEmail@gmail.com",
+                FavoriteBar = "Bar1",
+                FavoriteDrink = "Øl",
+                Name = "TestKunde",
+                Username = "TestUser",
+            });
+            customerController.AddCustomer(new CustomerDto()
+            {
+                DateOfBirth = DateTime.Now,
+                Email = "fakeEmail2@gmail.com",
+                FavoriteBar = "Bar1",
+                FavoriteDrink = "Øl",
+                Name = "TestKunde2",
+                Username = "TestUser2",
+            });
+
+            var reviewController = new ReviewController(_uow, _mapper);
+            reviewController.AddUserReview(new ReviewDto()
+            {
+                BarName = "Bar1",       // Bar added
+                Username = "TestUser",  // User added
+                BarPressure = 5,        // Rating
+            });
+            reviewController.AddUserReview(new ReviewDto()
+            {
+                BarName = "Bar1",
+                Username = "TestUser2",
+                BarPressure = 2,
+            });
+
+            var secondBarController = CreateBarController();
+
+            var barResult = (secondBarController.GetBar("Bar1") as OkObjectResult)
+                .Value as BarDto;
+
+            Assert.That(barResult.AvgRating, Is.EqualTo(3.5));
+        }
+
+        [Test]
+        public void ChangeUserReview_AvgRatingChangedForBar()
+        {
+            var barController = new BarController(_uow, _mapper);
+            barController.AddBar(new BarDto()
+            {
+                BarName = "Bar1",
+                AvgRating = 0.0,
+                ShortDescription = "SD",
+                AgeLimit = 18,
+                CVR = 1235,
+                Image = "png.jpg",
+                LongDescription = "short",
+                Address = "123 street",
+                Email = "gmail@hotmail.com",
+                Educations = "IKT",
+                PhoneNumber = 0000,
+            });
+
+            var customerController = new CustomerController(_uow, _mapper);
+            customerController.AddCustomer(new CustomerDto
+            {
+                DateOfBirth = DateTime.Now,
+                Email = "fakeEmail@gmail.com",
+                FavoriteBar = "Bar1",
+                FavoriteDrink = "Øl",
+                Name = "TestKunde",
+                Username = "TestUser",
+            });
+
+            var reviewController = new ReviewController(_uow, _mapper);
+            reviewController.AddUserReview(new ReviewDto()
+            {
+                BarName = "Bar1",       // Bar added
+                Username = "TestUser",  // User added
+                BarPressure = 5,        // Rating
+            }); // Add review
+            reviewController.EditUserReview(new ReviewDto()
+            {
+                BarName = "Bar1", 
+                Username = "TestUser",
+                BarPressure = 1,
+            }); // Edit it at a later time. 
+
+            var secondBarController = CreateBarController();
+            var resultObj = (secondBarController.GetBar("Bar1") as OkObjectResult).Value as BarDto;
+            Assert.That(resultObj.AvgRating, Is.EqualTo(1));
+
+        }
+
+        [Test]
+        public void ReviewAddedFromSameUserTwice_ReturnsBadRequest_ReviewNotChanged()
+        {
+            var barController = new BarController(_uow, _mapper);
+            barController.AddBar(new BarDto()
+            {
+                BarName = "Bar1",
+                AvgRating = 0.0,
+                ShortDescription = "SD",
+                AgeLimit = 18,
+                CVR = 1235,
+                Image = "png.jpg",
+                LongDescription = "short",
+                Address = "123 street",
+                Email = "gmail@hotmail.com",
+                Educations = "IKT",
+                PhoneNumber = 0000,
+            });
+
+            var customerController = new CustomerController(_uow, _mapper);
+            customerController.AddCustomer(new CustomerDto
+            {
+                DateOfBirth = DateTime.Now,
+                Email = "fakeEmail@gmail.com",
+                FavoriteBar = "Bar1",
+                FavoriteDrink = "Øl",
+                Name = "TestKunde",
+                Username = "TestUser",
+            });
+
+            var reviewController = new ReviewController(_uow, _mapper);
+            reviewController.AddUserReview(new ReviewDto()
+            {
+                BarName = "Bar1",       // Bar added
+                Username = "TestUser",  // User added
+                BarPressure = 5,        // Rating
+            });                 // Add review
+            var result = reviewController.AddUserReview(new ReviewDto()
+            {
+                BarName = "Bar1",
+                Username = "TestUser",
+                BarPressure = 1,
+            });    // Add another from same user
+
+            var secondBarController = CreateBarController();
+            var bar = (secondBarController.GetBar("Bar1") as OkObjectResult).Value as BarDto;
+
+            Assert.That(result, Is.TypeOf<BadRequestResult>());
+            Assert.That(bar.AvgRating, Is.EqualTo(5)); // Check rating has not changed. 
         }
 
         [TearDown]

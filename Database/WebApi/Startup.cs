@@ -47,21 +47,10 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Setup for AutoMapper. 
-
-            #region Auto Mapper
-
-            var mappingConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new MappingProfile());
-            });
-
-            IMapper mapper = mappingConfig.CreateMapper();
+            // Scans for user configured profiles (MappingProfile.cs) and creates a mapper
+            // Is scoped lifetime in controller requests. 
             services.AddAutoMapper();
-
-            #endregion
-
-
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddMvc();
 
