@@ -1,9 +1,10 @@
 ﻿using System;
+using Database;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 
-namespace Database.UnitTest
+namespace IntegrationTest
 {
     [TestFixture]
     class ITStep1_UOW_And_Repositories

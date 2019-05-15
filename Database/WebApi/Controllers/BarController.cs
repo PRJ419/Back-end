@@ -18,8 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using WebApi.DTOs.Bars;
 using WebApi.Utility;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
+
 
 namespace WebApi.Controllers
 {

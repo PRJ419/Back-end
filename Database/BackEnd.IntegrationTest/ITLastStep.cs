@@ -20,7 +20,7 @@ using WebApi.DTOs.Customers;
 using WebApi.DTOs.ReviewDto;
 
 
-namespace BackEnd.IntegrationTest
+namespace IntegrationTest
 {
     [TestFixture]
     class ITLastStep
