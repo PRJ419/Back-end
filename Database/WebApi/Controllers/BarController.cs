@@ -18,8 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using WebApi.DTOs.Bars;
 using WebApi.Utility;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
+
 
 namespace WebApi.Controllers
 {
@@ -57,7 +56,7 @@ namespace WebApi.Controllers
         /// </param>
         public BarController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            this._unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -226,7 +225,6 @@ namespace WebApi.Controllers
                 <Bar, BarSimpleDto>(bars, _mapper);
             _unitOfWork.Complete();
 
-
             if (DtoList.Any())
                 return Ok(DtoList);
             else
@@ -258,7 +256,6 @@ namespace WebApi.Controllers
             var listOfBars = Converter.GenericListConvert
                 <Bar, BarSimpleDto>(bars, _mapper);
             _unitOfWork.Complete();
-
 
             if (listOfBars.Any())
                 return Ok(listOfBars);
