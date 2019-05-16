@@ -19,6 +19,9 @@ using WebApi.Helpers;
 
 namespace WebApi.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class UserController : ControllerBase
     {
         private readonly SignInManager<BarOMeterIdentityUser> _signInManager;

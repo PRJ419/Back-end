@@ -24,7 +24,6 @@ using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Protocols;
 using WebApi.Controllers;
 using WebApi.DTOs.AutoMapping;
 using Microsoft.IdentityModel.Tokens;

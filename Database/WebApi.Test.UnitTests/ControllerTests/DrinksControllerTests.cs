@@ -13,7 +13,6 @@ using NSubstitute.ExceptionExtensions;
 using NSubstitute.ReturnsExtensions;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
-using Remotion.Linq.Parsing.Structure.IntermediateModel;
 using WebApi.Controllers;
 using WebApi.DTOs.AutoMapping;
 using WebApi.DTOs.Drinks;
