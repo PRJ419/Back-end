@@ -15,15 +15,12 @@ using WebApi.DTOs.Bars;
 using WebApi.DTOs.Customers;
 using WebApi.Helpers;
 
-/// <summary>
-/// UserController for the Web Api. 
-/// Used to register users, bars and admins and log them in. 
-/// </summary>
 
 namespace WebApi.Controllers
 {
     /// <summary>
-    /// 
+    /// UserController for the Web Api. 
+    /// Used to register users, bars and admins and log them in. 
     /// </summary>
     public class UserController : ControllerBase
     {
