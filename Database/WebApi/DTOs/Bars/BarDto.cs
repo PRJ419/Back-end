@@ -18,7 +18,7 @@ namespace WebApi.DTOs.Bars
         public string Address { get; set; }
 
         [Required]
-        public int AgeLimit { get; set; }
+        public int? AgeLimit { get; set; }
 
         [MaxLength(255)]
         public string Educations { get; set; }
@@ -31,7 +31,7 @@ namespace WebApi.DTOs.Bars
 
         //[MaxLength(8)]
         [Required]
-        public int CVR { get; set; }
+        public int? CVR { get; set; }
 
         //[MaxLength(10)]
         public int PhoneNumber { get; set; }

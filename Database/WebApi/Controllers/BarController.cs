@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Swagger;
 using WebApi.DTOs.Bars;
 using WebApi.Utility;
@@ -69,7 +70,7 @@ namespace WebApi.Controllers
         [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType(typeof(List<BarSimpleDto>), 200)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
         public IActionResult GetBestBars()
         {
             var bars = _unitOfWork.BarRepository.GetBestBars();
@@ -127,7 +128,7 @@ namespace WebApi.Controllers
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(BarDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
         public IActionResult AddBar([FromBody]BarDto dtoBar)
         {
             try
@@ -160,9 +161,9 @@ namespace WebApi.Controllers
         /// </returns>
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status200OK)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
         public IActionResult DeleteBar(string id)
         {
             try
@@ -193,8 +194,8 @@ namespace WebApi.Controllers
         [HttpPut]
         [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(BarDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
         public IActionResult UpdateBar([FromBody]BarDto barDto)
         {
             try
@@ -221,7 +222,7 @@ namespace WebApi.Controllers
         [AllowAnonymous]
         [HttpGet("Worst")]
         [ProducesResponseType(typeof(BarSimpleDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
         public IActionResult GetWorstBars()
         {
             var bars = _unitOfWork.BarRepository.GetWorstBars();
@@ -252,7 +253,7 @@ namespace WebApi.Controllers
         [AllowAnonymous]
         [HttpGet("{index}/{length}")]
         [ProducesResponseType(typeof(List<BarSimpleDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
         public IActionResult GetRangeOfBars(int index, int length)
         {
 

@@ -9,6 +9,7 @@ using Database.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using WebApi.DTOs.BarRepresentative;
 using WebApi.DTOs.Customers;
 using WebApi.Utility;
@@ -64,8 +65,8 @@ namespace WebApi.Controllers
         [HttpGet]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(List<BarRepresentativeDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
         public IActionResult GetBarRepresentatives()
         {
             var barRepList= _unitOfWork.BarRepRepository.GetAll().ToList();
@@ -96,8 +97,8 @@ namespace WebApi.Controllers
         [HttpGet("{username}")]
         [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(BarRepresentativeDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
         public IActionResult GetBarRepresentative(string username)
         {
             var barRep = _unitOfWork.BarRepRepository.Get(username);
@@ -124,8 +125,8 @@ namespace WebApi.Controllers
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(BarRepresentativeDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult AddBarRepresentative([FromBody] BarRepresentativeDto barRepDto)
         {
             try
@@ -162,8 +163,8 @@ namespace WebApi.Controllers
         [HttpPut]
         [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(BarRepresentativeDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
         public IActionResult EditBarRepresentative([FromBody] BarRepresentativeDto barRepDto)
         {
             try
@@ -193,9 +194,9 @@ namespace WebApi.Controllers
         /// </returns>
         [HttpDelete("{username}")]
         [Authorize(Roles = "Admin")]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status200OK)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult DeleteBarRepresentative(string username)
         {
             try
