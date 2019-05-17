@@ -55,11 +55,13 @@ namespace WebApi.Controllers
         /// </summary>
         /// <returns>
         /// Ok (200) and a List&lt;CustomerDto&gt; of all Customers<para></para>
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// NotFound (404) if no Customers were found. 
         /// </returns>
         [HttpGet]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(List<CustomerDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetCustomers()
         {
@@ -84,11 +86,13 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Ok (200) and a CustomerDto object equivalent of the Customer saved in the database if found.<para></para>
-        /// NotFOund (404) if the Customer was not found. 
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
+        /// NotFound (404) if the Customer was not found. <para></para>
         /// </returns>
         [HttpGet("{username}")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetCustomer(string username)
         {
@@ -109,13 +113,15 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Created (201) if Customer was added. <para></para>
-        /// BadRequest (400) if model requirements weren't. Body will contain string: "Duplicate Key"
+        /// BadRequest (400) if model requirements weren't met. Body will contain string: "Duplicate Key"
         /// if request failed because of duplicate key sql exception
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// </returns>
         [HttpPost] 
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult AddCustomer([FromBody] CustomerDto customerDto)
         {
             try
@@ -146,12 +152,14 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Created (201) if edit was successful. <para></para>
-        /// BadRequest (404) if edit was unsuccessful. See parameter requirements. 
+        /// BadRequest (400) if edit was unsuccessful. See parameter requirements.
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// </returns>
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         public IActionResult EditCustomer([FromBody] CustomerDto customerDto)
         {
             try
@@ -176,12 +184,14 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Ok (200) if deletion was successful. <para></para>
-        /// BadRequest (400) if deletion was unsuccessful. 
+        /// BadRequest (400) if deletion was unsuccessful.
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// </returns>
         [HttpDelete("{username}")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult DeleteCustomer(string username)
         {
             try

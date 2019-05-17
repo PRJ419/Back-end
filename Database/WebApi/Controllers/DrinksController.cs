@@ -20,7 +20,6 @@ namespace WebApi.Controllers
     /// Controller for drinks.
     /// Route is api/bars/{BarName}/Drinks.
     /// </summary>
-    [Authorize(Roles = "Admin")]
     [Route("api/bars/{BarName}/Drinks")]
     [ApiController]
     public class DrinksController : ControllerBase
@@ -61,6 +60,8 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Returns List&lt;DrinkDto&gt; of all the bars drinks.
+        /// Ok (200) if successful. <para></para>
+        /// Unauthorized (404) if no drinks are found. <para></para>
         /// </returns>
         [HttpGet]
         [AllowAnonymous]
@@ -90,11 +91,13 @@ namespace WebApi.Controllers
         /// Returns 201 (Created) on success.
         /// Returns 400 (BadRequest) on failure to insert or bad model supplied. Body will contain string: "Duplicate Key"
         /// if request failed because of duplicate key sql exception
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// </returns>
         [HttpPost]
         [Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(Drink), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         public IActionResult AddDrink([FromBody] DrinkDto drinkDto)
         {
             try
@@ -127,11 +130,13 @@ namespace WebApi.Controllers
         /// <returns>
         /// Ok (200) on deletion <para></para>
         /// BadRequest(400) if deletion is unsuccessful.
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// </returns>
         [HttpDelete("{drinkName}")]
         [Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         public IActionResult DeleteDrink(string BarName, string drinkName)
         {
             try
@@ -157,11 +162,13 @@ namespace WebApi.Controllers
         /// <returns>
         /// Created (201) if edit was successful.
         /// BadRequest (400) if edit was not successful.
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// </returns>
         [HttpPut]
         [Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(DrinkDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         public IActionResult EditDrink([FromBody] DrinkDto drinkDto)
         {
             try

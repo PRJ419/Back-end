@@ -84,11 +84,13 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Ok (200) and a List&lt;ReviewDto&gt;  <para></para>
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// NotFound(404) if no reviews were found.
         /// </returns>
         [HttpGet] 
         [Authorize(Roles = "Kunde,Admin,BarRep")]
         [ProducesResponseType(typeof(List<ReviewDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetReviews([FromRoute] string BarName)
         {
@@ -114,12 +116,14 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Ok (200) and the review as an ReviewDto if found. <para></para>
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// NotFound (404) if the review could not be found. <para></para>'
         /// The review can only be found if username and BarName matches a Review saved in the database. 
         /// </returns>
         [HttpGet("{username}")]
         [Authorize(Roles = "Kunde,Admin")]
         [ProducesResponseType(typeof(ReviewDto), 200)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetUserReview(string username, string BarName)
         {
@@ -142,6 +146,7 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Created (201) if edit was successful. <para></para>
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// BadRequest (400) if edit was unsuccessful. Body will contain string: "Duplicate Key"
         /// if request failed because of duplicate key sql exception 
         /// </returns>
@@ -149,6 +154,7 @@ namespace WebApi.Controllers
         [Authorize(Roles = "Kunde,Admin")]
         [ProducesResponseType(typeof(ReviewDto), 201)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         public IActionResult EditUserReview([Microsoft.AspNetCore.Mvc.FromBody]ReviewDto receivedReview)
         {
             try
@@ -175,12 +181,14 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Created (201) if successful. <para></para>
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// BadRequest (400) if unsuccessful. 
         /// </returns>
         [HttpPost]
         [Authorize(Roles = "Kunde,Admin")]
         [ProducesResponseType(typeof(ReviewDto), 201)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult AddUserReview([Microsoft.AspNetCore.Mvc.FromBody] ReviewDto reviewDto)
         {
             try
@@ -215,6 +223,7 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Ok (200) if deletion was successful. <para></para>
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// NotFound (404) if deletion was unsuccessful.<para></para>
         /// There must exist a Review with the provided
         /// BarName and username for deletion to be successful
@@ -222,7 +231,8 @@ namespace WebApi.Controllers
         [HttpDelete("{username}")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(Nullable), 200)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult DeleteUserReview(string BarName, string username)
         {
             try
