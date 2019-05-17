@@ -228,7 +228,7 @@ namespace WebApi.Controllers
         /// </returns>
         [HttpDelete("{username}")]
         [Authorize(Roles = "Admin")]
-        [ProducesResponseType(typeof(Nullable), 200)]
+        [SwaggerResponse(StatusCodes.Status200OK)]
         [SwaggerResponse(StatusCodes.Status401Unauthorized)]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult DeleteUserReview(string BarName, string username)

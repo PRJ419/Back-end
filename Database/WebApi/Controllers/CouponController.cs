@@ -61,7 +61,7 @@ namespace WebApi.Controllers
         [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType(typeof(List<CouponDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
         public IActionResult GetCoupons([FromRoute] string barName)
         {
             var coupons = _unitOfWork.CouponRepository.Find(c => c.BarName == barName);
@@ -93,7 +93,7 @@ namespace WebApi.Controllers
         [HttpGet("{couponId}")]
         [AllowAnonymous]
         [ProducesResponseType(typeof(CouponDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
         public IActionResult GetCoupon(string couponId, string barName)
         {
             var coupon = _unitOfWork.CouponRepository.Get(new object[] {barName, couponId});

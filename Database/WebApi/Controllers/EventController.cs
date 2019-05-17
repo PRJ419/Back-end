@@ -66,7 +66,7 @@ namespace WebApi.Controllers
         [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType(typeof(List<BarEventDto>), 200)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
         public IActionResult GetEvents(string barName)
         {
             var events = _unitOfWork.BarEventRepository.Find(x => x.BarName == barName);
@@ -134,8 +134,8 @@ namespace WebApi.Controllers
         [HttpPut]
         [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(BarEventDto), 201)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult EditEvent([FromBody] BarEventDto eventDto)
         {
             try
@@ -169,8 +169,8 @@ namespace WebApi.Controllers
         [HttpDelete("{eventName}")]
         [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(Nullable), 200)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult DeleteEvent(string eventName, string barName)
         {
             try

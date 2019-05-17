@@ -68,7 +68,7 @@ namespace WebApi.Controllers
         [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType(typeof(List<DrinkDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
         public IActionResult GetDrinks(string barName)
         {
             var drinks = _unitOfWork.DrinkRepository.Find(x => x.BarName == barName);
