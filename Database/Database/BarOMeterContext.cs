@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Database.EntityConfigurations;
 using System.Configuration;
 using System.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
 
 namespace Database { 
     public class BarOMeterContext : DbContext

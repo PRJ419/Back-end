@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Database.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations
 {

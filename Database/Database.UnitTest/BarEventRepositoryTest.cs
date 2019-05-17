@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Database.Repository_Implementations;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using NSubstitute.ExceptionExtensions;
 using NUnit.Framework;
 
 namespace Database.UnitTest

@@ -1,24 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using Database;
 using Database.Interfaces;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 using WebApi.Controllers;
 using WebApi.DTOs.AutoMapping;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using WebApi.DTOs.Bars;
 using WebApi.DTOs.Customers;
 using WebApi.DTOs.ReviewDto;
-
 
 namespace IntegrationTest
 {
@@ -307,6 +299,40 @@ namespace IntegrationTest
         }
 
         [Test]
+        public void EditBar_IsEditedCorrectly()
+        {
+            var barController = CreateBarController();
+            var bar = new BarDto()
+            {
+                BarName = "Bar",
+                AvgRating = 3.4,
+                ShortDescription = "SD",
+                AgeLimit = 18,
+                CVR = 123599,
+                Image = "png.jpg",
+                LongDescription = "short",
+                Address = "123 street",
+                Email = "gmail3@hotmail.com",
+                Educations = "IKT",
+                PhoneNumber = 0000,
+            };
+            barController.AddBar(bar);
+
+            var secondController = CreateBarController();
+            
+            bar.AgeLimit = 42;
+            var updateResult = barController.UpdateBar(bar);
+
+            var thirdController = CreateBarController();
+            var retrievedResult = thirdController.GetBar(bar.BarName);
+            var retrievedObject = (retrievedResult as OkObjectResult).Value as BarDto;
+
+            Assert.That(updateResult, Is.TypeOf<CreatedResult>());
+            Assert.That(retrievedObject.BarName, Is.EqualTo(bar.BarName));
+            Assert.That(retrievedObject.AgeLimit, Is.EqualTo(bar.AgeLimit));
+        }
+
+        [Test]
         public void AddReview_BarHasUpdatedRating_ReviewIsSaved()
         {
             var barController = new BarController(_uow, _mapper);
@@ -518,7 +544,7 @@ namespace IntegrationTest
         [TearDown]
         public void TearDown()
         {
-            
+            // No need to tear down, reset is done in Setup() 
         }
 
     }
