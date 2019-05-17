@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using WebApi.Areas.Identity.Data;
 using WebApi.DTOs.BarRepresentative;
 using WebApi.DTOs.Bars;
