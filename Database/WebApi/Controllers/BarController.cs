@@ -92,7 +92,7 @@ namespace WebApi.Controllers
         /// </example>
         /// <returns>
         /// Ok (200) with the found Bar object if successful. <para/>
-        /// NotFound (400) if the bar could not be found.
+        /// NotFound (404) if the bar could not be found.
         /// </returns>
         [HttpGet("{id}")]
         [AllowAnonymous]
@@ -120,12 +120,14 @@ namespace WebApi.Controllers
         /// <returns>
         /// Created (201) if successful, and will return the created object. <para/>
         /// BadRequest (400) if unsuccessful. Body will contain string: "Duplicate Key"
-        /// if request failed because of duplicate key sql exception
+        /// if request failed because of duplicate key sql exception <para></para>
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// </returns>
         [HttpPost] 
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(BarDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         public IActionResult AddBar([FromBody]BarDto dtoBar)
         {
             try
@@ -154,11 +156,13 @@ namespace WebApi.Controllers
         /// <returns>
         /// Ok (200) if deletion is successful.
         /// BadRequest (400) if bar could not be found or deletion was unsuccessful.
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// </returns>
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult DeleteBar(string id)
         {
             try
@@ -183,12 +187,14 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// 201 (Created) if edit was successful. <para/>
-        /// 400 (BadRequest) if edit was unsuccessful. 
+        /// 400 (BadRequest) if edit was unsuccessful. <para></para>
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// </returns>
         [HttpPut]
         [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(BarDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         public IActionResult UpdateBar([FromBody]BarDto barDto)
         {
             try
@@ -215,7 +221,7 @@ namespace WebApi.Controllers
         [AllowAnonymous]
         [HttpGet("Worst")]
         [ProducesResponseType(typeof(BarSimpleDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetWorstBars()
         {
             var bars = _unitOfWork.BarRepository.GetWorstBars();

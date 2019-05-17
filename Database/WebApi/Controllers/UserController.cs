@@ -15,7 +15,10 @@ using WebApi.DTOs.Bars;
 using WebApi.DTOs.Customers;
 using WebApi.Helpers;
 
-
+/// <summary>
+/// UserController for the Web Api. 
+/// Used to register users, bars and admins and log them in. 
+/// </summary>
 
 namespace WebApi.Controllers
 {
@@ -148,6 +151,9 @@ namespace WebApi.Controllers
         // POST api/Register/admin
         [Authorize(Roles = "Admin")]
         [Route("api/register/Admin")]
+        [ProducesResponseType(typeof(Nullable),200)]
+        [ProducesResponseType(typeof(Nullable),StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Nullable),StatusCodes.Status400BadRequest)]
         [HttpPost]
         public async Task<IActionResult> RegisterAdmin([FromBody] AdminRegisterBindingModel model )
         {
@@ -162,7 +168,7 @@ namespace WebApi.Controllers
 
             if (!result.Succeeded)
             {
-               // TODO insert errorhandling
+                return BadRequest();
             }
 
             var roleClaim = new Claim("Role", "Admin");

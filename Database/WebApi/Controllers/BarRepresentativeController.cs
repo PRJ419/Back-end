@@ -58,11 +58,13 @@ namespace WebApi.Controllers
         /// </summary>
         /// <returns>
         /// Ok (200) and a List&lt;BarRepresentativeDto&gt; of all BarRepresentatives<para></para>
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// NotFound (404) if no BarRepresentatives were found. 
         /// </returns>
         [HttpGet]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(List<BarRepresentativeDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetBarRepresentatives()
         {
@@ -88,11 +90,13 @@ namespace WebApi.Controllers
         /// <returns>
         /// Ok (200) and a BarRepresentativeDto object equivalent to the
         /// BarRepresentative saved in the database if found.<para></para>
-        /// NotFOund (404) if the BarRepresentative was not found.
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
+        /// NotFound (404) if the BarRepresentative was not found.
         /// </returns>
         [HttpGet("{username}")]
         [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(BarRepresentativeDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
         public IActionResult GetBarRepresentative(string username)
         {
@@ -114,12 +118,14 @@ namespace WebApi.Controllers
         /// <returns>
         /// Created (201) if BarRepresentative was added. <para></para>
         /// BadRequest (400) if model requirements weren't. Body will contain string: "Duplicate Key"
-        /// if request failed because of duplicate key sql exception
+        /// if request failed because of duplicate key sql exception <para></para>
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// </returns>
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(BarRepresentativeDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult AddBarRepresentative([FromBody] BarRepresentativeDto barRepDto)
         {
             try
@@ -150,12 +156,14 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Created (201) if edit was successful. <para></para>
-        /// BadRequest (404) if edit was unsuccessful. See parameter requirements. 
+        /// BadRequest (400) if edit was unsuccessful. See parameter requirements. <para></para>
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// </returns>
         [HttpPut]
         [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(BarRepresentativeDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         public IActionResult EditBarRepresentative([FromBody] BarRepresentativeDto barRepDto)
         {
             try
@@ -180,12 +188,14 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Ok (200) if deletion was successful. <para></para>
-        /// BadRequest (400) if deletion was unsuccessful. 
+        /// BadRequest (400) if deletion was unsuccessful. <para></para>
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// </returns>
         [HttpDelete("{username}")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult DeleteBarRepresentative(string username)
         {
             try

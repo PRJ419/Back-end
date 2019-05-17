@@ -21,7 +21,6 @@ namespace WebApi.Controllers
     /// Returns BarEventDto objects
     /// </summary>
     [Route("api/bars/{barName}/events")]
-    [Authorize(Roles = "Admin")]
     [ApiController]
     public class EventController : ControllerBase
     {
@@ -90,11 +89,13 @@ namespace WebApi.Controllers
         /// Created (201) if BarEvent was added. <para></para>
         /// BadRequest (400) if model requirements weren't. Body will contain string: "Duplicate Key"
         /// if request failed because of duplicate key sql exception
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// </returns>
         [HttpPost]
         [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(BarEventDto), 201)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         public IActionResult AddEvent([FromBody] BarEventDto eventDto)
         {
             try
@@ -125,12 +126,14 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Created (201) if edit was successful. <para></para>
-        /// BadRequest (404) if edit was unsuccessful. See parameter requirements. 
+        /// BadRequest (400) if edit was unsuccessful. See parameter requirements.
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// </returns>
         [HttpPut]
         [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(BarEventDto), 201)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         public IActionResult EditEvent([FromBody] BarEventDto eventDto)
         {
             try
@@ -158,12 +161,14 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Ok (200) if deletion was successful. <para></para>
-        /// BadRequest (400) if deletion was unsuccessful. 
+        /// BadRequest (400) if deletion was unsuccessful.
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// </returns>
         [HttpDelete("{eventName}")]
         [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(Nullable), 200)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         public IActionResult DeleteEvent(string eventName, string barName)
         {
             try

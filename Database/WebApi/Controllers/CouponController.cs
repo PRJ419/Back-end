@@ -55,7 +55,7 @@ namespace WebApi.Controllers
         /// </summary>
         /// <returns>
         /// Ok (200) and a List&lt;CouponDto&gt; of all the Coupons linked to the bar<para></para>
-        /// NotFound (404) if no Coupons were found. 
+        /// NotFound (404) if no Coupons were found. <para></para>
         /// </returns>
         [HttpGet]
         [AllowAnonymous]
@@ -87,7 +87,7 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Ok (200) and a CouponDto object equivalent of the Coupon saved in the database if found.<para></para>
-        /// NotFOund (404) if the Coupon was not found. 
+        /// NotFound (404) if the Coupon was not found. 
         /// </returns>
         [HttpGet("{couponId}")]
         [AllowAnonymous]
@@ -113,12 +113,14 @@ namespace WebApi.Controllers
         /// <returns>
         /// Created (201) if Coupon was added. <para></para>
         /// BadRequest (400) if model requirements weren't.. Body will contain string: "Duplicate Key"
-        /// if request failed because of duplicate key sql exception 
+        /// if request failed because of duplicate key sql exception <para></para>
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// </returns>
         [HttpPost]
         [Authorize( Roles = "Admin,BarRep")]
         [ProducesResponseType(typeof(CouponDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult AddCoupon([FromBody] CouponDto couponDto)
         {
             try
@@ -149,12 +151,14 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Created (201) if edit was successful. <para></para>
-        /// BadRequest (404) if edit was unsuccessful. See parameter requirements. 
+        /// BadRequest (400) if edit was unsuccessful. See parameter requirements.<para></para>
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// </returns>
         [HttpPut]
         [Authorize( Roles = "Admin,BarRep")]
         [ProducesResponseType(typeof(CouponDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         public IActionResult EditCoupon([FromBody] CouponDto couponDto)
         {
             try
@@ -182,12 +186,14 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Ok (200) if deletion was successful. <para></para>
-        /// BadRequest (400) if deletion was unsuccessful. 
+        /// BadRequest (400) if deletion was unsuccessful. <para></para>
+        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
         /// </returns>
         [HttpDelete("{couponId}")]
         [Authorize(Roles = "Admin,BarRep")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
         public IActionResult DeleteCoupon(string couponId, [FromRoute] string barName)
         {
             try
