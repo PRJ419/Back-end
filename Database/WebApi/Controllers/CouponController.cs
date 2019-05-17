@@ -120,7 +120,7 @@ namespace WebApi.Controllers
         [HttpPost]
         [Authorize( Roles = "Admin,BarRep")]
         [ProducesResponseType(typeof(CouponDto), StatusCodes.Status201Created)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+ 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult AddCoupon([FromBody] CouponDto couponDto)
         {
@@ -158,7 +158,7 @@ namespace WebApi.Controllers
         [HttpPut]
         [Authorize( Roles = "Admin,BarRep")]
         [ProducesResponseType(typeof(CouponDto), StatusCodes.Status201Created)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+ 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult EditCoupon([FromBody] CouponDto couponDto)
         {
@@ -193,7 +193,7 @@ namespace WebApi.Controllers
         [HttpDelete("{couponId}")]
         [Authorize(Roles = "Admin,BarRep")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+ 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult DeleteCoupon(string couponId, [FromRoute] string barName)
         {

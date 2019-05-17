@@ -65,7 +65,7 @@ namespace WebApi.Controllers
         [HttpGet]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(List<BarRepresentativeDto>), StatusCodes.Status200OK)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+  
         [SwaggerResponse(StatusCodes.Status404NotFound)]
         public IActionResult GetBarRepresentatives()
         {
@@ -97,7 +97,7 @@ namespace WebApi.Controllers
         [HttpGet("{username}")]
         [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(BarRepresentativeDto), StatusCodes.Status200OK)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+  
         [SwaggerResponse(StatusCodes.Status404NotFound)]
         public IActionResult GetBarRepresentative(string username)
         {
@@ -125,7 +125,7 @@ namespace WebApi.Controllers
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(BarRepresentativeDto), StatusCodes.Status201Created)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+  
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult AddBarRepresentative([FromBody] BarRepresentativeDto barRepDto)
         {
@@ -164,7 +164,7 @@ namespace WebApi.Controllers
         [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(BarRepresentativeDto), StatusCodes.Status201Created)]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+  
         public IActionResult EditBarRepresentative([FromBody] BarRepresentativeDto barRepDto)
         {
             try
@@ -195,7 +195,7 @@ namespace WebApi.Controllers
         [HttpDelete("{username}")]
         [Authorize(Roles = "Admin")]
         [SwaggerResponse(StatusCodes.Status200OK)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+  
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult DeleteBarRepresentative(string username)
         {

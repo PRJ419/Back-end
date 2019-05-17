@@ -62,7 +62,7 @@ namespace WebApi.Controllers
         [HttpGet]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(List<CustomerDto>), StatusCodes.Status200OK)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+ 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult GetCustomers()
         {
@@ -93,7 +93,7 @@ namespace WebApi.Controllers
         [HttpGet("{username}")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status200OK)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+ 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult GetCustomer(string username)
         {
@@ -121,7 +121,7 @@ namespace WebApi.Controllers
         [HttpPost] 
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status201Created)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+ 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult AddCustomer([FromBody] CustomerDto customerDto)
         {
@@ -159,7 +159,7 @@ namespace WebApi.Controllers
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status201Created)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+ 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult EditCustomer([FromBody] CustomerDto customerDto)
         {
@@ -191,7 +191,7 @@ namespace WebApi.Controllers
         [HttpDelete("{username}")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+ 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult DeleteCustomer(string username)
         {

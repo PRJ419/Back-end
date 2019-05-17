@@ -98,7 +98,7 @@ namespace WebApi.Controllers
         [HttpPost]
         [Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(Drink), StatusCodes.Status201Created)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+ 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult AddDrink([FromBody] DrinkDto drinkDto)
         {
@@ -137,7 +137,7 @@ namespace WebApi.Controllers
         [HttpDelete("{drinkName}")]
         [Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+ 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult DeleteDrink(string BarName, string drinkName)
         {
@@ -169,7 +169,7 @@ namespace WebApi.Controllers
         [HttpPut]
         [Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(DrinkDto), StatusCodes.Status200OK)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+ 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult EditDrink([FromBody] DrinkDto drinkDto)
         {

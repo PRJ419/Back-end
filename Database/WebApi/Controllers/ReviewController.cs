@@ -88,7 +88,7 @@ namespace WebApi.Controllers
         [HttpGet] 
         [Authorize(Roles = "Kunde,Admin,BarRep")]
         [ProducesResponseType(typeof(List<ReviewDto>), StatusCodes.Status200OK)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+ 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult GetReviews([FromRoute] string BarName)
         {
@@ -121,7 +121,7 @@ namespace WebApi.Controllers
         [HttpGet("{username}")]
         [Authorize(Roles = "Kunde,Admin")]
         [SwaggerResponse(StatusCodes.Status200OK)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+ 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult GetUserReview(string username, string BarName)
         {
@@ -151,7 +151,7 @@ namespace WebApi.Controllers
         [HttpPut]
         [Authorize(Roles = "Kunde,Admin")]
         [ProducesResponseType(typeof(ReviewDto), 201)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+ 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult EditUserReview([Microsoft.AspNetCore.Mvc.FromBody]ReviewDto receivedReview)
         {
@@ -185,7 +185,7 @@ namespace WebApi.Controllers
         [HttpPost]
         [Authorize(Roles = "Kunde,Admin")]
         [ProducesResponseType(typeof(ReviewDto), 201)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+ 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult AddUserReview([Microsoft.AspNetCore.Mvc.FromBody] ReviewDto reviewDto)
         {
@@ -229,7 +229,7 @@ namespace WebApi.Controllers
         [HttpDelete("{username}")]
         [Authorize(Roles = "Admin")]
         [SwaggerResponse(StatusCodes.Status200OK)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+ 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult DeleteUserReview(string BarName, string username)
         {

@@ -96,7 +96,7 @@ namespace WebApi.Controllers
         [HttpPost]
         [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(BarEventDto), 201)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+ 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult AddEvent([FromBody] BarEventDto eventDto)
         {
@@ -134,7 +134,7 @@ namespace WebApi.Controllers
         [HttpPut]
         [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(BarEventDto), 201)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+ 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult EditEvent([FromBody] BarEventDto eventDto)
         {
@@ -169,7 +169,7 @@ namespace WebApi.Controllers
         [HttpDelete("{eventName}")]
         [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(Nullable), 200)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+ 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult DeleteEvent(string eventName, string barName)
         {

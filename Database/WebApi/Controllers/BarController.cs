@@ -128,7 +128,7 @@ namespace WebApi.Controllers
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(BarDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+
         public IActionResult AddBar([FromBody]BarDto dtoBar)
         {
             try
@@ -163,7 +163,7 @@ namespace WebApi.Controllers
         [Authorize(Roles = "Admin")]
         [SwaggerResponse(StatusCodes.Status200OK)]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+ 
         public IActionResult DeleteBar(string id)
         {
             try
@@ -195,7 +195,7 @@ namespace WebApi.Controllers
         [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(BarDto), StatusCodes.Status201Created)]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+ 
         public IActionResult UpdateBar([FromBody]BarDto barDto)
         {
             try

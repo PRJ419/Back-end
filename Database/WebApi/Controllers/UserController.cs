@@ -150,7 +150,7 @@ namespace WebApi.Controllers
         [Authorize(Roles = "Admin")]
         [Route("api/register/Admin")]
         [SwaggerResponse(StatusCodes.Status200OK)]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+ 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         [HttpPost]
         public async Task<IActionResult> RegisterAdmin([FromBody] AdminRegisterBindingModel model )
