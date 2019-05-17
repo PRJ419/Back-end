@@ -10,6 +10,7 @@ using Database.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using WebApi.DTOs.BarEvent;
 using WebApi.Utility;
 
@@ -20,6 +21,7 @@ namespace WebApi.Controllers
     /// Web Api Controller for BarEvents.<para/>
     /// Returns BarEventDto objects
     /// </summary>
+    [AllowAnonymous]
     [Route("api/bars/{barName}/events")]
     [ApiController]
     public class EventController : ControllerBase
@@ -94,8 +96,8 @@ namespace WebApi.Controllers
         [HttpPost]
         [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(BarEventDto), 201)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult AddEvent([FromBody] BarEventDto eventDto)
         {
             try

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.Annotations;
 using WebApi.DTOs;
 using WebApi.DTOs.Drinks;
 using WebApi.Utility;
@@ -20,6 +21,7 @@ namespace WebApi.Controllers
     /// Controller for drinks.
     /// Route is api/bars/{BarName}/Drinks.
     /// </summary>
+    [AllowAnonymous]
     [Route("api/bars/{BarName}/Drinks")]
     [ApiController]
     public class DrinksController : ControllerBase
@@ -96,8 +98,8 @@ namespace WebApi.Controllers
         [HttpPost]
         [Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(Drink), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult AddDrink([FromBody] DrinkDto drinkDto)
         {
             try
@@ -135,8 +137,8 @@ namespace WebApi.Controllers
         [HttpDelete("{drinkName}")]
         [Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult DeleteDrink(string BarName, string drinkName)
         {
             try
@@ -167,8 +169,8 @@ namespace WebApi.Controllers
         [HttpPut]
         [Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(DrinkDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult EditDrink([FromBody] DrinkDto drinkDto)
         {
             try

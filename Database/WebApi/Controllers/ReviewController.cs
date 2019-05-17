@@ -33,6 +33,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using WebApi.DTOs.Bars;
 using WebApi.Utility;
 using Microsoft.AspNetCore.Identity;
+using Swashbuckle.AspNetCore.Annotations;
 
 
 namespace WebApi.Controllers
@@ -87,8 +88,8 @@ namespace WebApi.Controllers
         [HttpGet] 
         [Authorize(Roles = "Kunde,Admin,BarRep")]
         [ProducesResponseType(typeof(List<ReviewDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult GetReviews([FromRoute] string BarName)
         {
             var reviews = _unitOfWork.ReviewRepository.Find(x => x.BarName == BarName);
@@ -119,9 +120,9 @@ namespace WebApi.Controllers
         /// </returns>
         [HttpGet("{username}")]
         [Authorize(Roles = "Kunde,Admin")]
-        [ProducesResponseType(typeof(ReviewDto), 200)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status200OK)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult GetUserReview(string username, string BarName)
         {
             var review = _unitOfWork.ReviewRepository.Get(new object[] {BarName, username});
@@ -150,8 +151,8 @@ namespace WebApi.Controllers
         [HttpPut]
         [Authorize(Roles = "Kunde,Admin")]
         [ProducesResponseType(typeof(ReviewDto), 201)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult EditUserReview([Microsoft.AspNetCore.Mvc.FromBody]ReviewDto receivedReview)
         {
             try
@@ -184,8 +185,8 @@ namespace WebApi.Controllers
         [HttpPost]
         [Authorize(Roles = "Kunde,Admin")]
         [ProducesResponseType(typeof(ReviewDto), 201)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult AddUserReview([Microsoft.AspNetCore.Mvc.FromBody] ReviewDto reviewDto)
         {
             try
@@ -228,8 +229,8 @@ namespace WebApi.Controllers
         [HttpDelete("{username}")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(Nullable), 200)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult DeleteUserReview(string BarName, string username)
         {
             try

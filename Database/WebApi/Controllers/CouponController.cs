@@ -9,6 +9,7 @@ using Database.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using WebApi.DTOs.Coupon;
 using WebApi.Utility;
 
@@ -119,8 +120,8 @@ namespace WebApi.Controllers
         [HttpPost]
         [Authorize( Roles = "Admin,BarRep")]
         [ProducesResponseType(typeof(CouponDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult AddCoupon([FromBody] CouponDto couponDto)
         {
             try
@@ -157,8 +158,8 @@ namespace WebApi.Controllers
         [HttpPut]
         [Authorize( Roles = "Admin,BarRep")]
         [ProducesResponseType(typeof(CouponDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult EditCoupon([FromBody] CouponDto couponDto)
         {
             try
@@ -192,8 +193,8 @@ namespace WebApi.Controllers
         [HttpDelete("{couponId}")]
         [Authorize(Roles = "Admin,BarRep")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult DeleteCoupon(string couponId, [FromRoute] string barName)
         {
             try

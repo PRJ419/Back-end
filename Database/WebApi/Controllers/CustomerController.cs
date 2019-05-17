@@ -10,6 +10,7 @@ using WebApi.DTOs.BarEvent;
 using AutoMapper;
 using Database;
 using Microsoft.AspNetCore.Authorization;
+using Swashbuckle.AspNetCore.Annotations;
 using WebApi.DTOs.Customers;
 using WebApi.Utility;
 
@@ -61,8 +62,8 @@ namespace WebApi.Controllers
         [HttpGet]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(List<CustomerDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult GetCustomers()
         {
             var customers = _unitOfWork.CustomerRepository.GetAll();
@@ -92,8 +93,8 @@ namespace WebApi.Controllers
         [HttpGet("{username}")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult GetCustomer(string username)
         {
             var customer = _unitOfWork.CustomerRepository.Get(username);
@@ -120,8 +121,8 @@ namespace WebApi.Controllers
         [HttpPost] 
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult AddCustomer([FromBody] CustomerDto customerDto)
         {
             try
@@ -158,8 +159,8 @@ namespace WebApi.Controllers
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult EditCustomer([FromBody] CustomerDto customerDto)
         {
             try
@@ -190,8 +191,8 @@ namespace WebApi.Controllers
         [HttpDelete("{username}")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult DeleteCustomer(string username)
         {
             try

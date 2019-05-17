@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using WebApi.Areas.Identity.Data;
 using WebApi.DTOs.BarRepresentative;
 using WebApi.DTOs.Bars;
@@ -148,9 +149,9 @@ namespace WebApi.Controllers
         // POST api/Register/admin
         [Authorize(Roles = "Admin")]
         [Route("api/register/Admin")]
-        [ProducesResponseType(typeof(Nullable),200)]
-        [ProducesResponseType(typeof(Nullable),StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable),StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status200OK)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         [HttpPost]
         public async Task<IActionResult> RegisterAdmin([FromBody] AdminRegisterBindingModel model )
         {
@@ -188,6 +189,9 @@ namespace WebApi.Controllers
         // POST api/Register
         [AllowAnonymous]
         [Route("api/register")]
+        [SwaggerResponse(StatusCodes.Status200OK)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
+
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegisterBindingModel model)
         {
@@ -250,6 +254,8 @@ namespace WebApi.Controllers
         //POST api/Login
         [AllowAnonymous]
         [Route("api/login")]
+        [SwaggerResponse(StatusCodes.Status200OK)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginBindingModel model)
         {
