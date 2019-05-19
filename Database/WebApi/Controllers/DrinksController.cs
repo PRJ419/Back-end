@@ -21,7 +21,6 @@ namespace WebApi.Controllers
     /// Controller for drinks.
     /// Route is api/bars/{BarName}/Drinks.
     /// </summary>
-    [AllowAnonymous]
     [Route("api/bars/{BarName}/Drinks")]
     [ApiController]
     public class DrinksController : ControllerBase
@@ -63,7 +62,7 @@ namespace WebApi.Controllers
         /// <returns>
         /// Returns List&lt;DrinkDto&gt; of all the bars drinks.
         /// Ok (200) if successful. <para></para>
-        /// Unauthorized (404) if no drinks are found. <para></para>
+        /// NotFound (404) if no drinks are found. <para></para>
         /// </returns>
         [HttpGet]
         [AllowAnonymous]

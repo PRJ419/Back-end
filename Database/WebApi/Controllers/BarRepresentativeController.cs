@@ -97,7 +97,6 @@ namespace WebApi.Controllers
         [HttpGet("{username}")]
         [Authorize(Roles = "BarRep,Admin")]
         [ProducesResponseType(typeof(BarRepresentativeDto), StatusCodes.Status200OK)]
-  
         [SwaggerResponse(StatusCodes.Status404NotFound)]
         public IActionResult GetBarRepresentative(string username)
         {

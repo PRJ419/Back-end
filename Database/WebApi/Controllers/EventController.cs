@@ -21,7 +21,6 @@ namespace WebApi.Controllers
     /// Web Api Controller for BarEvents.<para/>
     /// Returns BarEventDto objects
     /// </summary>
-    [AllowAnonymous]
     [Route("api/bars/{barName}/events")]
     [ApiController]
     public class EventController : ControllerBase
