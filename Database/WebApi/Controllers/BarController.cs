@@ -22,9 +22,9 @@ using WebApi.Utility;
 namespace WebApi.Controllers
 {
     /// <summary>
-    /// BarController class for the Web Api.
-    /// Default route: "api/bars.
-    /// Can respond to various GET/ PUT/ POST/ DELETE Http requests.
+    /// BarController class for the Web API.
+    /// Default route: "api/bars". <para></para>
+    /// Can respond to various GET/ PUT/ POST/ DELETE Http requests. <para></para>
     /// Returns BarSimpleDto and BarDto to client.  
     /// </summary>
     [Route("api/bars")]
@@ -32,7 +32,7 @@ namespace WebApi.Controllers
     public class BarController : ControllerBase
     {
         /// <summary>
-        /// Reference to UnitOfwork used for database access
+        /// Reference to UnitOfWork used for database access
         /// </summary>
         private IUnitOfWork _unitOfWork;
 
@@ -44,7 +44,7 @@ namespace WebApi.Controllers
         /// <summary>
         /// Constructor for the controller.
         /// <para>
-        /// Gets the UnitOfWork for use.
+        /// Gets the <see cref="UnitOfWork"/> and <see cref="IMapper"/> implementations through dependency injection.
         /// </para> 
         /// </summary>
         /// <param name="unitOfWork">
@@ -122,13 +122,12 @@ namespace WebApi.Controllers
         /// Created (201) if successful, and will return the created object. <para/>
         /// BadRequest (400) if unsuccessful. Body will contain string: "Duplicate Key"
         /// if request failed because of duplicate key sql exception <para></para>
-        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
+        /// 401 or 403 if authorization is unsuccessful. <para></para>
         /// </returns>
         [HttpPost] 
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(BarDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-    
         public IActionResult AddBar([FromBody]BarDto dtoBar)
         {
             try
@@ -155,9 +154,9 @@ namespace WebApi.Controllers
         /// string which must match a BarName.
         /// </param>
         /// <returns>
-        /// Ok (200) if deletion is successful.
-        /// BadRequest (400) if bar could not be found or deletion was unsuccessful.
-        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
+        /// Ok (200) if deletion is successful.<para></para>
+        /// BadRequest (400) if bar could not be found or deletion was unsuccessful.<para></para>
+        /// 401 or 403 if authorization is unsuccessful. <para></para>
         /// </returns>
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
@@ -189,7 +188,7 @@ namespace WebApi.Controllers
         /// <returns>
         /// 201 (Created) if edit was successful. <para/>
         /// 400 (BadRequest) if edit was unsuccessful. <para></para>
-        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
+        /// 401 or 403 if authorization is unsuccessful. <para></para>
         /// </returns>
         [HttpPut]
         [Authorize(Roles = "BarRep,Admin")]

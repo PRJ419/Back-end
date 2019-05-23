@@ -251,7 +251,6 @@ namespace WebApi.Controllers
         /// Ok (200) if login was successful. <para></para>
         /// BadRequest (400) if login is not successful.<para></para>
         /// </returns>
-        //POST api/Login
         [AllowAnonymous]
         [Route("api/login")]
         [SwaggerResponse(StatusCodes.Status200OK)]

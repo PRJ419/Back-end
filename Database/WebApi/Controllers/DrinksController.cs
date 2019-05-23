@@ -19,7 +19,7 @@ namespace WebApi.Controllers
 {
     /// <summary>
     /// Controller for drinks.
-    /// Route is api/bars/{BarName}/Drinks.
+    /// Route is "api/bars/{BarName}/Drinks"
     /// </summary>
     [Route("api/bars/{BarName}/Drinks")]
     [ApiController]
@@ -63,6 +63,7 @@ namespace WebApi.Controllers
         /// Returns List&lt;DrinkDto&gt; of all the bars drinks.
         /// Ok (200) if successful. <para></para>
         /// NotFound (404) if no drinks are found. <para></para>
+        /// 401 or 403 if authorization is unsuccessful. <para></para>
         /// </returns>
         [HttpGet]
         [AllowAnonymous]
@@ -91,13 +92,12 @@ namespace WebApi.Controllers
         /// <returns>
         /// Returns 201 (Created) on success.
         /// Returns 400 (BadRequest) on failure to insert or bad model supplied. Body will contain string: "Duplicate Key"
-        /// if request failed because of duplicate key sql exception
-        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
+        /// if request failed because of duplicate key sql exception<para></para>
+        /// 401 or 403 if authorization is unsuccessful. <para></para>
         /// </returns>
         [HttpPost]
         [Authorize(Roles = "BarRep")]
         [ProducesResponseType(typeof(Drink), StatusCodes.Status201Created)]
- 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult AddDrink([FromBody] DrinkDto drinkDto)
         {
@@ -130,13 +130,12 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Ok (200) on deletion <para></para>
-        /// BadRequest(400) if deletion is unsuccessful.
-        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
+        /// BadRequest(400) if deletion is unsuccessful.<para></para>
+        /// 401 or 403 if authorization is unsuccessful. 
         /// </returns>
         [HttpDelete("{drinkName}")]
         [Authorize(Roles = "BarRep")]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
- 
+        [SwaggerResponse(StatusCodes.Status200OK)]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult DeleteDrink(string BarName, string drinkName)
         {
@@ -161,14 +160,13 @@ namespace WebApi.Controllers
         /// Must match property attribute rules. 
         /// </param>
         /// <returns>
-        /// Created (201) if edit was successful.
-        /// BadRequest (400) if edit was not successful.
-        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
+        /// Created (201) if edit was successful.<para></para>
+        /// BadRequest (400) if edit was not successful.<para></para>
+        /// 401 or 403 if authorization is unsuccessful. <para></para>
         /// </returns>
         [HttpPut]
         [Authorize(Roles = "BarRep")]
-        [ProducesResponseType(typeof(DrinkDto), StatusCodes.Status200OK)]
- 
+        [ProducesResponseType(typeof(DrinkDto), StatusCodes.Status200OK)] 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult EditDrink([FromBody] DrinkDto drinkDto)
         {

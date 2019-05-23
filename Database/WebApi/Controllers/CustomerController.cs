@@ -18,6 +18,7 @@ namespace WebApi.Controllers
 {
     /// <summary>
     /// Web Api Controller for Customers.<para/>
+    /// Route: "api/Customers" <para></para>
     /// Returns BarEventDto objects
     /// </summary>
     [Route("api/Customers")]
@@ -56,13 +57,12 @@ namespace WebApi.Controllers
         /// </summary>
         /// <returns>
         /// Ok (200) and a List&lt;CustomerDto&gt; of all Customers<para></para>
-        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
-        /// NotFound (404) if no Customers were found. 
+        /// NotFound (404) if no Customers were found.<para></para>
+        /// 401 or 403 if authorization is unsuccessful. <para></para>
         /// </returns>
         [HttpGet]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(List<CustomerDto>), StatusCodes.Status200OK)]
- 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult GetCustomers()
         {
@@ -115,13 +115,12 @@ namespace WebApi.Controllers
         /// <returns>
         /// Created (201) if Customer was added. <para></para>
         /// BadRequest (400) if model requirements weren't met. Body will contain string: "Duplicate Key"
-        /// if request failed because of duplicate key sql exception
-        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
+        /// if request failed because of duplicate key sql exception<para></para>
+        /// 401 or 403 if authorization is unsuccessful. <para></para>
         /// </returns>
         [HttpPost] 
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status201Created)]
- 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult AddCustomer([FromBody] CustomerDto customerDto)
         {
@@ -153,13 +152,12 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Created (201) if edit was successful. <para></para>
-        /// BadRequest (400) if edit was unsuccessful. See parameter requirements.
-        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
+        /// BadRequest (400) if edit was unsuccessful. See parameter requirements.<para></para>
+        /// 401 or 403 if authorization is unsuccessful. <para></para>
         /// </returns>
         [HttpPut]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(CustomerDto), StatusCodes.Status201Created)]
- 
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult EditCustomer([FromBody] CustomerDto customerDto)
         {
@@ -185,13 +183,12 @@ namespace WebApi.Controllers
         /// </param>
         /// <returns>
         /// Ok (200) if deletion was successful. <para></para>
-        /// BadRequest (400) if deletion was unsuccessful.
-        /// Unauthorized (401) if authentication is unsuccessful. <para></para>
+        /// BadRequest (400) if deletion was unsuccessful.<para></para>
+        /// 401 or 403 if authorization is unsuccessful. <para></para>
         /// </returns>
         [HttpDelete("{username}")]
         [Authorize(Roles = "Admin")]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
- 
+        [SwaggerResponse(StatusCodes.Status200OK)]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public IActionResult DeleteCustomer(string username)
         {
