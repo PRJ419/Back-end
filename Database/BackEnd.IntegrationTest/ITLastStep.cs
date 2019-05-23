@@ -197,6 +197,7 @@ namespace IntegrationTest
             var secondBarController = CreateBarController();
             var retrieveResult = secondBarController.GetBestBars();
             var retrievedObject = (retrieveResult as OkObjectResult).Value as List<BarSimpleDto>;
+
             Assert.That(retrieveResult, Is.TypeOf<OkObjectResult>());
             Assert.That(retrievedObject.Count, Is.EqualTo(2));
             Assert.That(retrievedObject[0].BarName, Is.EqualTo("Bar2"));

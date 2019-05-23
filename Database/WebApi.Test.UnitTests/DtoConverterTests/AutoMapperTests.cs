@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Database;
+using Database.Entities;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 using WebApi.DTOs.AutoMapping;

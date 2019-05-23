@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebApi.DTOs.BarEvent;
 using AutoMapper;
 using Database;
+using Database.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Swashbuckle.AspNetCore.Annotations;
 using WebApi.DTOs.Customers;

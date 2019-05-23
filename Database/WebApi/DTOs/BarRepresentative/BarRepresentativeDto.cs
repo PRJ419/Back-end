@@ -4,11 +4,12 @@ namespace WebApi.DTOs.BarRepresentative
 {
     /// <summary>
     /// Data transfer object equivalent of the BarRepresentative saved in database. 
+    /// Incoming requests holding Dtos that fail to comply will be returned BadRequest(400).
     /// </summary>
     public class BarRepresentativeDto
     {
         /// <summary>
-        /// Property for saving the username of a representative. This has a max length of 50
+        /// Property for saving the username of a representative. This has a max length of 50 and is required.
         /// </summary>
         [Required]
         [MaxLength(50)]

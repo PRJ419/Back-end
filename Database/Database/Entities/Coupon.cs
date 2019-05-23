@@ -1,8 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Dynamic;
 
-namespace Database
+namespace Database.Entities
 {
     public class Coupon
     {

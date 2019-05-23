@@ -1,4 +1,6 @@
-﻿namespace Database.Interfaces
+﻿using Database.Entities;
+
+namespace Database.Interfaces
 {
     public interface IBarRepresentativeRepository : IGenericRepository<BarRepresentative>
     {

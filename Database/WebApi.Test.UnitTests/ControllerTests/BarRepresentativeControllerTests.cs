@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using AutoMapper;
 using Database;
+using Database.Entities;
 using Database.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;

@@ -1,10 +1,8 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
 
-namespace Database
+namespace Database.Entities
 {
     public class Customer
     {

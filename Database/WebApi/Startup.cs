@@ -28,7 +28,6 @@ using WebApi.Controllers;
 using WebApi.DTOs.AutoMapping;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Filters;
-using WebApi.Areas.Identity.Data;
 using WebApi.Controllers;
 using WebApi.Models;
 

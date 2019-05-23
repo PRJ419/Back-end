@@ -22,6 +22,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Database;
+using Database.Entities;
 using Database.Interfaces;
 using Database.Repository_Implementations;
 using Microsoft.AspNetCore.Authorization;

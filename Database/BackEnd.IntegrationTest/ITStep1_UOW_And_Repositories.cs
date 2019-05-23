@@ -1,5 +1,6 @@
 ﻿using System;
 using Database;
+using Database.Entities;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;

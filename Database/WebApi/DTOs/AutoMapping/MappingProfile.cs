@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Database;
+using Database.Entities;
 using WebApi.DTOs.BarEvent;
 using WebApi.DTOs.BarRepresentative;
 using WebApi.DTOs.Bars;
@@ -29,20 +30,20 @@ namespace WebApi.DTOs.AutoMapping
             CreateMap<Customer, CustomerDto>();
             CreateMap<CustomerDto, Customer>();
 
-            CreateMap<Database.BarRepresentative, BarRepresentativeDto>();
-            CreateMap<BarRepresentativeDto, Database.BarRepresentative>();
+            CreateMap<Database.Entities.BarRepresentative, BarRepresentativeDto>();
+            CreateMap<BarRepresentativeDto, Database.Entities.BarRepresentative>();
 
             CreateMap<Drink, DrinkDto>();
             CreateMap<DrinkDto, Drink>();
 
-            CreateMap<Database.BarEvent, BarEventDto>();
-            CreateMap<BarEventDto, Database.BarEvent>();
+            CreateMap<Database.Entities.BarEvent, BarEventDto>();
+            CreateMap<BarEventDto, Database.Entities.BarEvent>();
 
             CreateMap<Review, ReviewDto.ReviewDto>();
             CreateMap<ReviewDto.ReviewDto, Review>();
 
-            CreateMap<Database.Coupon, CouponDto>();
-            CreateMap<CouponDto, Database.Coupon>();
+            CreateMap<Database.Entities.Coupon, CouponDto>();
+            CreateMap<CouponDto, Database.Entities.Coupon>();
         }
     }
 }

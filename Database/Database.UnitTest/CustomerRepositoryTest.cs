@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Database.Entities;
 using Database.Repository_Implementations;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;

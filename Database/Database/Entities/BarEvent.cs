@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Database
+namespace Database.Entities
 {
     public class BarEvent
     {

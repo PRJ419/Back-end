@@ -1,15 +1,12 @@
-﻿using System;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WebApi.Areas.Identity.Data;
-using WebApi.Models;
+using WebApi.Identity;
+using WebApi.Identity.Data;
 
-[assembly: HostingStartup(typeof(WebApi.Areas.Identity.IdentityHostingStartup))]
-namespace WebApi.Areas.Identity
+[assembly: HostingStartup(typeof(IdentityHostingStartup))]
+namespace WebApi.Identity
 {
     public class IdentityHostingStartup : IHostingStartup
     {

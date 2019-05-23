@@ -1,4 +1,5 @@
-﻿using Database.Interfaces;
+﻿using Database.Entities;
+using Database.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Database.Repository_Implementations

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Database.Entities;
 using Database.Interfaces;
 
 namespace Database.Repository_Implementations
